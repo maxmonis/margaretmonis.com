@@ -7,10 +7,13 @@ export type SubjectProps = {
   params: {subject: string}
 }
 
-export type SubjectResponse = Array<{
+export type Article = {
   date: string
   image: Omit<DatoImage, "id">
   slug: string
   subject: Subject
+  text: string
   title: string
-}>
+}
+
+export type SubjectResponse = Array<Omit<Article, "text">>
