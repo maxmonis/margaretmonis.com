@@ -61,7 +61,7 @@ function Header() {
 function Footer() {
   return (
     <footer className="flex w-screen flex-col items-center justify-center px-4 pb-4 text-center text-xs">
-      <p>Copyright © {new Date().getFullYear()} | Margaret Monis</p>
+      <p>Copyright © 2019-{new Date().getFullYear()} | Margaret Monis</p>
     </footer>
   )
 }
