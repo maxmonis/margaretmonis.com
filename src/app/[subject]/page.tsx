@@ -1,26 +1,30 @@
-import Image from "next/image"
 import {notFound} from "next/navigation"
-import {subjectImageAlt} from "./constants"
-import {getSubjectText, isSubject} from "./functions"
+import {CardLink} from "../components/CardLink"
+import {getSubjectText, isSubject, loadArticles} from "./functions"
 import {SubjectProps} from "./types"
 
-export default function SubjectPage({params: {subject}}: SubjectProps) {
+export default async function SubjectPage({params: {subject}}: SubjectProps) {
   if (!isSubject(subject)) {
     notFound()
   }
+
+  const articles = await loadArticles(subject)
 
   return (
     <main className="flex h-full w-full flex-col items-center px-6 text-center">
       <h1 className="mb-10 text-2xl font-bold sm:text-3xl">
         {getSubjectText(subject)}
       </h1>
-      <Image
-        alt={subjectImageAlt[subject]}
-        height={382}
-        src={`/${subject}.jpg`}
-        priority
-        width={572}
-      />
+      <div className="flex gap-6">
+        {articles.map(({image: {alt, url}, slug, title}) => (
+          <CardLink
+            href={`/${subject}/${slug}`}
+            key={slug}
+            src={url}
+            {...{alt, title}}
+          />
+        ))}
+      </div>
     </main>
   )
 }

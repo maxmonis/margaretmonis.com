@@ -1,6 +1,6 @@
-import {capitalize} from "../shared/functions"
+import {capitalize, makeDatoRequest} from "../shared/functions"
 import {subjects} from "./constants"
-import {Subject} from "./types"
+import {Subject, SubjectResponse} from "./types"
 
 export function getSubjectText(subject: Subject) {
   return subject.split("-").map(capitalize).join(" ")
@@ -8,4 +8,26 @@ export function getSubjectText(subject: Subject) {
 
 export function isSubject(subject: unknown): subject is Subject {
   return subjects.includes(subject as Subject)
+}
+
+export function loadArticles(subject: Subject) {
+  return makeDatoRequest<SubjectResponse>({
+    query: `
+      query GetSubjectArticles {
+        allArticles(filter: {subject: {eq: ${subject}}}, orderBy: date_ASC) {
+          date
+          image {
+            alt
+            height
+            title
+            width
+            url
+          }
+          slug
+          subject
+          title
+        }
+      }
+    `,
+  })
 }
