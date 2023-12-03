@@ -1,6 +1,8 @@
+import {CoreLink} from "@/app/components/CoreLink"
 import Image from "next/image"
 import {notFound} from "next/navigation"
-import {isSubject} from "../functions"
+import {subjects} from "../constants"
+import {getSubjectText, isSubject} from "../functions"
 import {loadArticle} from "./functions"
 import {ArticleProps} from "./types"
 
@@ -33,6 +35,26 @@ export default async function ArticlePage({
         {text.split(/\r|\n/).map((text, i) => (
           <NestedContent key={i} {...{text}} />
         ))}
+      </div>
+      <CoreLink href={`/${subject}`} variant="underlined">
+        {getSubjectText(subject)}
+      </CoreLink>
+      <div className="my-10 flex flex-wrap justify-center gap-10">
+        {subjects
+          .filter(s => s !== subject)
+          .map(slug => (
+            <CoreLink href={`/${slug}`} key={slug} variant="underlined">
+              {getSubjectText(slug)}
+            </CoreLink>
+          ))}
+      </div>
+      <div className="mb-20">
+        <CoreLink
+          className="hover:underline"
+          href={`/${subject}/${article.slug}#top-of-page`}
+        >
+          Scroll to Top
+        </CoreLink>
       </div>
     </div>
   )
