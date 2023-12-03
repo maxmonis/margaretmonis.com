@@ -1,4 +1,4 @@
-import {CardLink} from "@/components/CardLink"
+import {ArticleCard} from "@/components/ArticleCard"
 import {CoreLink} from "@/components/CoreLink"
 import {SubjectLinks} from "@/components/SubjectLinks"
 import {imageDimensions} from "@/shared/constants"
@@ -66,22 +66,10 @@ export default async function ArticlePage({
           </h3>
           <div className="flex flex-wrap justify-center gap-6">
             {previousArticle && (
-              <CardLink
-                alt={previousArticle.image.alt}
-                href={`/${subject}/${previousArticle.slug}`}
-                src={previousArticle.image.url}
-                text={previousArticle.blurb}
-                title={previousArticle.title}
-              />
+              <ArticleCard article={previousArticle} {...{subject}} />
             )}
             {followingArticle && (
-              <CardLink
-                alt={followingArticle.image.alt}
-                href={`/${subject}/${followingArticle.slug}`}
-                src={followingArticle.image.url}
-                text={followingArticle.blurb}
-                title={followingArticle.title}
-              />
+              <ArticleCard article={followingArticle} {...{subject}} />
             )}
           </div>
         </div>

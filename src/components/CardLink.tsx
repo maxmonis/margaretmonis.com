@@ -9,6 +9,7 @@ export function CardLink({
   priority,
   src,
   text,
+  subtitle,
   title,
 }: {
   alt: string
@@ -16,13 +17,15 @@ export function CardLink({
   priority?: boolean
   src: string
   text?: string
+  subtitle?: string
   title: string
 }) {
   return (
     <CoreLink {...{href}}>
-      <div className="h-full w-screen max-w-xs rounded-lg border border-orange-700 bg-white p-4 transition hover:scale-105">
-        <h3 className="mb-4 text-center text-xl font-bold">{title}</h3>
-        <div>
+      <div className="h-full w-screen max-w-xs rounded-lg border border-orange-700 bg-white p-4 text-center transition hover:scale-105">
+        <h3 className="text-xl font-bold leading-tight">{title}</h3>
+        {subtitle && <h4 className="mt-1 text-sm">{subtitle}</h4>}
+        <div className="mt-4">
           <Image
             className={classNames(text && "float-left mr-4")}
             {...imageDimensions[text ? "xs" : "sm"]}
