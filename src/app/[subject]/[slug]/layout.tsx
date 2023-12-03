@@ -1,5 +1,7 @@
+import {Metadata} from "next"
 import {subjects} from "../constants"
-import {loadArticles} from "../functions"
+import {isSubject, loadArticles} from "../functions"
+import {loadArticle} from "./functions"
 import {ArticleProps} from "./types"
 
 export async function generateStaticParams() {
@@ -11,6 +13,25 @@ export async function generateStaticParams() {
     }
   }
   return params
+}
+
+export async function generateMetadata({
+  params: {slug, subject},
+}: ArticleProps) {
+  if (isSubject(subject)) {
+    const article = await loadArticle({slug, subject})
+    if (article) {
+      const {image, title} = article
+      const metadata: Metadata = {
+        description: `${title} - An Article by Margaret Monis`,
+        openGraph: {
+          images: [image],
+        },
+        title,
+      }
+      return metadata
+    }
+  }
 }
 
 export default function ArticleLayout({children}: {children: React.ReactNode}) {

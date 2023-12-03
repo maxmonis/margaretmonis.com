@@ -7,8 +7,23 @@ import "./globals.css"
 const font = Montserrat({subsets: ["latin"]})
 
 export const metadata: Metadata = {
-  title: "Margaret Monis",
-  description: "Random Samplings: Margaret's Musings",
+  applicationName: "Margaret Monis",
+  authors: [{name: "Max Monis", url: "https://maxmonis.com"}],
+  creator: "Max Monis",
+  description: "Margaret Monis's blog",
+  formatDetection: {
+    address: false,
+    email: false,
+    telephone: false,
+  },
+  generator: "Next.js",
+  keywords: ["Margaret Monis", "Margaret Monis Blog"],
+  publisher: "Vercel",
+  referrer: "origin-when-cross-origin",
+  title: {
+    default: "Margaret Monis",
+    template: "%s | Margaret Monis",
+  },
 }
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
