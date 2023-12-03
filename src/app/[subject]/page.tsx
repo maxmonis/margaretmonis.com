@@ -16,11 +16,12 @@ export default async function SubjectPage({params: {subject}}: SubjectProps) {
         {getSubjectText(subject)}
       </h1>
       <div className="flex max-w-5xl flex-wrap justify-center gap-6">
-        {articles.map(({image: {alt, url}, slug, title}) => (
+        {articles.map(({blurb, image: {alt, url}, slug, title}) => (
           <CardLink
             href={`/${subject}/${slug}`}
             key={slug}
             src={url}
+            text={blurb}
             {...{alt, title}}
           />
         ))}

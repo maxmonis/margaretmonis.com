@@ -15,6 +15,7 @@ export function loadArticles(subject: Subject) {
     query: `
       query GetSubjectArticles {
         allArticles(filter: {subject: {eq: "${subject}"}}, orderBy: date_ASC) {
+          blurb
           date
           image {
             alt

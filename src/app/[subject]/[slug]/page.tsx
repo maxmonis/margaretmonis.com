@@ -1,6 +1,7 @@
 import {CardLink} from "@/app/components/CardLink"
 import {CoreLink} from "@/app/components/CoreLink"
 import {SubjectLinks} from "@/app/components/SubjectLinks"
+import {imageDimensions} from "@/app/shared/constants"
 import Image from "next/image"
 import {notFound} from "next/navigation"
 import {getSubjectText, isSubject, loadArticles} from "../functions"
@@ -38,7 +39,7 @@ export default async function ArticlePage({
         <h1 className="mb-10 text-center text-2xl font-bold sm:text-3xl">
           {title}
         </h1>
-        <Image height={191} priority width={286} {...{alt, src}} />
+        <Image priority {...imageDimensions.sm} {...{alt, src}} />
         <h2 className="mt-10 text-center text-lg">
           {new Date(date).toLocaleDateString(undefined, {
             day: "numeric",
@@ -69,7 +70,7 @@ export default async function ArticlePage({
                 alt={previousArticle.image.alt}
                 href={`/${subject}/${previousArticle.slug}`}
                 src={previousArticle.image.url}
-                subtitle={previousArticle.blurb}
+                text={previousArticle.blurb}
                 title={previousArticle.title}
               />
             )}
@@ -78,7 +79,7 @@ export default async function ArticlePage({
                 alt={followingArticle.image.alt}
                 href={`/${subject}/${followingArticle.slug}`}
                 src={followingArticle.image.url}
-                subtitle={followingArticle.blurb}
+                text={followingArticle.blurb}
                 title={followingArticle.title}
               />
             )}
@@ -102,9 +103,7 @@ function NestedContent({text}: {text: string}) {
 
   const [, alt, src] = text.match(/\!\[(.*?)\]\((.*?)\)/) ?? []
   if (src) {
-    return (
-      <Image className="mx-auto" height={191} width={286} {...{alt, src}} />
-    )
+    return <Image className="mx-auto" {...imageDimensions.sm} {...{alt, src}} />
   }
 
   return (

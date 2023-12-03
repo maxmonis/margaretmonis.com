@@ -8,6 +8,7 @@ export type SubjectProps = {
 }
 
 export type Article = {
+  blurb: string
   date: string
   image: Omit<DatoImage, "id">
   slug: string
