@@ -9,9 +9,11 @@ export function ArticleCard({
     slug,
     title,
   },
+  priority,
   subject,
 }: {
   article: Omit<Article, "text">
+  priority?: boolean
   subject: Subject
 }) {
   return (
@@ -22,7 +24,7 @@ export function ArticleCard({
         month: "short",
         year: "numeric",
       })}
-      {...{alt, src, text, title}}
+      {...{alt, priority, src, text, title}}
     />
   )
 }
