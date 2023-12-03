@@ -1,6 +1,4 @@
-import {subjectImageAlt, subjects} from "./[subject]/constants"
-import {getSubjectText} from "./[subject]/functions"
-import {CardLink} from "./components/CardLink"
+import {SubjectLinks} from "./components/SubjectLinks"
 
 export default function HomePage() {
   return (
@@ -9,18 +7,7 @@ export default function HomePage() {
       <h2 className="mb-20 mt-4 text-xl font-bold sm:text-2xl">
         Margaret&apos;s Musings
       </h2>
-      <div className="flex w-full flex-wrap justify-center gap-6">
-        {subjects.map(subject => (
-          <CardLink
-            alt={subjectImageAlt[subject]}
-            href={`/${subject}`}
-            key={subject}
-            priority
-            src={`/${subject}.jpg`}
-            title={getSubjectText(subject)}
-          />
-        ))}
-      </div>
+      <SubjectLinks />
     </main>
   )
 }

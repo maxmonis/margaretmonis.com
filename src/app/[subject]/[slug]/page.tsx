@@ -1,8 +1,8 @@
 import {CoreLink} from "@/app/components/CoreLink"
+import {SubjectLinks} from "@/app/components/SubjectLinks"
 import Image from "next/image"
 import {notFound} from "next/navigation"
-import {subjects} from "../constants"
-import {getSubjectText, isSubject} from "../functions"
+import {isSubject} from "../functions"
 import {loadArticle} from "./functions"
 import {ArticleProps} from "./types"
 
@@ -26,31 +26,22 @@ export default async function ArticlePage({
   } = article
 
   return (
-    <div className="mx-auto flex max-w-xl flex-col items-center px-6">
-      <h1 className="mb-10 text-center text-2xl font-bold sm:text-3xl">
-        {title}
-      </h1>
-      <Image height={191} priority width={286} {...{alt, src}} />
-      <div className="my-10 flex flex-col items-center gap-4">
-        {text.split(/\r|\n/).map((text, i) => (
-          <NestedContent key={i} {...{text}} />
-        ))}
-      </div>
-      <CoreLink href={`/${subject}`} variant="underlined">
-        {getSubjectText(subject)}
-      </CoreLink>
-      <div className="my-10 flex flex-wrap justify-center gap-10">
-        {subjects
-          .filter(s => s !== subject)
-          .map(slug => (
-            <CoreLink href={`/${slug}`} key={slug} variant="underlined">
-              {getSubjectText(slug)}
-            </CoreLink>
+    <div className="flex flex-col items-center px-6">
+      <div className="mb-10 flex max-w-xl flex-col items-center">
+        <h1 className="mb-10 text-center text-2xl font-bold sm:text-3xl">
+          {title}
+        </h1>
+        <Image height={191} priority width={286} {...{alt, src}} />
+        <div className="my-10 flex flex-col items-center gap-4">
+          {text.split(/\r|\n/).map((text, i) => (
+            <NestedContent key={i} {...{text}} />
           ))}
+        </div>
       </div>
-      <div className="mb-20">
+      <SubjectLinks />
+      <div className="my-20">
         <CoreLink
-          className="hover:underline"
+          className="underline"
           href={`/${subject}/${article.slug}#top-of-page`}
         >
           Scroll to Top
