@@ -1,4 +1,4 @@
-import {capitalize, makeDatoRequest} from "../shared/functions"
+import {capitalize, makeDatoRequest} from "@/shared/functions"
 import {subjects} from "./constants"
 import {Subject, SubjectResponse} from "./types"
 

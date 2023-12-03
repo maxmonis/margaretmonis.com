@@ -1,4 +1,4 @@
-import {makeDatoRequest} from "@/app/shared/functions"
+import {makeDatoRequest} from "@/shared/functions"
 import {Article, Subject} from "../types"
 
 export function loadArticle({slug, subject}: {slug: string; subject: Subject}) {

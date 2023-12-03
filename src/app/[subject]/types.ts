@@ -1,4 +1,4 @@
-import {DatoImage} from "../shared/types"
+import {DatoImage} from "@/shared/types"
 import {subjects} from "./constants"
 
 export type Subject = (typeof subjects)[number]

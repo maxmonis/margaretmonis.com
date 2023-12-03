@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import type {Metadata} from "next"
 import {Montserrat} from "next/font/google"
-import {CoreLink} from "./components/CoreLink"
+import {CoreLink} from "../components/CoreLink"
 import "./globals.css"
 
 const font = Montserrat({subsets: ["latin"]})

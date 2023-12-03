@@ -1,5 +1,5 @@
+import {CardLink} from "@/components/CardLink"
 import {notFound} from "next/navigation"
-import {CardLink} from "../components/CardLink"
 import {getSubjectText, isSubject, loadArticles} from "./functions"
 import {SubjectProps} from "./types"
 

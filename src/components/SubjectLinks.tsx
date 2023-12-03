@@ -1,5 +1,5 @@
-import {subjectImageAlt, subjects} from "../[subject]/constants"
-import {getSubjectText} from "../[subject]/functions"
+import {subjectImageAlt, subjects} from "../app/[subject]/constants"
+import {getSubjectText} from "../app/[subject]/functions"
 import {CardLink} from "./CardLink"
 
 export function SubjectLinks() {
