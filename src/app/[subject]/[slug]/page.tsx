@@ -21,6 +21,7 @@ export default async function ArticlePage({
   }
 
   const {
+    date,
     image: {alt, url: src},
     text,
     title,
@@ -38,7 +39,14 @@ export default async function ArticlePage({
           {title}
         </h1>
         <Image height={191} priority width={286} {...{alt, src}} />
-        <div className="my-10 flex flex-col items-center gap-4">
+        <h2 className="mt-10 text-center text-lg">
+          {new Date(date).toLocaleDateString(undefined, {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          })}
+        </h2>
+        <div className="my-10 flex flex-col gap-4">
           {text.split(/\r|\n/).map((text, i) => (
             <NestedContent key={i} {...{text}} />
           ))}
@@ -50,33 +58,37 @@ export default async function ArticlePage({
           Scroll to Top
         </CoreLink>
       </div>
-      <div className="mb-40 flex flex-col items-center gap-6">
-        <h2 className="text-center text-xl font-bold sm:text-2xl">
-          Read more in {getSubjectText(subject)}
-        </h2>
-        <div className="flex flex-wrap gap-6">
-          {previousArticle && (
-            <CardLink
-              alt={previousArticle.image.alt}
-              href={`/${subject}/${previousArticle.slug}`}
-              src={previousArticle.image.url}
-              title={previousArticle.title}
-            />
-          )}
-          {followingArticle && (
-            <CardLink
-              alt={followingArticle.image.alt}
-              href={`/${subject}/${followingArticle.slug}`}
-              src={followingArticle.image.url}
-              title={followingArticle.title}
-            />
-          )}
+      {subjectArticles.length > 1 && (
+        <div className="mb-40">
+          <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
+            Read more in {getSubjectText(subject)}
+          </h3>
+          <div className="flex flex-wrap justify-center gap-6">
+            {previousArticle && (
+              <CardLink
+                alt={previousArticle.image.alt}
+                href={`/${subject}/${previousArticle.slug}`}
+                src={previousArticle.image.url}
+                subtitle={previousArticle.blurb}
+                title={previousArticle.title}
+              />
+            )}
+            {followingArticle && (
+              <CardLink
+                alt={followingArticle.image.alt}
+                href={`/${subject}/${followingArticle.slug}`}
+                src={followingArticle.image.url}
+                subtitle={followingArticle.blurb}
+                title={followingArticle.title}
+              />
+            )}
+          </div>
         </div>
-      </div>
+      )}
       <div className="mb-40">
-        <h2 className="mb-6 text-center text-xl font-bold sm:text-2xl">
+        <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
           All Subjects
-        </h2>
+        </h3>
         <SubjectLinks />
       </div>
     </div>
@@ -90,7 +102,9 @@ function NestedContent({text}: {text: string}) {
 
   const [, alt, src] = text.match(/\!\[(.*?)\]\((.*?)\)/) ?? []
   if (src) {
-    return <Image height={191} width={286} {...{alt, src}} />
+    return (
+      <Image className="mx-auto" height={191} width={286} {...{alt, src}} />
+    )
   }
 
   return (
