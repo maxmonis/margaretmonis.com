@@ -16,5 +16,3 @@ export type Article = {
   text: string
   title: string
 }
-
-export type SubjectResponse = Array<Omit<Article, "text">>

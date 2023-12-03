@@ -1,6 +1,6 @@
 import {capitalize, makeDatoRequest} from "@/shared/functions"
 import {subjects} from "./constants"
-import {Subject, SubjectResponse} from "./types"
+import {Article, Subject} from "./types"
 
 export function getSubjectText(subject: Subject) {
   return subject.split("-").map(capitalize).join(" ")
@@ -11,7 +11,7 @@ export function isSubject(subject: unknown): subject is Subject {
 }
 
 export function loadArticles(subject: Subject) {
-  return makeDatoRequest<SubjectResponse>({
+  return makeDatoRequest<Array<Omit<Article, "text">>>({
     query: `
       query GetSubjectArticles {
         allArticles(filter: {subject: {eq: "${subject}"}}, orderBy: date_DESC) {
