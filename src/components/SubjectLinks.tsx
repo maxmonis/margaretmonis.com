@@ -2,7 +2,7 @@ import {subjectImageAlt, subjects} from "../app/[subject]/constants"
 import {getSubjectText} from "../app/[subject]/functions"
 import {CardLink} from "./CardLink"
 
-export function SubjectLinks() {
+export function SubjectLinks({priority}: {priority?: boolean}) {
   return (
     <div className="flex w-full flex-wrap justify-center gap-6">
       {subjects.map(subject => (
@@ -10,9 +10,9 @@ export function SubjectLinks() {
           alt={subjectImageAlt[subject]}
           href={`/${subject}`}
           key={subject}
-          priority
           src={`/${subject}.jpg`}
           title={getSubjectText(subject)}
+          {...{priority}}
         />
       ))}
     </div>

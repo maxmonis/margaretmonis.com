@@ -6,7 +6,7 @@ export default function HomePage() {
       <h1 className="mb-20 text-2xl font-bold sm:text-3xl">
         Margaret&apos;s Musings
       </h1>
-      <SubjectLinks />
+      <SubjectLinks priority />
     </main>
   )
 }
