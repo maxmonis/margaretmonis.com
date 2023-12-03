@@ -14,7 +14,7 @@ export function loadArticles(subject: Subject) {
   return makeDatoRequest<SubjectResponse>({
     query: `
       query GetSubjectArticles {
-        allArticles(filter: {subject: {eq: "${subject}"}}, orderBy: date_ASC) {
+        allArticles(filter: {subject: {eq: "${subject}"}}, orderBy: date_DESC) {
           blurb
           date
           image {
