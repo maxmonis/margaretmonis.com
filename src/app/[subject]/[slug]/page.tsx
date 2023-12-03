@@ -11,11 +11,17 @@ export default async function ArticlePage({
     notFound()
   }
 
+  const article = await loadArticle({slug, subject})
+
+  if (!article) {
+    notFound()
+  }
+
   const {
     image: {alt, height, url, width},
     text,
     title,
-  } = await loadArticle({slug, subject})
+  } = article
 
   return (
     <div className="flex flex-col items-center px-6">
