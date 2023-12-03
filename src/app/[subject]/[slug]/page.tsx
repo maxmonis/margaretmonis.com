@@ -66,9 +66,15 @@ function NestedContent({text}: {text: string}) {
   }
 
   const [, alt, src] = text.match(/\!\[(.*?)\]\((.*?)\)/) ?? []
-  if (alt && src) {
+  if (src) {
     return <Image height={191} width={286} {...{alt, src}} />
   }
 
-  return <p dangerouslySetInnerHTML={{__html: text}} />
+  return (
+    <p
+      dangerouslySetInnerHTML={{
+        __html: text.replace(/\*(.*?)\*/g, "<em>$1</em>"),
+      }}
+    />
+  )
 }
