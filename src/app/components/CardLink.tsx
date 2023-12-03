@@ -16,9 +16,11 @@ export function CardLink({
 }) {
   return (
     <CoreLink {...{href}}>
-      <div className="w-screen max-w-xs flex-col rounded-lg border border-orange-700 bg-white p-4 transition hover:scale-105">
+      <div className="h-full w-screen max-w-xs rounded-lg border border-orange-700 bg-white p-4 transition hover:scale-105">
         <h3 className="mb-4 text-xl font-bold">{title}</h3>
-        <Image height={191} width={286} {...{alt, priority, src}} />
+        <div className="flex flex-grow items-center">
+          <Image height={191} width={286} {...{alt, priority, src}} />
+        </div>
       </div>
     </CoreLink>
   )

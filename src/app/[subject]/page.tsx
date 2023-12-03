@@ -15,7 +15,7 @@ export default async function SubjectPage({params: {subject}}: SubjectProps) {
       <h1 className="mb-10 text-2xl font-bold sm:text-3xl">
         {getSubjectText(subject)}
       </h1>
-      <div className="flex gap-6">
+      <div className="flex max-w-5xl flex-wrap justify-center gap-6">
         {articles.map(({image: {alt, url}, slug, title}) => (
           <CardLink
             href={`/${subject}/${slug}`}
