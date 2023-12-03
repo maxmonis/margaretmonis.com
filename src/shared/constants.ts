@@ -1,3 +1,5 @@
+export const siteUrl = "https://margaretmonis.com" as const
+
 export const imageDimensions = {
   sm: {
     height: 191,
@@ -7,4 +9,4 @@ export const imageDimensions = {
     height: 50,
     width: 75,
   },
-}
+} as const
