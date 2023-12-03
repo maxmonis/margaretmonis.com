@@ -17,7 +17,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
       <body
         className={classNames(
           font.className,
-          "flex min-h-screen w-screen flex-col justify-between gap-20 overflow-x-hidden bg-blue-50 text-blue-950",
+          "flex min-h-screen w-screen flex-col justify-between gap-40 overflow-x-hidden bg-blue-50 text-blue-950",
         )}
       >
         <div>

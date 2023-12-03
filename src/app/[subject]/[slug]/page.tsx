@@ -35,7 +35,7 @@ export default async function ArticlePage({
 
   return (
     <div className="flex flex-col items-center px-6">
-      <div className="mb-40 flex max-w-xl flex-col items-center">
+      <div className="flex max-w-xl flex-col items-center">
         <h1 className="mb-10 text-center text-2xl font-bold sm:text-3xl">
           {title}
         </h1>
@@ -60,9 +60,9 @@ export default async function ArticlePage({
         </CoreLink>
       </div>
       {subjectArticles.length > 1 && (
-        <div className="mb-40">
+        <div className="mt-40">
           <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
-            Read more in {getSubjectText(subject)}
+            More from {getSubjectText(subject)}
           </h3>
           <div className="flex flex-wrap justify-center gap-6">
             {previousArticle && (
@@ -74,10 +74,10 @@ export default async function ArticlePage({
           </div>
         </div>
       )}
-      <div className="mb-40">
-        <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
+      <div className="my-40">
+        <h4 className="mb-6 text-center text-xl font-bold sm:text-2xl">
           All Subjects
-        </h3>
+        </h4>
         <SubjectLinks />
       </div>
     </div>
