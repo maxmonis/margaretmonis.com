@@ -23,7 +23,7 @@ export function loadArticles(subject: Subject) {
           date
           image {
             alt
-            url
+            url(imgixParams: {fit: crop, h: 200, w: 200})
           }
           slug
           subject

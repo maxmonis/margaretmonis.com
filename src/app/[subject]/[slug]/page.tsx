@@ -1,7 +1,6 @@
 import {ArticleCard} from "@/components/ArticleCard"
 import {CoreLink} from "@/components/CoreLink"
 import {SubjectLinks} from "@/components/SubjectLinks"
-import {imageSize} from "@/shared/constants"
 import Image from "next/image"
 import {notFound} from "next/navigation"
 import {getSubjectText, isSubject, loadArticles} from "../functions"
@@ -39,7 +38,13 @@ export default async function ArticlePage({
         <h1 className="mb-10 text-center text-2xl font-bold sm:text-3xl">
           {title}
         </h1>
-        <Image priority {...imageSize.sm} {...{alt, src}} />
+        <Image
+          className="max-h-96 w-full max-w-sm object-contain"
+          height={384}
+          priority
+          width={384}
+          {...{alt, src}}
+        />
         <h2 className="mt-10 text-center text-lg">
           {new Date(date).toLocaleDateString(undefined, {
             day: "numeric",
@@ -85,7 +90,14 @@ function NestedContent({text}: {text: string}) {
 
   const [, alt, src] = text.match(/\!\[(.*?)\]\((.*?)\)/) ?? []
   if (src) {
-    return <Image className="mx-auto" {...imageSize.sm} {...{alt, src}} />
+    return (
+      <Image
+        className="mx-auto my-4 max-h-80 w-full max-w-xs object-contain"
+        height={320}
+        width={320}
+        {...{alt, src}}
+      />
+    )
   }
 
   return (
