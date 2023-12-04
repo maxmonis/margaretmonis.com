@@ -1,5 +1,4 @@
 import {CoreLink} from "@/components/CoreLink"
-import classNames from "classnames"
 import type {Metadata} from "next"
 import {Montserrat} from "next/font/google"
 import "./globals.css"
@@ -30,10 +29,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
       <body
-        className={classNames(
-          font.className,
-          "flex min-h-screen w-screen flex-col justify-between gap-40 overflow-x-hidden bg-blue-50 text-blue-950",
-        )}
+        className={`${font.className} flex min-h-screen w-screen flex-col justify-between gap-40 overflow-x-hidden bg-blue-50 text-blue-950`}
       >
         <div>
           <Header />

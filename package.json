@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "classnames": "^2.3.2",
     "next": "14.0.3",
     "prettier": "^3.1.0",
     "prettier-plugin-organize-imports": "^3.2.4",
