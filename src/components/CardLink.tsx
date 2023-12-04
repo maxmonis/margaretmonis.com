@@ -1,6 +1,6 @@
+import {imageSize} from "@/shared/constants"
 import classNames from "classnames"
 import Image from "next/image"
-import {imageDimensions} from "../shared/constants"
 import {CoreLink} from "./CoreLink"
 
 export function CardLink({
@@ -28,7 +28,7 @@ export function CardLink({
         <div className="mt-4">
           <Image
             className={classNames(text && "float-left mr-4")}
-            {...imageDimensions[text ? "xs" : "sm"]}
+            {...imageSize[text ? "xs" : "sm"]}
             {...{alt, priority, src}}
           />
         </div>

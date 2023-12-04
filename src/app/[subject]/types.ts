@@ -1,4 +1,3 @@
-import {DatoImage} from "@/shared/types"
 import {subjects} from "./constants"
 
 export type Subject = (typeof subjects)[number]
@@ -10,7 +9,10 @@ export type SubjectProps = {
 export type Article = {
   blurb: string
   date: string
-  image: Omit<DatoImage, "id">
+  image: {
+    alt: string
+    url: string
+  }
   slug: string
   subject: Subject
   text: string

@@ -3,7 +3,7 @@ import {MetadataRoute} from "next"
 import {subjects} from "./[subject]/constants"
 import {loadArticles} from "./[subject]/functions"
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
   const articleRoutes: MetadataRoute.Sitemap = []
   for (const subject of subjects) {
     const articles = await loadArticles(subject)

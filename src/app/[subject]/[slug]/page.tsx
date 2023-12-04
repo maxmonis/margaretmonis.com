@@ -1,7 +1,7 @@
 import {ArticleCard} from "@/components/ArticleCard"
 import {CoreLink} from "@/components/CoreLink"
 import {SubjectLinks} from "@/components/SubjectLinks"
-import {imageDimensions} from "@/shared/constants"
+import {imageSize} from "@/shared/constants"
 import Image from "next/image"
 import {notFound} from "next/navigation"
 import {getSubjectText, isSubject, loadArticles} from "../functions"
@@ -28,18 +28,18 @@ export default async function ArticlePage({
     title,
   } = article
 
-  const subjectArticles = await loadArticles(subject)
-  const articleIndex = subjectArticles.findIndex(a => a.slug === slug)
-  const followingArticle = subjectArticles[articleIndex - 1]
-  const previousArticle = subjectArticles[articleIndex + 1]
+  const articles = await loadArticles(subject)
+  const articleIndex = articles.findIndex(a => a.slug === slug)
+  const followingArticle = articles[articleIndex - 1]
+  const previousArticle = articles[articleIndex + 1]
 
   return (
-    <div className="flex flex-col items-center px-6">
+    <main className="flex flex-col items-center px-6">
       <div className="flex max-w-xl flex-col items-center">
         <h1 className="mb-10 text-center text-2xl font-bold sm:text-3xl">
           {title}
         </h1>
-        <Image priority {...imageDimensions.sm} {...{alt, src}} />
+        <Image priority {...imageSize.sm} {...{alt, src}} />
         <h2 className="mt-10 text-center text-lg">
           {new Date(date).toLocaleDateString(undefined, {
             day: "numeric",
@@ -59,7 +59,7 @@ export default async function ArticlePage({
           Scroll to Top
         </CoreLink>
       </div>
-      {subjectArticles.length > 1 && (
+      {articles.length > 1 && (
         <div className="mt-40">
           <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
             More from {getSubjectText(subject)}
@@ -80,7 +80,7 @@ export default async function ArticlePage({
         </h4>
         <SubjectLinks />
       </div>
-    </div>
+    </main>
   )
 }
 
@@ -91,7 +91,7 @@ function NestedContent({text}: {text: string}) {
 
   const [, alt, src] = text.match(/\!\[(.*?)\]\((.*?)\)/) ?? []
   if (src) {
-    return <Image className="mx-auto" {...imageDimensions.sm} {...{alt, src}} />
+    return <Image className="mx-auto" {...imageSize.sm} {...{alt, src}} />
   }
 
   return (

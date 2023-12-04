@@ -1,10 +1,10 @@
+import {CoreLink} from "@/components/CoreLink"
 import classNames from "classnames"
 import type {Metadata} from "next"
 import {Montserrat} from "next/font/google"
-import {CoreLink} from "../components/CoreLink"
 import "./globals.css"
 
-const font = Montserrat({subsets: ["latin"]})
+const font = Montserrat({subsets: ["latin"], weight: ["400", "700"]})
 
 export const metadata: Metadata = {
   applicationName: "Margaret Monis",

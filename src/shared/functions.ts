@@ -1,9 +1,5 @@
-export function capitalize(text: string) {
-  return text ? text[0].toUpperCase() + text.slice(1).toLowerCase() : ""
-}
-
 export async function makeDatoRequest<T>({
-  includeDrafts = false,
+  includeDrafts,
   query,
   variables = {},
 }: {

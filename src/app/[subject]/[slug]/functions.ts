@@ -9,9 +9,6 @@ export function loadArticle(variables: {slug: string; subject: Subject}) {
           date
           image {
             alt
-            height
-            title
-            width
             url
           }
           slug

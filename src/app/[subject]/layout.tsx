@@ -10,13 +10,13 @@ export function generateStaticParams(): Array<SubjectProps["params"]> {
 export async function generateMetadata({params: {subject}}: SubjectProps) {
   if (isSubject(subject)) {
     const articles = await loadArticles(subject)
-    const subjectText = getSubjectText(subject)
+    const title = getSubjectText(subject)
     const metadata: Metadata = {
-      description: `${subjectText} - Articles by Margaret Monis`,
+      description: `${title} - Articles by Margaret Monis`,
       openGraph: {
         images: [articles[0].image],
       },
-      title: subjectText,
+      title,
     }
     return metadata
   }

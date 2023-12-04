@@ -1,9 +1,12 @@
-import {capitalize, makeDatoRequest} from "@/shared/functions"
+import {makeDatoRequest} from "@/shared/functions"
 import {subjects} from "./constants"
 import {Article, Subject} from "./types"
 
 export function getSubjectText(subject: Subject) {
-  return subject.split("-").map(capitalize).join(" ")
+  return subject
+    .split("-")
+    .map(word => word[0].toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ")
 }
 
 export function isSubject(subject: unknown): subject is Subject {
@@ -19,9 +22,6 @@ export function loadArticles(subject: Subject) {
           date
           image {
             alt
-            height
-            title
-            width
             url
           }
           slug
