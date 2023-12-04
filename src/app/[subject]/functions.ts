@@ -1,6 +1,7 @@
 import {makeDatoRequest} from "@/shared/functions"
+import {Article} from "./[slug]/types"
 import {subjects} from "./constants"
-import {Article, Subject} from "./types"
+import {Subject} from "./types"
 
 export function getSubjectText(subject: Subject) {
   return subject

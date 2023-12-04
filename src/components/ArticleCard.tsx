@@ -1,4 +1,5 @@
-import {Article, Subject} from "@/app/[subject]/types"
+import {Article} from "@/app/[subject]/[slug]/types"
+import {Subject} from "@/app/[subject]/types"
 import {CardLink} from "./CardLink"
 
 export function ArticleCard({
