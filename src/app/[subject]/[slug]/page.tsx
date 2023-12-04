@@ -59,17 +59,15 @@ export default async function ArticlePage({
           Scroll to Top
         </CoreLink>
       </div>
-      {articles.length > 1 && (
-        <div className="mt-40">
-          <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
-            More from {getSubjectText(subject)}
-          </h3>
-          <div className="flex flex-wrap justify-center gap-6">
-            <ArticleCard article={previousArticle} {...{subject}} />
-            <ArticleCard article={followingArticle} {...{subject}} />
-          </div>
+      <div className="mt-40">
+        <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
+          More from {getSubjectText(subject)}
+        </h3>
+        <div className="flex flex-wrap justify-center gap-6">
+          <ArticleCard article={previousArticle} {...{subject}} />
+          <ArticleCard article={followingArticle} {...{subject}} />
         </div>
-      )}
+      </div>
       <div className="my-40">
         <h4 className="mb-6 text-center text-xl font-bold sm:text-2xl">
           All Subjects
