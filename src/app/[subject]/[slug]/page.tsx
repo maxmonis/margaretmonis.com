@@ -30,8 +30,8 @@ export default async function ArticlePage({
 
   const articles = await loadArticles(subject)
   const articleIndex = articles.findIndex(a => a.slug === slug)
-  const followingArticle = articles[articleIndex - 1]
-  const previousArticle = articles[articleIndex + 1]
+  const followingArticle = articles[articleIndex - 1] ?? articles.at(-1)
+  const previousArticle = articles[articleIndex + 1] ?? articles[0]
 
   return (
     <main className="flex flex-col items-center px-6">
@@ -65,12 +65,8 @@ export default async function ArticlePage({
             More from {getSubjectText(subject)}
           </h3>
           <div className="flex flex-wrap justify-center gap-6">
-            {previousArticle && (
-              <ArticleCard article={previousArticle} {...{subject}} />
-            )}
-            {followingArticle && (
-              <ArticleCard article={followingArticle} {...{subject}} />
-            )}
+            <ArticleCard article={previousArticle} {...{subject}} />
+            <ArticleCard article={followingArticle} {...{subject}} />
           </div>
         </div>
       )}
