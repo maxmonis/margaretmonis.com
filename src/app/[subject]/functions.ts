@@ -13,8 +13,8 @@ export function isSubject(subject: unknown): subject is Subject {
 export function loadArticles(subject: Subject) {
   return makeDatoRequest<Array<Omit<Article, "text">>>({
     query: `
-      query GetSubjectArticles {
-        allArticles(filter: {subject: {eq: "${subject}"}}, orderBy: date_DESC) {
+      query GetArticles($subject: String!) {
+        allArticles(filter: {subject: {eq: $subject}}, orderBy: date_DESC) {
           blurb
           date
           image {
@@ -30,5 +30,8 @@ export function loadArticles(subject: Subject) {
         }
       }
     `,
+    variables: {
+      subject,
+    },
   })
 }
