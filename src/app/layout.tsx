@@ -1,4 +1,6 @@
 import {TextLink} from "@/components/links"
+import {siteUrl, subjects} from "@/shared/constants"
+import {getSubjectText} from "@/shared/functions"
 import type {Metadata} from "next"
 import {Montserrat} from "next/font/google"
 import "./globals.css"
@@ -48,7 +50,18 @@ export const metadata: Metadata = {
     telephone: false,
   },
   generator: "Next.js",
-  keywords: ["Margaret Monis", "Margaret Monis Blog"],
+  keywords: [
+    "Margaret Monis",
+    "Blog",
+    "Margaret Monis Blog",
+    "Margaret's Musings",
+    "Random Samplings",
+    ...subjects.map(getSubjectText),
+  ],
+  metadataBase: new URL(siteUrl),
+  openGraph: {
+    images: ["/travel.jpg"],
+  },
   publisher: "Vercel",
   referrer: "origin-when-cross-origin",
   title: {
