@@ -3,7 +3,7 @@ import {subjects} from "@/shared/constants"
 import {
   getSubjectText,
   isSubject,
-  loadArticles,
+  loadSubjectArticles,
   makeDatoRequest,
 } from "@/shared/functions"
 import {Article, Subject} from "@/shared/types"
@@ -17,7 +17,7 @@ export default async function ArticlePage({
   if (!isSubject(subject)) notFound()
   const article = await loadArticle({slug, subject})
   if (!article) notFound()
-  const articles = await loadArticles(subject)
+  const articles = await loadSubjectArticles(subject)
   const articleIndex = articles.findIndex(a => a.slug === slug)
   const followingArticle = articles[articleIndex - 1] ?? articles.at(-1)
   const previousArticle = articles[articleIndex + 1] ?? articles[0]
@@ -115,7 +115,7 @@ export async function generateMetadata({
 export async function generateStaticParams() {
   const params: Array<ArticleProps["params"]> = []
   for (const subject of subjects) {
-    const articles = await loadArticles(subject)
+    const articles = await loadSubjectArticles(subject)
     for (const {slug} of articles) {
       params.push({slug, subject})
     }

@@ -1,5 +1,5 @@
 import {siteUrl, subjects} from "@/shared/constants"
-import {loadArticles} from "@/shared/functions"
+import {loadSubjectArticles} from "@/shared/functions"
 import {MetadataRoute} from "next"
 
 export default async function Sitemap() {
@@ -19,7 +19,7 @@ export default async function Sitemap() {
       priority: 0.8,
       url: `${siteUrl}/${subject}`,
     })
-    const articles = await loadArticles(subject)
+    const articles = await loadSubjectArticles(subject)
     for (const {slug} of articles) {
       sitemap.push({
         changeFrequency: "weekly",

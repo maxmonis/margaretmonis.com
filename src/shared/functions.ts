@@ -12,10 +12,10 @@ export function isSubject(subject: unknown): subject is Subject {
   return subjects.includes(subject as Subject)
 }
 
-export function loadArticles(subject: Subject) {
+export function loadSubjectArticles(subject: Subject) {
   return makeDatoRequest<Array<Omit<Article, "text">>>({
     query: `
-      query GetArticles($subject: String!) {
+      query GetSubjectArticles($subject: String!) {
         allArticles(filter: {subject: {eq: $subject}}, orderBy: date_DESC) {
           blurb
           date
