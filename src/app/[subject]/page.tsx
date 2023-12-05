@@ -14,11 +14,7 @@ export default async function SubjectPage({params: {subject}}: SubjectProps) {
       </h1>
       <div className="flex max-w-5xl flex-wrap justify-center gap-6">
         {articles.map((article, i) => (
-          <ArticleLink
-            key={article.slug}
-            priority={i < 3}
-            {...{article, subject}}
-          />
+          <ArticleLink key={article.slug} priority={i < 3} {...{article}} />
         ))}
       </div>
     </main>

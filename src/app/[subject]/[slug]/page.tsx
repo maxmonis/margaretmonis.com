@@ -53,8 +53,8 @@ export default async function ArticlePage({
           More from {getSubjectText(subject)}
         </h3>
         <div className="flex flex-wrap justify-center gap-6">
-          <ArticleLink article={previousArticle} {...{subject}} />
-          <ArticleLink article={followingArticle} {...{subject}} />
+          <ArticleLink article={previousArticle} />
+          <ArticleLink article={followingArticle} />
         </div>
       </div>
       <div className="my-20">

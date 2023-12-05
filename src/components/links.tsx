@@ -1,6 +1,6 @@
 import {subjects} from "@/shared/constants"
 import {getSubjectText} from "@/shared/functions"
-import {Article, Subject} from "@/shared/types"
+import {Article} from "@/shared/types"
 import Image from "next/image"
 import Link, {LinkProps} from "next/link"
 
@@ -10,14 +10,13 @@ export function ArticleLink({
     date,
     image: {alt, url: src},
     slug,
+    subject,
     title,
   },
   priority,
-  subject,
 }: {
   article: Omit<Article, "text">
   priority?: boolean
-  subject: Subject
 }) {
   return (
     <CardLink
