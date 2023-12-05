@@ -47,11 +47,6 @@ export default async function ArticlePage({
             <NestedContent key={i} {...{text}} />
           ))}
         </div>
-        <TextLink
-          className="underline"
-          href={`/${subject}/${article.slug}#top-of-page`}
-          text="Scroll to Top"
-        />
       </div>
       <div className="mt-40">
         <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
@@ -68,6 +63,11 @@ export default async function ArticlePage({
         </h4>
         <SubjectLinks />
       </div>
+      <TextLink
+        className="underline"
+        href={`/${subject}/${article.slug}#top-of-page`}
+        text="Scroll to Top"
+      />
     </main>
   )
 }
