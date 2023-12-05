@@ -1,4 +1,4 @@
-import {CoreLink} from "@/components/CoreLink"
+import {TextLink} from "@/components/TextLink"
 import type {Metadata} from "next"
 import {Montserrat} from "next/font/google"
 import "./globals.css"
@@ -48,22 +48,19 @@ function Header() {
       id="top-of-page"
     >
       <div className="flex w-full max-w-screen-2xl items-center justify-between">
-        <CoreLink href="/" variant="underlined">
-          Home
-        </CoreLink>
-        <div className="flex items-center gap-5">
-          <CoreLink href="mailto:monismargaret@gmail.com" variant="filled">
-            Contact
-          </CoreLink>
-        </div>
+        <TextLink href="/" text="Home" variant="underlined" />
+        <TextLink
+          href="mailto:monismargaret@gmail.com"
+          text="Contact"
+          variant="filled"
+        />
       </div>
       <span className="flex items-center">
-        <CoreLink
-          className="mt-8 text-center text-xl font-extrabold uppercase sm:-mt-7"
+        <TextLink
+          className="mt-8 text-center text-xl font-bold uppercase sm:-mt-7"
           href="/"
-        >
-          Margaret Monis
-        </CoreLink>
+          text="Margaret Monis"
+        />
       </span>
     </header>
   )

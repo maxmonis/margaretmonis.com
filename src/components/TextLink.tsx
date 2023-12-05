@@ -1,14 +1,14 @@
 import Link, {LinkProps} from "next/link"
 
-export function CoreLink({
-  children,
+export function TextLink({
   className,
   href,
+  text,
   variant,
   ...props
 }: LinkProps & {
-  children: React.ReactNode
   className?: string
+  text: string
   variant?: "filled" | "underlined"
 }) {
   return (
@@ -29,7 +29,7 @@ export function CoreLink({
           .join(" "),
       })}
     >
-      {children}
+      {text}
     </Link>
   )
 }

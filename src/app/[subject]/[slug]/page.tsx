@@ -1,6 +1,6 @@
 import {ArticleCard} from "@/components/ArticleCard"
-import {CoreLink} from "@/components/CoreLink"
 import {SubjectLinks} from "@/components/SubjectLinks"
+import {TextLink} from "@/components/TextLink"
 import Image from "next/image"
 import {notFound} from "next/navigation"
 import {getSubjectText, isSubject, loadArticles} from "../functions"
@@ -57,12 +57,11 @@ export default async function ArticlePage({
             <NestedContent key={i} {...{text}} />
           ))}
         </div>
-        <CoreLink
+        <TextLink
           className="underline"
           href={`/${subject}/${article.slug}#top-of-page`}
-        >
-          Scroll to Top
-        </CoreLink>
+          text="Scroll to Top"
+        />
       </div>
       <div className="mt-40">
         <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">

@@ -1,6 +1,6 @@
 "use client"
 
-import {CoreLink} from "@/components/CoreLink"
+import {TextLink} from "@/components/TextLink"
 
 export default function ErrorPage({
   reset,
@@ -14,9 +14,7 @@ export default function ErrorPage({
       <button className="text-orange-700" onClick={reset}>
         Reload Page
       </button>
-      <CoreLink href="/" replace variant="underlined">
-        Return Home
-      </CoreLink>
+      <TextLink href="/" text="Return Home" replace variant="underlined" />
     </main>
   )
 }
