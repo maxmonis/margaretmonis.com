@@ -1,7 +1,6 @@
-import {siteUrl} from "@/shared/constants"
+import {siteUrl, subjects} from "@/shared/constants"
+import {loadArticles} from "@/shared/functions"
 import {MetadataRoute} from "next"
-import {subjects} from "./[subject]/constants"
-import {loadArticles} from "./[subject]/functions"
 
 export default async function Sitemap() {
   const lastModified = new Date()

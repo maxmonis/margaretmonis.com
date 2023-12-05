@@ -1,59 +1,49 @@
-import {ArticleCard} from "@/components/ArticleCard"
-import {SubjectLinks} from "@/components/SubjectLinks"
-import {TextLink} from "@/components/TextLink"
+import {ArticleLink, SubjectLinks, TextLink} from "@/components/links"
+import {subjects} from "@/shared/constants"
+import {
+  getSubjectText,
+  isSubject,
+  loadArticles,
+  makeDatoRequest,
+} from "@/shared/functions"
+import {Article, Subject} from "@/shared/types"
+import {Metadata} from "next"
 import Image from "next/image"
 import {notFound} from "next/navigation"
-import {getSubjectText, isSubject, loadArticles} from "../functions"
-import {loadArticle} from "./functions"
-import {ArticleProps} from "./types"
 
 export default async function ArticlePage({
   params: {slug, subject},
 }: ArticleProps) {
-  if (!isSubject(subject)) {
-    notFound()
-  }
-
+  if (!isSubject(subject)) notFound()
   const article = await loadArticle({slug, subject})
-
-  if (!article) {
-    notFound()
-  }
-
-  const {
-    date,
-    image: {alt, url: src},
-    text,
-    title,
-  } = article
-
+  if (!article) notFound()
   const articles = await loadArticles(subject)
   const articleIndex = articles.findIndex(a => a.slug === slug)
   const followingArticle = articles[articleIndex - 1] ?? articles.at(-1)
   const previousArticle = articles[articleIndex + 1] ?? articles[0]
-
   return (
     <main className="flex flex-col items-center px-6">
       <div className="flex max-w-xl flex-col items-center">
         <h1 className="mb-10 text-center text-2xl font-bold sm:text-3xl">
-          {title}
+          {article.title}
         </h1>
         <Image
+          alt={article.image.alt}
           className="max-h-96 w-full max-w-sm object-contain"
           height={384}
           priority
+          src={article.image.url}
           width={384}
-          {...{alt, src}}
         />
         <h2 className="mt-10 text-center text-lg">
-          {new Date(date).toLocaleDateString(undefined, {
+          {new Date(article.date).toLocaleDateString(undefined, {
             day: "numeric",
             month: "long",
             year: "numeric",
           })}
         </h2>
         <div className="my-10 flex flex-col gap-4">
-          {text.split(/\r|\n/).map((text, i) => (
+          {article.text.split(/\r|\n/).map((text, i) => (
             <NestedContent key={i} {...{text}} />
           ))}
         </div>
@@ -68,8 +58,8 @@ export default async function ArticlePage({
           More from {getSubjectText(subject)}
         </h3>
         <div className="flex flex-wrap justify-center gap-6">
-          <ArticleCard article={previousArticle} {...{subject}} />
-          <ArticleCard article={followingArticle} {...{subject}} />
+          <ArticleLink article={previousArticle} {...{subject}} />
+          <ArticleLink article={followingArticle} {...{subject}} />
         </div>
       </div>
       <div className="my-40">
@@ -83,10 +73,7 @@ export default async function ArticlePage({
 }
 
 function NestedContent({text}: {text: string}) {
-  if (!text) {
-    return null
-  }
-
+  if (!text) return null
   const [, alt, src] = text.match(/\!\[(.*?)\]\((.*?)\)/) ?? []
   if (src) {
     return (
@@ -98,7 +85,6 @@ function NestedContent({text}: {text: string}) {
       />
     )
   }
-
   return (
     <p
       dangerouslySetInnerHTML={{
@@ -106,4 +92,61 @@ function NestedContent({text}: {text: string}) {
       }}
     />
   )
+}
+
+export async function generateMetadata({
+  params: {slug, subject},
+}: ArticleProps) {
+  if (isSubject(subject)) {
+    const article = await loadArticle({slug, subject})
+    if (article) {
+      const metadata: Metadata = {
+        description: `${article.title} - An Article by Margaret Monis`,
+        openGraph: {
+          images: [article.image],
+        },
+        title: article.title,
+      }
+      return metadata
+    }
+  }
+}
+
+export async function generateStaticParams() {
+  const params: Array<ArticleProps["params"]> = []
+  for (const subject of subjects) {
+    const articles = await loadArticles(subject)
+    for (const {slug} of articles) {
+      params.push({slug, subject})
+    }
+  }
+  return params
+}
+
+function loadArticle(variables: {slug: string; subject: Subject}) {
+  return makeDatoRequest<Omit<Article, "blurb">>({
+    query: `
+      query GetArticle($slug: String!, $subject: String!) {
+        article(filter: {slug: {eq: $slug}, subject: {eq: $subject}}) {
+          date
+          image {
+            alt
+            url
+          }
+          slug
+          subject
+          text
+          title
+        }
+      }
+    `,
+    variables,
+  })
+}
+
+type ArticleProps = {
+  params: {
+    slug: string
+    subject: string
+  }
 }

@@ -1,11 +1,4 @@
-import {Subject} from "../types"
-
-export type ArticleProps = {
-  params: {
-    slug: string
-    subject: string
-  }
-}
+import {subjects} from "./constants"
 
 export type Article = {
   blurb: string
@@ -19,3 +12,5 @@ export type Article = {
   text: string
   title: string
 }
+
+export type Subject = (typeof subjects)[number]

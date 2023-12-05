@@ -1,6 +1,6 @@
 "use client"
 
-import {TextLink} from "@/components/TextLink"
+import {TextLink} from "@/components/links"
 
 export default function ErrorPage({
   reset,

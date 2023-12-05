@@ -1,9 +1,41 @@
-import {TextLink} from "@/components/TextLink"
+import {TextLink} from "@/components/links"
 import type {Metadata} from "next"
 import {Montserrat} from "next/font/google"
 import "./globals.css"
 
-const font = Montserrat({subsets: ["latin"], weight: ["400", "700"]})
+export default function RootLayout({children}: {children: React.ReactNode}) {
+  return (
+    <html lang="en">
+      <body
+        className={`${font.className} flex min-h-screen w-screen flex-col justify-between gap-40 overflow-x-hidden bg-blue-50 text-blue-950`}
+      >
+        <div id="top-of-page">
+          <header className="mb-10 flex w-screen flex-col items-center justify-center p-6">
+            <div className="flex w-full max-w-screen-2xl items-center justify-between">
+              <TextLink href="/" text="Home" variant="underlined" />
+              <TextLink
+                href="mailto:monismargaret@gmail.com"
+                text="Contact"
+                variant="filled"
+              />
+            </div>
+            <span className="flex items-center">
+              <TextLink
+                className="mt-8 text-center text-xl font-bold uppercase sm:-mt-7"
+                href="/"
+                text="Margaret Monis"
+              />
+            </span>
+          </header>
+          {children}
+        </div>
+        <footer className="flex w-screen justify-center p-4 text-center text-xs">
+          <p>Copyright © 2020-{new Date().getFullYear()} | Margaret Monis</p>
+        </footer>
+      </body>
+    </html>
+  )
+}
 
 export const metadata: Metadata = {
   applicationName: "Margaret Monis",
@@ -25,51 +57,4 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({children}: {children: React.ReactNode}) {
-  return (
-    <html lang="en">
-      <body
-        className={`${font.className} flex min-h-screen w-screen flex-col justify-between gap-40 overflow-x-hidden bg-blue-50 text-blue-950`}
-      >
-        <div>
-          <Header />
-          {children}
-        </div>
-        <Footer />
-      </body>
-    </html>
-  )
-}
-
-function Header() {
-  return (
-    <header
-      className="mb-10 flex w-screen flex-col items-center justify-center p-6"
-      id="top-of-page"
-    >
-      <div className="flex w-full max-w-screen-2xl items-center justify-between">
-        <TextLink href="/" text="Home" variant="underlined" />
-        <TextLink
-          href="mailto:monismargaret@gmail.com"
-          text="Contact"
-          variant="filled"
-        />
-      </div>
-      <span className="flex items-center">
-        <TextLink
-          className="mt-8 text-center text-xl font-bold uppercase sm:-mt-7"
-          href="/"
-          text="Margaret Monis"
-        />
-      </span>
-    </header>
-  )
-}
-
-function Footer() {
-  return (
-    <footer className="flex w-screen flex-col items-center justify-center px-4 pb-4 text-center text-xs">
-      <p>Copyright © 2019-{new Date().getFullYear()} | Margaret Monis</p>
-    </footer>
-  )
-}
+const font = Montserrat({subsets: ["latin"], weight: ["400", "700"]})

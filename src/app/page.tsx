@@ -1,4 +1,4 @@
-import {SubjectLinks} from "@/components/SubjectLinks"
+import {SubjectLinks} from "@/components/links"
 
 export default function HomePage() {
   return (
