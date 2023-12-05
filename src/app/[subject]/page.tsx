@@ -8,7 +8,7 @@ export default async function SubjectPage({params: {subject}}: SubjectProps) {
   if (!isSubject(subject)) notFound()
   const articles = await loadArticles(subject)
   return (
-    <main className="flex h-full w-full flex-col items-center px-6 text-center">
+    <main className="flex h-full w-full flex-col items-center px-4 text-center sm:px-6">
       <h1 className="mb-20 text-2xl font-bold sm:text-3xl">
         {getSubjectText(subject)}
       </h1>

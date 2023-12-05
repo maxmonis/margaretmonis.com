@@ -22,7 +22,7 @@ export default async function ArticlePage({
   const followingArticle = articles[articleIndex - 1] ?? articles.at(-1)
   const previousArticle = articles[articleIndex + 1] ?? articles[0]
   return (
-    <main className="flex flex-col items-center px-6">
+    <main className="flex flex-col items-center px-4 sm:px-6">
       <div className="flex max-w-xl flex-col items-center">
         <h1 className="mb-10 text-center text-2xl font-bold sm:text-3xl">
           {article.title}
@@ -35,20 +35,20 @@ export default async function ArticlePage({
           src={article.image.url}
           width={384}
         />
-        <h2 className="mt-10 text-center text-lg">
+        <h2 className="my-10 text-center text-lg">
           {new Date(article.date).toLocaleDateString(undefined, {
             day: "numeric",
             month: "long",
             year: "numeric",
           })}
         </h2>
-        <div className="my-10 flex flex-col gap-4">
+        <div className="flex flex-col gap-4">
           {article.text.split(/\r|\n/).map((text, i) => (
             <NestedContent key={i} {...{text}} />
           ))}
         </div>
       </div>
-      <div className="mt-40">
+      <div className="mt-20">
         <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
           More from {getSubjectText(subject)}
         </h3>
@@ -57,10 +57,10 @@ export default async function ArticlePage({
           <ArticleLink article={followingArticle} {...{subject}} />
         </div>
       </div>
-      <div className="my-40">
-        <h4 className="mb-6 text-center text-xl font-bold sm:text-2xl">
+      <div className="my-20">
+        <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
           All Subjects
-        </h4>
+        </h3>
         <SubjectLinks />
       </div>
       <TextLink

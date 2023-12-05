@@ -51,10 +51,10 @@ function CardLink({
 }) {
   return (
     <Link {...{href}}>
-      <div className="h-full w-screen max-w-xs rounded-lg border border-orange-700 bg-white p-4 text-center transition hover:scale-105">
+      <div className="h-full w-full max-w-xs rounded-lg border border-orange-700 bg-white p-4 text-center transition hover:scale-105">
         <p className="text-xl font-bold leading-tight">{title}</p>
-        {subtitle && <p className="mt-1 text-sm">{subtitle}</p>}
-        <div className="mt-4">
+        {subtitle && <p className="mb-2 mt-1 text-sm">{subtitle}</p>}
+        <div className="mt-2">
           <Image
             {...{
               alt,
