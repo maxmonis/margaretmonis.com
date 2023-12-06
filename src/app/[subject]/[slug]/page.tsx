@@ -21,6 +21,11 @@ export default async function ArticlePage({
   const articleIndex = articles.findIndex(a => a.slug === slug)
   const followingArticle = articles[articleIndex - 1] ?? articles.at(-1)
   const previousArticle = articles[articleIndex + 1] ?? articles[0]
+  const remainingArticles = articles.filter(
+    a => ![slug, previousArticle.slug, followingArticle.slug].includes(a.slug),
+  )
+  const randomArticle =
+    remainingArticles[Math.floor(Math.random() * remainingArticles.length)]
   return (
     <main className="flex flex-col items-center px-4 sm:px-6">
       <div className="flex max-w-xl flex-col items-center">
@@ -55,6 +60,7 @@ export default async function ArticlePage({
         <div className="flex flex-wrap justify-center gap-6">
           <ArticleLink article={previousArticle} />
           <ArticleLink article={followingArticle} />
+          <ArticleLink article={randomArticle} />
         </div>
       </div>
       <div className="my-40">
