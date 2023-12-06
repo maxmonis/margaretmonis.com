@@ -44,7 +44,7 @@ export default async function ArticlePage({
         </h2>
         <div className="flex flex-col gap-4">
           {article.text.split(/\r|\n/).map((text, i) => (
-            <NestedContent key={i} {...{text}} />
+            <ArticleSection key={i} {...{text}} />
           ))}
         </div>
       </div>
@@ -72,20 +72,17 @@ export default async function ArticlePage({
   )
 }
 
-function NestedContent({text}: {text: string}) {
+function ArticleSection({text}: {text: string}) {
   if (!text) return null
   const [, alt, src] = text.match(/\!\[(.*?)\]\((.*?)\)/) ?? []
-  if (src) {
-    return (
-      <Image
-        className="mx-auto my-4 max-h-80 w-full max-w-xs object-contain"
-        height={320}
-        width={320}
-        {...{alt, src}}
-      />
-    )
-  }
-  return (
+  return src ? (
+    <Image
+      className="mx-auto my-4 max-h-80 w-full max-w-xs object-contain"
+      height={320}
+      width={320}
+      {...{alt, src}}
+    />
+  ) : (
     <p
       dangerouslySetInnerHTML={{
         __html: text.replace(/\*(.*?)\*/g, "<em>$1</em>"),
