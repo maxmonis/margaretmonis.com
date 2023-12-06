@@ -48,7 +48,7 @@ export default async function ArticlePage({
           ))}
         </div>
       </div>
-      <div className="mt-20">
+      <div className="mt-40">
         <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
           More from {getSubjectText(subject)}
         </h3>
@@ -57,7 +57,7 @@ export default async function ArticlePage({
           <ArticleLink article={followingArticle} />
         </div>
       </div>
-      <div className="my-20">
+      <div className="my-40">
         <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
           All Subjects
         </h3>
