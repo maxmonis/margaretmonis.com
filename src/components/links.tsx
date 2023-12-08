@@ -1,5 +1,5 @@
 import {subjects} from "@/shared/constants"
-import {getSubjectText} from "@/shared/functions"
+import {getDateText, getSubjectText} from "@/shared/functions"
 import {Article} from "@/shared/types"
 import Image from "next/image"
 import Link, {LinkProps} from "next/link"
@@ -21,11 +21,7 @@ export function ArticleLink({
   return (
     <CardLink
       href={`/${subject}/${slug}`}
-      subtitle={new Date(date).toLocaleDateString(undefined, {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      })}
+      subtitle={getDateText(date, "short")}
       {...{alt, priority, src, text, title}}
     />
   )

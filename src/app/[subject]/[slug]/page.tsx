@@ -1,6 +1,7 @@
 import {ArticleLink, SubjectLinks, TextLink} from "@/components/links"
 import {subjects} from "@/shared/constants"
 import {
+  getDateText,
   getSubjectText,
   isSubject,
   loadSubjectArticles,
@@ -41,11 +42,7 @@ export default async function ArticlePage({
           width={384}
         />
         <h2 className="my-10 text-center text-lg">
-          {new Date(article.date).toLocaleDateString(undefined, {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
+          {getDateText(article.date, "long")}
         </h2>
         <div className="flex flex-col gap-4">
           {article.text.split(/\r|\n/).map((text, i) => (
