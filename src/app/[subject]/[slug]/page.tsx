@@ -1,8 +1,16 @@
-import {ArticleLink, SubjectLinks, TextLink} from "@/components/links"
+import {
+  ArticleLink,
+  LoginLink,
+  LogoutLink,
+  SignupLink,
+  SubjectLinks,
+  TextLink,
+} from "@/components/links"
 import {subjects} from "@/shared/constants"
 import {
   getDateText,
   getSubjectText,
+  getUserProfile,
   isSubject,
   loadSubjectArticles,
   makeDatoRequest,
@@ -49,6 +57,7 @@ export default async function ArticlePage({
             <ArticleSection key={i} {...{text}} />
           ))}
         </div>
+        <Comments {...{slug, subject}} />
       </div>
       <div className="mt-40">
         <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
@@ -91,6 +100,53 @@ function ArticleSection({text}: {text: string}) {
         __html: text.replace(/\*(.*?)\*/g, "<em>$1</em>"),
       }}
     />
+  )
+}
+
+async function Comments({slug, subject}: ArticleProps["params"]) {
+  async function action(formData: FormData) {
+    "use server"
+    const text = formData.get("text")
+    console.info({slug, subject, text})
+  }
+  const returnTo = `/${subject}/${slug}#comments` as const
+  const user = await getUserProfile()
+  return (
+    <div
+      className="flex w-full flex-col items-center gap-6 pt-20"
+      id="comments"
+    >
+      <h3 className="text-center text-xl font-bold sm:text-2xl">Comments</h3>
+      {user ? (
+        <>
+          <form className="flex w-full flex-col items-center" {...{action}}>
+            <textarea
+              className="w-full rounded-lg border border-orange-700 p-4"
+              maxLength={2000}
+              name="text"
+              placeholder="Add a comment..."
+              required
+            />
+            <button
+              className="mt-4 text-lg uppercase text-orange-700"
+              type="submit"
+            >
+              Save Comment
+            </button>
+          </form>
+          <div className="flex">
+            <p className="mr-2">Commenting as {user.name}</p>
+            <LogoutLink />
+          </div>
+        </>
+      ) : (
+        <>
+          <p>Please log in to add a comment</p>
+          <LoginLink {...{returnTo}} />
+          <SignupLink {...{returnTo}} />
+        </>
+      )}
+    </div>
   )
 }
 

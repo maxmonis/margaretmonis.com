@@ -67,6 +67,32 @@ function CardLink({
   )
 }
 
+export function LoginLink({returnTo}: {returnTo: `/${string}`}) {
+  return (
+    <TextLink
+      href={`/api/auth/login?returnTo=${encodeURIComponent(returnTo)}`}
+      text="Log In"
+      variant="filled"
+    />
+  )
+}
+
+export function LogoutLink() {
+  return (
+    <TextLink href="/api/auth/logout" text="Log Out" variant="underlined" />
+  )
+}
+
+export function SignupLink({returnTo}: {returnTo: `/${string}`}) {
+  return (
+    <TextLink
+      href={`/api/auth/signup?returnTo=${encodeURIComponent(returnTo)}`}
+      text="Sign Up"
+      variant="underlined"
+    />
+  )
+}
+
 export function SubjectLinks({priority}: {priority?: boolean}) {
   return (
     <div className="flex w-full flex-wrap justify-center gap-6">
@@ -102,6 +128,7 @@ export function TextLink({
       {...(href.toString().startsWith("http") && {target: "_blank"})}
       {...((className || variant) && {
         className: [
+          "text-center",
           className,
           variant === "filled"
             ? "rounded-xl border border-orange-700 bg-orange-700 px-4 py-1 font-bold text-white transition-colors hover:bg-white hover:text-orange-700"

@@ -1,3 +1,4 @@
+import {getSession} from "@auth0/nextjs-auth0"
 import {subjects} from "./constants"
 import {Article, Subject} from "./types"
 
@@ -14,6 +15,11 @@ export function getSubjectText(subject: Subject) {
     .split("-")
     .map(word => word[0].toUpperCase() + word.slice(1))
     .join(" ")
+}
+
+export async function getUserProfile() {
+  const session = await getSession()
+  return session?.user
 }
 
 export function isSubject(subject: unknown): subject is Subject {
