@@ -7,6 +7,7 @@ import {
   TextLink,
 } from "@/components/links"
 import {subjects} from "@/shared/constants"
+import {addComment, loadComments} from "@/shared/firebase"
 import {
   getDateText,
   getSubjectText,
@@ -17,6 +18,7 @@ import {
 } from "@/shared/functions"
 import {Article, Subject} from "@/shared/types"
 import {Metadata} from "next"
+import {revalidatePath} from "next/cache"
 import Image from "next/image"
 import {notFound} from "next/navigation"
 
@@ -103,20 +105,44 @@ function ArticleSection({text}: {text: string}) {
   )
 }
 
-async function Comments({slug, subject}: ArticleProps["params"]) {
+async function Comments({slug, subject}: {slug: string; subject: Subject}) {
+  const path = `/${subject}/${slug}#comments` as const
+  const user = await getUserProfile()
   async function action(formData: FormData) {
     "use server"
     const text = formData.get("text")
-    console.info({slug, subject, text})
+    if (typeof text !== "string") throw Error("Text is required")
+    if (!user) throw Error("Must be logged in to comment")
+    await addComment({
+      slug,
+      subject,
+      text,
+      userId: user?.sid,
+      userName: user?.name,
+    })
+    revalidatePath(path)
   }
-  const returnTo = `/${subject}/${slug}#comments` as const
-  const user = await getUserProfile()
+  const comments = await loadComments({slug, subject})
   return (
     <div
       className="flex w-full flex-col items-center gap-6 pt-20"
       id="comments"
     >
       <h3 className="text-center text-xl font-bold sm:text-2xl">Comments</h3>
+      {comments.length ? (
+        <ul className="w-full divide-y divide-orange-700 rounded-lg border border-orange-700 bg-white">
+          {comments.map(({date, id, text, userName}) => (
+            <li className="flex flex-col gap-4 p-4" key={id}>
+              <span>{text}</span>
+              <span className="text-right text-sm">
+                {userName} - {getDateText(date, "short")}
+              </span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No comments yet...</p>
+      )}
       {user ? (
         <>
           <form className="flex w-full flex-col items-center" {...{action}}>
@@ -142,8 +168,10 @@ async function Comments({slug, subject}: ArticleProps["params"]) {
       ) : (
         <>
           <p>Please log in to add a comment</p>
-          <LoginLink {...{returnTo}} />
-          <SignupLink {...{returnTo}} />
+          <div className="flex items-center gap-6">
+            <LoginLink returnTo={path} />
+            <SignupLink returnTo={path} />
+          </div>
         </>
       )}
     </div>

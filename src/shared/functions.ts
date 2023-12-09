@@ -19,7 +19,10 @@ export function getSubjectText(subject: Subject) {
 
 export async function getUserProfile() {
   const session = await getSession()
-  return session?.user
+  return session?.user as {
+    name: string
+    sid: string
+  }
 }
 
 export function isSubject(subject: unknown): subject is Subject {
