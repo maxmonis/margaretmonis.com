@@ -79,17 +79,7 @@ export function LoginLink({returnTo}: {returnTo: `/${string}`}) {
 
 export function LogoutLink() {
   return (
-    <TextLink href="/api/auth/logout" text="Log Out" variant="underlined" />
-  )
-}
-
-export function SignupLink({returnTo}: {returnTo: `/${string}`}) {
-  return (
-    <TextLink
-      href={`/api/auth/signup?returnTo=${encodeURIComponent(returnTo)}`}
-      text="Sign Up"
-      variant="underlined"
-    />
+    <TextLink className="underline" href="/api/auth/logout" text="Log Out" />
   )
 }
 

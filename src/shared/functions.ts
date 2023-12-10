@@ -20,6 +20,7 @@ export function getSubjectText(subject: Subject) {
 export async function getUserProfile() {
   const session = await getSession()
   return session?.user as {
+    email: string
     name: string
     sid: string
   }
