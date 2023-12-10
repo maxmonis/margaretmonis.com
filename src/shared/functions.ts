@@ -54,7 +54,7 @@ export function loadSubjectArticles(subject: Subject) {
 }
 
 export async function makeDatoRequest<T>({
-  includeDrafts,
+  includeDrafts = process.env.NODE_ENV === "development",
   query,
   variables = {},
 }: {
