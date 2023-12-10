@@ -51,7 +51,7 @@ export default async function ArticlePage({
             <ArticleSection key={i} {...{text}} />
           ))}
         </div>
-        <Comments {...{action, slug, subject}} />
+        <Comments title={article.title} {...{action, slug, subject}} />
       </div>
       <div className="mt-40">
         <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
