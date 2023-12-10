@@ -20,6 +20,12 @@ export default async function ArticlePage({
   if (!isSubject(subject)) notFound()
   const article = await loadArticle({slug, subject})
   if (!article) notFound()
+  const {
+    date,
+    image: {alt, url: src},
+    text,
+    title,
+  } = article
   const articles = await loadSubjectArticles(subject)
   const articleIndex = articles.findIndex(a => a.slug === slug)
   const followingArticle = articles[articleIndex - 1] ?? articles.at(-1)
@@ -27,31 +33,30 @@ export default async function ArticlePage({
   const remainingArticles = articles.filter(
     a => ![slug, previousArticle.slug, followingArticle.slug].includes(a.slug),
   )
-  const randomArticle =
+  const additionalArticle =
     remainingArticles[Math.floor(Math.random() * remainingArticles.length)]
   return (
     <main className="flex flex-col items-center px-4 sm:px-6">
       <div className="flex max-w-xl flex-col items-center">
         <h1 className="mb-10 text-center text-2xl font-bold sm:text-3xl">
-          {article.title}
+          {title}
         </h1>
         <Image
-          alt={article.image.alt}
           className="max-h-96 w-full max-w-sm object-contain"
           height={384}
           priority
-          src={article.image.url}
           width={384}
+          {...{alt, src}}
         />
         <h2 className="my-10 text-center text-lg">
-          {getDateText(article.date, "long")}
+          {getDateText(date, "long")}
         </h2>
         <div className="flex flex-col gap-4">
-          {article.text.split(/\r|\n/).map((text, i) => (
+          {text.split(/\r|\n/).map((text, i) => (
             <ArticleSection key={i} {...{text}} />
           ))}
         </div>
-        <Comments title={article.title} {...{action, slug, subject}} />
+        <Comments {...{action, slug, subject, title}} />
       </div>
       <div className="mt-40">
         <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
@@ -60,7 +65,7 @@ export default async function ArticlePage({
         <div className="flex flex-wrap justify-center gap-6">
           <ArticleLink article={previousArticle} />
           <ArticleLink article={followingArticle} />
-          <ArticleLink article={randomArticle} />
+          <ArticleLink article={additionalArticle} />
         </div>
       </div>
       <div className="my-40">
@@ -71,7 +76,7 @@ export default async function ArticlePage({
       </div>
       <TextLink
         className="underline"
-        href={`/${subject}/${article.slug}#top-of-page`}
+        href={`/${subject}/${slug}#top-of-page`}
         text="Scroll to Top"
       />
     </main>
@@ -104,7 +109,9 @@ export async function generateMetadata({
     const article = await loadArticle({slug, subject})
     if (article) {
       const metadata: Metadata = {
-        description: `${article.title} - An Article by Margaret Monis`,
+        description: `An Article by Margaret Monis from her ${getSubjectText(
+          subject,
+        )} series`,
         openGraph: {
           images: [article.image],
         },
