@@ -52,11 +52,7 @@ export async function Comments({
   }
   const comments = await loadComments({slug, subject})
   return (
-    <div
-      className="flex w-full flex-col items-center gap-6 pt-20"
-      id="comments"
-    >
-      <h3 className="text-center text-xl font-bold sm:text-2xl">Comments</h3>
+    <>
       {comments.length ? (
         <ul className="w-full divide-y divide-orange-700 rounded-lg border border-orange-700 bg-white">
           {comments.map(({date, id, text, user: {name: userName}}) => (
@@ -124,7 +120,7 @@ export async function Comments({
           </dialog>
         </div>
       )}
-    </div>
+    </>
   )
 }
 

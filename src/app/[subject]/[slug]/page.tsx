@@ -11,6 +11,7 @@ import {Article, Subject} from "@/shared/types"
 import {Metadata} from "next"
 import Image from "next/image"
 import {notFound} from "next/navigation"
+import {Suspense} from "react"
 import {Comments} from "./comments"
 
 export default async function ArticlePage({
@@ -56,7 +57,17 @@ export default async function ArticlePage({
             <ArticleSection key={i} {...{text}} />
           ))}
         </div>
-        <Comments {...{action, slug, subject, title}} />
+        <div
+          className="flex w-full flex-col items-center gap-6 pt-20"
+          id="comments"
+        >
+          <h3 className="text-center text-xl font-bold sm:text-2xl">
+            Comments
+          </h3>
+          <Suspense fallback={<p>Loading comments...</p>}>
+            <Comments {...{action, slug, subject, title}} />
+          </Suspense>
+        </div>
       </div>
       <div className="mt-40">
         <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
