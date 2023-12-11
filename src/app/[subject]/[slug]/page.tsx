@@ -1,13 +1,7 @@
 import {ArticleLink, SubjectLinks, TextLink} from "@/components/links"
 import {subjects} from "@/shared/constants"
-import {
-  getDateText,
-  getSubjectText,
-  isSubject,
-  loadSubjectArticles,
-  makeDatoRequest,
-} from "@/shared/functions"
-import {Article, Subject} from "@/shared/types"
+import {loadArticle, loadSubjectArticles} from "@/shared/datocms"
+import {getDateText, getSubjectText, isSubject} from "@/shared/functions"
 import {Metadata} from "next"
 import Image from "next/image"
 import {notFound} from "next/navigation"
@@ -18,16 +12,20 @@ export default async function ArticlePage({
   params: {slug, subject},
   searchParams: {action},
 }: ArticleProps) {
-  if (!isSubject(subject)) notFound()
+  if (!isSubject(subject)) {
+    notFound()
+  }
   const article = await loadArticle({slug, subject})
-  if (!article) notFound()
+  if (!article) {
+    notFound()
+  }
   const {
     date,
     image: {alt, url: src},
     text,
     title,
   } = article
-  const articles = await loadSubjectArticles(subject)
+  const articles = await loadSubjectArticles({subject})
   const articleIndex = articles.findIndex(a => a.slug === slug)
   const followingArticle = articles[articleIndex - 1] ?? articles.at(-1)
   const previousArticle = articles[articleIndex + 1] ?? articles[0]
@@ -95,7 +93,9 @@ export default async function ArticlePage({
 }
 
 function ArticleSection({text}: {text: string}) {
-  if (!text) return null
+  if (!text) {
+    return null
+  }
   const [, alt, src] = text.match(/\!\[(.*?)\]\((.*?)\)/) ?? []
   return src ? (
     <Image
@@ -136,33 +136,12 @@ export async function generateMetadata({
 export async function generateStaticParams() {
   const params: Array<ArticleProps["params"]> = []
   for (const subject of subjects) {
-    const articles = await loadSubjectArticles(subject)
+    const articles = await loadSubjectArticles({subject})
     for (const {slug} of articles) {
       params.push({slug, subject})
     }
   }
   return params
-}
-
-function loadArticle(variables: {slug: string; subject: Subject}) {
-  return makeDatoRequest<Omit<Article, "blurb">>({
-    query: `
-      query GetArticle($slug: String!, $subject: String!) {
-        article(filter: {slug: {eq: $slug}, subject: {eq: $subject}}) {
-          date
-          image {
-            alt
-            url
-          }
-          slug
-          subject
-          text
-          title
-        }
-      }
-    `,
-    variables,
-  })
 }
 
 type ArticleProps = {

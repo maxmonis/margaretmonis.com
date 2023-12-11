@@ -67,22 +67,6 @@ function CardLink({
   )
 }
 
-export function LoginLink({returnTo}: {returnTo: `/${string}`}) {
-  return (
-    <TextLink
-      href={`/api/auth/login?returnTo=${encodeURIComponent(returnTo)}`}
-      text="Log In"
-      variant="filled"
-    />
-  )
-}
-
-export function LogoutLink() {
-  return (
-    <TextLink className="underline" href="/api/auth/logout" text="Log Out" />
-  )
-}
-
 export function SubjectLinks({priority}: {priority?: boolean}) {
   return (
     <div className="flex w-full flex-wrap justify-center gap-6">

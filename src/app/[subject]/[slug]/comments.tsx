@@ -1,8 +1,9 @@
-import {LoginLink, LogoutLink, TextLink} from "@/components/links"
+import {TextLink} from "@/components/links"
+import {getUser} from "@/shared/auth0"
 import {siteUrl} from "@/shared/constants"
-import {getDateText, getUserProfile} from "@/shared/functions"
+import {addComment, loadComments} from "@/shared/firebase"
+import {getDateText} from "@/shared/functions"
 import {Subject} from "@/shared/types"
-import admin from "firebase-admin"
 import Link from "next/link"
 import {redirect} from "next/navigation"
 const nodemailer = require("nodemailer")
@@ -18,20 +19,16 @@ export async function Comments({
   subject: Subject
   title: string
 }) {
+  const comments = await loadComments({slug, subject})
+  const user = await getUser()
   const href = `${siteUrl}/${subject}/${slug}` as const
   const commentsPath = `/${subject}/${slug}#comments` as const
   const addCommentPath = `/${subject}/${slug}?action=add#comments` as const
-  const user = await getUserProfile()
   async function saveComment(formData: FormData) {
     "use server"
     const text = formData.get("comment")?.toString().trim()
     if (user && text) {
-      await addComment({
-        slug,
-        subject,
-        text,
-        user,
-      })
+      await addComment({slug, subject, text, user})
       const {email: userEmail, name: userName} = user
       transporter.sendMail({
         from: process.env.NODEMAILER_EMAIL,
@@ -50,7 +47,6 @@ export async function Comments({
     }
     redirect(commentsPath)
   }
-  const comments = await loadComments({slug, subject})
   return (
     <>
       {comments.length ? (
@@ -106,14 +102,24 @@ export async function Comments({
                 </div>
                 <div className="flex flex-wrap justify-center gap-2">
                   <p>Commenting as {user.name}</p>
-                  <LogoutLink />
+                  <TextLink
+                    className="underline"
+                    href="/api/auth/logout"
+                    text="Log Out"
+                  />
                 </div>
               </form>
             ) : (
               <div className="flex flex-col items-center gap-6">
                 <p>Please log in to add a comment</p>
                 <div className="flex items-center gap-6">
-                  <LoginLink returnTo={addCommentPath} />
+                  <TextLink
+                    href={`/api/auth/login?returnTo=${encodeURIComponent(
+                      addCommentPath,
+                    )}`}
+                    text="Log In"
+                    variant="filled"
+                  />
                 </div>
               </div>
             )}
@@ -122,48 +128,6 @@ export async function Comments({
       )}
     </>
   )
-}
-
-if (admin.apps.length === 0) {
-  admin.initializeApp({
-    credential: admin.credential.cert({
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
-      projectId: process.env.FIREBASE_PROJECT_ID,
-    }),
-  })
-}
-
-const commentsCollection = admin.firestore().collection("comments")
-
-function addComment(comment: Omit<Comment, "date" | "id">) {
-  const now = new Date()
-  const year = now.getFullYear()
-  const month = (now.getMonth() + 1).toString().padStart(2, "0")
-  const day = now.getDate().toString().padStart(2, "0")
-  return commentsCollection.add({...comment, date: `${year}-${month}-${day}`})
-}
-
-async function loadComments({slug, subject}: {slug: string; subject: Subject}) {
-  const {docs} = await commentsCollection
-    .where("slug", "==", slug)
-    .where("subject", "==", subject)
-    .get()
-  return docs
-    .map(doc => ({...doc.data(), id: doc.id}) as Comment)
-    .sort(
-      (a, b) =>
-        Number(b.date.replace(/-/g, "")) - Number(a.date.replace(/-/g, "")),
-    )
-}
-
-type Comment = {
-  date: string
-  id: string
-  slug: string
-  subject: Subject
-  text: string
-  user: Awaited<ReturnType<typeof getUserProfile>>
 }
 
 const transporter = nodemailer.createTransport({

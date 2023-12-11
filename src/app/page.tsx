@@ -1,6 +1,5 @@
 import {ArticleLink, SubjectLinks} from "@/components/links"
-import {makeDatoRequest} from "@/shared/functions"
-import {Article} from "@/shared/types"
+import {loadRecentArticles} from "@/shared/datocms"
 
 export default async function HomePage() {
   const articles = await loadRecentArticles()
@@ -23,24 +22,4 @@ export default async function HomePage() {
       </div>
     </main>
   )
-}
-
-function loadRecentArticles() {
-  return makeDatoRequest<Array<Omit<Article, "text">>>({
-    query: `
-      query GetRecentArticles {
-        allArticles(first: 3, orderBy: date_DESC) {
-          blurb
-          date
-          image {
-            alt
-            url(imgixParams: {fit: crop, h: 200, w: 200})
-          }
-          slug
-          subject
-          title
-        }
-      }
-    `,
-  })
 }

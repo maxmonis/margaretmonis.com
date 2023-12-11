@@ -1,16 +1,15 @@
 import {ArticleLink} from "@/components/links"
 import {subjects} from "@/shared/constants"
-import {
-  getSubjectText,
-  isSubject,
-  loadSubjectArticles,
-} from "@/shared/functions"
+import {loadSubjectArticles} from "@/shared/datocms"
+import {getSubjectText, isSubject} from "@/shared/functions"
 import {Metadata} from "next"
 import {notFound} from "next/navigation"
 
 export default async function SubjectPage({params: {subject}}: SubjectProps) {
-  if (!isSubject(subject)) notFound()
-  const articles = await loadSubjectArticles(subject)
+  if (!isSubject(subject)) {
+    notFound()
+  }
+  const articles = await loadSubjectArticles({subject})
   return (
     <main className="flex h-full w-full flex-col items-center px-4 text-center sm:px-6">
       <h1 className="mb-20 text-2xl font-bold sm:text-3xl">
@@ -27,7 +26,7 @@ export default async function SubjectPage({params: {subject}}: SubjectProps) {
 
 export async function generateMetadata({params: {subject}}: SubjectProps) {
   if (isSubject(subject)) {
-    const articles = await loadSubjectArticles(subject)
+    const articles = await loadSubjectArticles({subject})
     const title = getSubjectText(subject)
     const metadata: Metadata = {
       description: `${title} - Articles by Margaret Monis`,
