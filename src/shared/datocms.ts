@@ -37,7 +37,7 @@ export function loadSubjectArticles(variables: {subject: Subject}) {
   return makeDatoRequest<Array<Omit<Article, "text">>>({
     query: `
       query GetSubjectArticles($subject: String!) {
-        allArticles(filter: {subject: {eq: $subject}}, orderBy: date_DESC) {
+        allArticles(first: 100, filter: {subject: {eq: $subject}}, orderBy: date_DESC) {
           ${preview}
         }
       }
