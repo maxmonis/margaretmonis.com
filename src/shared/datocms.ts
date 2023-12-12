@@ -1,7 +1,7 @@
 import {Article, Subject} from "./types"
 
 export function loadArticle(variables: {slug: string; subject: Subject}) {
-  return makeDatoRequest<Omit<Article, "blurb">>({
+  return makeDatoRequest<Omit<Article, "blurb"> | null>({
     query: `
       query GetArticle($slug: String!, $subject: String!) {
         article(filter: {slug: {eq: $slug}, subject: {eq: $subject}}) {

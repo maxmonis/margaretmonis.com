@@ -1,16 +1,17 @@
-import {ArticleLink, SubjectLinks, TextLink} from "@/components/links"
+import {SubjectLinks, TextLink} from "@/components/links"
 import {subjects} from "@/shared/constants"
 import {loadArticle, loadSubjectArticles} from "@/shared/datocms"
 import {getDateText, getSubjectText, isSubject} from "@/shared/functions"
 import {Metadata} from "next"
 import Image from "next/image"
 import {notFound} from "next/navigation"
-import {Suspense} from "react"
-import {Comments} from "./comments"
+import React from "react"
+import {ArticleSection} from "./components/ArticleSection"
+import {CommentsApp} from "./components/CommentsApp"
+import {SuggestedArticles} from "./components/SuggestedArticles"
 
 export default async function ArticlePage({
   params: {slug, subject},
-  searchParams: {action},
 }: ArticleProps) {
   if (!isSubject(subject)) {
     notFound()
@@ -25,15 +26,6 @@ export default async function ArticlePage({
     text,
     title,
   } = article
-  const articles = await loadSubjectArticles({subject})
-  const articleIndex = articles.findIndex(a => a.slug === slug)
-  const followingArticle = articles[articleIndex - 1] ?? articles.at(-1)
-  const previousArticle = articles[articleIndex + 1] ?? articles[0]
-  const remainingArticles = articles.filter(
-    a => ![slug, previousArticle.slug, followingArticle.slug].includes(a.slug),
-  )
-  const additionalArticle =
-    remainingArticles[Math.floor(Math.random() * remainingArticles.length)]
   return (
     <main className="flex flex-col items-center px-4 sm:px-6">
       <div className="flex max-w-xl flex-col items-center">
@@ -62,21 +54,14 @@ export default async function ArticlePage({
           <h3 className="text-center text-xl font-bold sm:text-2xl">
             Comments
           </h3>
-          <Suspense fallback={<p>Loading comments...</p>}>
-            <Comments {...{action, slug, subject, title}} />
-          </Suspense>
+          <React.Suspense fallback={<p>Loading comments...</p>}>
+            <CommentsApp {...{slug, subject, title}} />
+          </React.Suspense>
         </div>
       </div>
-      <div className="mt-40">
-        <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
-          More from {getSubjectText(subject)}
-        </h3>
-        <div className="flex flex-wrap justify-center gap-6">
-          <ArticleLink article={previousArticle} />
-          <ArticleLink article={followingArticle} />
-          <ArticleLink article={additionalArticle} />
-        </div>
-      </div>
+      <React.Suspense fallback={<></>}>
+        <SuggestedArticles {...{slug, subject}} />
+      </React.Suspense>
       <div className="my-40">
         <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
           All Subjects
@@ -89,27 +74,6 @@ export default async function ArticlePage({
         text="Scroll to Top"
       />
     </main>
-  )
-}
-
-function ArticleSection({text}: {text: string}) {
-  if (!text) {
-    return null
-  }
-  const [, alt, src] = text.match(/\!\[(.*?)\]\((.*?)\)/) ?? []
-  return src ? (
-    <Image
-      className="mx-auto my-4 max-h-80 w-full max-w-xs object-contain"
-      height={320}
-      width={320}
-      {...{alt, src}}
-    />
-  ) : (
-    <p
-      dangerouslySetInnerHTML={{
-        __html: text.replace(/\*(.*?)\*/g, "<em>$1</em>"),
-      }}
-    />
   )
 }
 

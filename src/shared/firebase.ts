@@ -1,5 +1,6 @@
+import {UserProfile} from "@auth0/nextjs-auth0/client"
 import admin from "firebase-admin"
-import {Comment, Subject} from "./types"
+import {Subject} from "./types"
 
 if (admin.apps.length === 0) {
   admin.initializeApp({
@@ -38,4 +39,13 @@ export async function loadComments({
       (a, b) =>
         Number(b.date.replace(/-/g, "")) - Number(a.date.replace(/-/g, "")),
     )
+}
+
+type Comment = {
+  date: string
+  id: string
+  slug: string
+  subject: Subject
+  text: string
+  user: UserProfile
 }

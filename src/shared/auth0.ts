@@ -1,7 +1,7 @@
 import {getSession} from "@auth0/nextjs-auth0"
-import {User} from "./types"
+import {UserProfile} from "@auth0/nextjs-auth0/client"
 
 export async function getUser() {
   const session = await getSession()
-  return session?.user as User
+  return session ? (session.user as UserProfile) : null
 }
