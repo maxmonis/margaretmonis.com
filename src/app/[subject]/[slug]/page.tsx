@@ -16,7 +16,7 @@ export default async function ArticlePage({
   if (!isSubject(subject)) {
     notFound()
   }
-  const article = await loadArticle({slug, subject})
+  const {article} = await loadArticle({slug, subject})
   if (!article) {
     notFound()
   }
@@ -81,7 +81,7 @@ export async function generateMetadata({
   params: {slug, subject},
 }: ArticleProps) {
   if (isSubject(subject)) {
-    const article = await loadArticle({slug, subject})
+    const {article} = await loadArticle({slug, subject})
     if (article) {
       const metadata: Metadata = {
         description: `An Article by Margaret Monis from her ${getSubjectText(
@@ -100,8 +100,8 @@ export async function generateMetadata({
 export async function generateStaticParams() {
   const params: Array<ArticleProps["params"]> = []
   for (const subject of subjects) {
-    const articles = await loadSubjectArticles({subject})
-    for (const {slug} of articles) {
+    const {allArticles} = await loadSubjectArticles({subject})
+    for (const {slug} of allArticles) {
       params.push({slug, subject})
     }
   }

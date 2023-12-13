@@ -10,11 +10,11 @@ export async function SuggestedArticles({
   slug: string
   subject: Subject
 }) {
-  const articles = await loadSubjectArticles({subject})
-  const articleIndex = articles.findIndex(a => a.slug === slug)
-  const followingArticle = articles[articleIndex - 1] ?? articles.at(-1)
-  const previousArticle = articles[articleIndex + 1] ?? articles[0]
-  const remainingArticles = articles.filter(
+  const {allArticles} = await loadSubjectArticles({subject})
+  const articleIndex = allArticles.findIndex(a => a.slug === slug)
+  const followingArticle = allArticles[articleIndex - 1] ?? allArticles.at(-1)
+  const previousArticle = allArticles[articleIndex + 1] ?? allArticles[0]
+  const remainingArticles = allArticles.filter(
     a => ![slug, previousArticle.slug, followingArticle.slug].includes(a.slug),
   )
   const additionalArticle =

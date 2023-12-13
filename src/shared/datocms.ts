@@ -1,7 +1,7 @@
 import {Article, Subject} from "./types"
 
 export function loadArticle(variables: {slug: string; subject: Subject}) {
-  return makeDatoRequest<Omit<Article, "blurb"> | null>({
+  return makeDatoRequest<{article: Omit<Article, "blurb"> | null}>({
     query: `
       query GetArticle($slug: String!, $subject: String!) {
         article(filter: {slug: {eq: $slug}, subject: {eq: $subject}}) {
@@ -22,7 +22,7 @@ export function loadArticle(variables: {slug: string; subject: Subject}) {
 }
 
 export function loadRecentArticles() {
-  return makeDatoRequest<Array<Omit<Article, "text">>>({
+  return makeDatoRequest<{allArticles: Array<Omit<Article, "text">>}>({
     query: `
       query GetRecentArticles {
         allArticles(first: 3, orderBy: date_DESC) {
@@ -34,7 +34,7 @@ export function loadRecentArticles() {
 }
 
 export function loadSubjectArticles(variables: {subject: Subject}) {
-  return makeDatoRequest<Array<Omit<Article, "text">>>({
+  return makeDatoRequest<{allArticles: Array<Omit<Article, "text">>}>({
     query: `
       query GetSubjectArticles($subject: String!) {
         allArticles(first: 100, filter: {subject: {eq: $subject}}, orderBy: date_DESC) {
@@ -54,7 +54,7 @@ async function makeDatoRequest<T>({
   includeDrafts?: boolean
   query: string
   variables?: object
-}) {
+}): Promise<T> {
   const response = await fetch("https://graphql.datocms.com/", {
     body: JSON.stringify({query, variables}),
     headers: {
@@ -74,7 +74,7 @@ async function makeDatoRequest<T>({
       )}`,
     )
   }
-  return Object.values(responseBody.data)[0] as T
+  return responseBody.data
 }
 
 const preview = `

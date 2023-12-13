@@ -2,7 +2,7 @@ import {ArticleLink, SubjectLinks} from "@/components/links"
 import {loadRecentArticles} from "@/shared/datocms"
 
 export default async function HomePage() {
-  const articles = await loadRecentArticles()
+  const {allArticles} = await loadRecentArticles()
   return (
     <main className="flex h-full w-full flex-col items-center px-4 text-center sm:px-6">
       <h1 className="mb-20 text-2xl font-bold sm:text-3xl">
@@ -16,7 +16,7 @@ export default async function HomePage() {
         Recently Published
       </h2>
       <div className="flex max-w-5xl flex-wrap justify-center gap-6">
-        {articles.map(article => (
+        {allArticles.map(article => (
           <ArticleLink key={article.slug} priority {...{article}} />
         ))}
       </div>
