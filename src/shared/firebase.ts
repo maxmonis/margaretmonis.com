@@ -22,17 +22,8 @@ export function addComment(comment: Omit<Comment, "date" | "id">) {
   return comments.add({...comment, date: `${year}-${month}-${day}`})
 }
 
-export async function loadComments({
-  slug,
-  subject,
-}: {
-  slug: string
-  subject: Subject
-}) {
-  const {docs} = await comments
-    .where("slug", "==", slug)
-    .where("subject", "==", subject)
-    .get()
+export async function loadComments({slug}: {slug: string}) {
+  const {docs} = await comments.where("slug", "==", slug).get()
   return docs
     .map(doc => ({...doc.data(), id: doc.id}) as Comment)
     .sort(

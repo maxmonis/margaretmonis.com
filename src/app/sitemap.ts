@@ -25,7 +25,7 @@ export default async function Sitemap() {
         changeFrequency: "weekly",
         lastModified,
         priority: 0.5,
-        url: `${siteUrl}/${subject}/${slug}`,
+        url: `${siteUrl}/posts/${slug}`,
       })
     }
   }

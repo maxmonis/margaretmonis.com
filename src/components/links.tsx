@@ -10,7 +10,6 @@ export function ArticleLink({
     date,
     image: {alt, url: src},
     slug,
-    subject,
     title,
   },
   priority,
@@ -20,7 +19,7 @@ export function ArticleLink({
 }) {
   return (
     <CardLink
-      href={`/${subject}/${slug}`}
+      href={`/posts/${slug}`}
       subtitle={getDateText(date, "short")}
       {...{alt, priority, src, text, title}}
     />

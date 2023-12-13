@@ -17,8 +17,7 @@ export async function CommentsApp({
   subject: Subject
   title: string
 }) {
-  const route = `${subject}/${slug}` as const
-  const commentList = await loadComments({slug, subject})
+  const commentList = await loadComments({slug})
   const user = await getUser()
   async function saveComment(formData: FormData) {
     "use server"
@@ -27,7 +26,7 @@ export async function CommentsApp({
       try {
         await addComment({slug, subject, text, user})
         const {email: userEmail, name: userName} = user
-        const href = `${siteUrl}/${route}` as const
+        const href = `${siteUrl}/posts/${slug}` as const
         transporter.sendMail({
           from: process.env.NODEMAILER_EMAIL,
           html: `
@@ -43,7 +42,7 @@ export async function CommentsApp({
               : "mmonis77@gmail.com",
         })
       } finally {
-        redirect(`/${route}#comments`)
+        redirect(`/posts/${slug}#comments`)
       }
     }
   }
@@ -63,7 +62,7 @@ export async function CommentsApp({
           ))}
         </ul>
       )}
-      <CommentForm {...{saveComment, route, user}} />
+      <CommentForm {...{saveComment, slug, user}} />
     </>
   )
 }

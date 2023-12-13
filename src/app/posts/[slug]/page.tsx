@@ -1,7 +1,7 @@
 import {SubjectLinks, TextLink} from "@/components/links"
 import {subjects} from "@/shared/constants"
 import {loadArticle, loadSubjectSlugs} from "@/shared/datocms"
-import {getDateText, getSubjectText, isSubject} from "@/shared/functions"
+import {getDateText, getSubjectText} from "@/shared/functions"
 import {Metadata} from "next"
 import Image from "next/image"
 import {notFound} from "next/navigation"
@@ -10,19 +10,15 @@ import {ArticleSection} from "./components/ArticleSection"
 import {CommentsApp} from "./components/CommentsApp"
 import {SuggestedArticles} from "./components/SuggestedArticles"
 
-export default async function ArticlePage({
-  params: {slug, subject},
-}: ArticleProps) {
-  if (!isSubject(subject)) {
-    notFound()
-  }
-  const {article} = await loadArticle({slug, subject})
+export default async function ArticlePage({params: {slug}}: ArticleProps) {
+  const {article} = await loadArticle({slug})
   if (!article) {
     notFound()
   }
   const {
     date,
     image: {alt, url: src},
+    subject,
     text,
     title,
   } = article
@@ -70,30 +66,26 @@ export default async function ArticlePage({
       </div>
       <TextLink
         className="underline"
-        href={`/${subject}/${slug}#top-of-page`}
+        href={`/posts/${slug}#top-of-page`}
         text="Scroll to Top"
       />
     </main>
   )
 }
 
-export async function generateMetadata({
-  params: {slug, subject},
-}: ArticleProps) {
-  if (isSubject(subject)) {
-    const {article} = await loadArticle({slug, subject})
-    if (article) {
-      const metadata: Metadata = {
-        description: `An Article by Margaret Monis from her ${getSubjectText(
-          subject,
-        )} series`,
-        openGraph: {
-          images: [article.image],
-        },
-        title: article.title,
-      }
-      return metadata
+export async function generateMetadata({params: {slug}}: ArticleProps) {
+  const {article} = await loadArticle({slug})
+  if (article) {
+    const metadata: Metadata = {
+      description: `An Article by Margaret Monis from her ${getSubjectText(
+        article.subject,
+      )} series`,
+      openGraph: {
+        images: [article.image],
+      },
+      title: article.title,
     }
+    return metadata
   }
 }
 
@@ -102,18 +94,10 @@ export async function generateStaticParams() {
   for (const subject of subjects) {
     const slugs = await loadSubjectSlugs({subject})
     for (const slug of slugs) {
-      params.push({slug, subject})
+      params.push({slug})
     }
   }
   return params
 }
 
-type ArticleProps = {
-  params: {
-    slug: string
-    subject: string
-  }
-  searchParams: {
-    action?: string
-  }
-}
+type ArticleProps = {params: {slug: string}}

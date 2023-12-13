@@ -3,20 +3,18 @@
 import {TextLink} from "@/components/links"
 import {useKeyup} from "@/shared/hooks"
 import {UserProfile} from "@auth0/nextjs-auth0/client"
-import {useSearchParams} from "next/navigation"
 import React from "react"
 
 export function CommentForm({
-  route,
   saveComment,
+  slug,
   user,
 }: {
-  route: string
   saveComment: (formData: FormData) => Promise<void>
+  slug: string
   user: UserProfile | null
 }) {
-  const searchParams = useSearchParams()
-  const [open, setOpen] = React.useState(searchParams.get("action") === "add")
+  const [open, setOpen] = React.useState(false)
   useKeyup("Escape", () => setOpen(false))
   return (
     <>
@@ -87,7 +85,7 @@ export function CommentForm({
                 <div className="flex items-center gap-6">
                   <TextLink
                     href={`/api/auth/login?returnTo=${encodeURIComponent(
-                      `/${route}?action=add#comments`,
+                      `/posts/${slug}#comments`,
                     )}`}
                     onClick={() => setOpen(false)}
                     text="Log In"

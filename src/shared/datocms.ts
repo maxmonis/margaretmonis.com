@@ -1,10 +1,10 @@
 import {Article, Subject} from "./types"
 
-export function loadArticle(variables: {slug: string; subject: Subject}) {
+export function loadArticle({slug}: {slug: string}) {
   return makeDatoRequest<{article: Omit<Article, "blurb"> | null}>({
     query: `
-      query GetArticle($slug: String!, $subject: String!) {
-        article(filter: {slug: {eq: $slug}, subject: {eq: $subject}}) {
+      query GetArticle($slug: String!) {
+        article(filter: {slug: {eq: $slug}}) {
           date
           image {
             alt
@@ -17,7 +17,7 @@ export function loadArticle(variables: {slug: string; subject: Subject}) {
         }
       }
     `,
-    variables,
+    variables: {slug},
   })
 }
 
