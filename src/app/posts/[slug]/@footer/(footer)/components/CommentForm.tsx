@@ -85,7 +85,7 @@ export function CommentForm({
                 <div className="flex items-center gap-6">
                   <TextLink
                     href={`/api/auth/login?returnTo=${encodeURIComponent(
-                      `/posts/${slug}#comments`,
+                      `/posts/${slug}`,
                     )}`}
                     onClick={() => setOpen(false)}
                     text="Log In"

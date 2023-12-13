@@ -1,6 +1,5 @@
 import {ArticleLink} from "@/components/links"
 import {loadArticleList, loadSubjectSlugs} from "@/shared/datocms"
-import {getSubjectText} from "@/shared/functions"
 import {Subject} from "@/shared/types"
 
 export async function SuggestedArticles({
@@ -19,15 +18,10 @@ export async function SuggestedArticles({
   slugs.push(remainingSlugs[Math.floor(Math.random() * remainingSlugs.length)])
   const {allArticles} = await loadArticleList(slugs)
   return (
-    <div className="mt-40">
-      <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
-        More from {getSubjectText(subject)}
-      </h3>
-      <div className="flex flex-wrap justify-center gap-6">
-        {allArticles.map(article => (
-          <ArticleLink key={article.slug} {...{article}} />
-        ))}
-      </div>
+    <div className="flex flex-wrap justify-center gap-6">
+      {allArticles.map(article => (
+        <ArticleLink key={article.slug} {...{article}} />
+      ))}
     </div>
   )
 }

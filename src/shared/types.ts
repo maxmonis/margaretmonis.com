@@ -13,4 +13,6 @@ export type Article = {
   title: string
 }
 
+export type ArticleProps = {params: {slug: string}}
+
 export type Subject = (typeof subjects)[number]
