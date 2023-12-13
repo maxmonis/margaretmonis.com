@@ -33,15 +33,98 @@ export function loadRecentArticles() {
   })
 }
 
-export function loadSubjectArticles(variables: {subject: Subject}) {
-  return makeDatoRequest<{allArticles: Array<Omit<Article, "text">>}>({
+export function loadSubjectArticles({
+  page,
+  subject,
+}: {
+  page: number
+  subject: Subject
+}) {
+  return makeDatoRequest<{
+    allArticles: Array<Omit<Article, "text">>
+    _allArticlesMeta: {count: number}
+  }>({
     query: `
       query GetSubjectArticles($subject: String!) {
-        allArticles(first: 100, filter: {subject: {eq: $subject}}, orderBy: date_DESC) {
+        allArticles(
+          filter: {subject: {eq: $subject}}
+          first: 12
+          orderBy: date_DESC
+          ${page > 1 ? `skip: ${(page - 1) * 12}` : ""}
+        ) {
           ${preview}
+        }
+        _allArticlesMeta(filter: {subject: {eq: $subject}}) {
+          count
         }
       }
     `,
+    variables: {subject},
+  })
+}
+
+export async function loadSubjectSlugs({subject}: {subject: Subject}) {
+  let page = 1
+  const {
+    allArticles,
+    _allArticlesMeta: {count},
+  } = await loadSubjectSlugsPage({page, subject})
+  let slugs = allArticles.map(({slug}) => slug)
+  while (page * 100 < count) {
+    page++
+    const {allArticles: newArticles} = await loadSubjectSlugsPage({
+      page,
+      subject,
+    })
+    slugs = [...slugs, ...newArticles.map(({slug}) => slug)]
+  }
+  return slugs
+}
+
+function loadSubjectSlugsPage({
+  page,
+  subject,
+}: {
+  page: number
+  subject: Subject
+}) {
+  return makeDatoRequest<{
+    allArticles: Array<Pick<Article, "slug">>
+    _allArticlesMeta: {count: number}
+  }>({
+    query: `
+        query GetSubjectArticles($subject: String!) {
+          allArticles(
+            filter: {subject: {eq: $subject}}
+            first: 100
+            orderBy: date_DESC
+            ${page > 1 ? `skip: ${(page - 1) * 100}` : ""}
+          ) {
+            slug
+          }
+          _allArticlesMeta(filter: {subject: {eq: $subject}}) {
+            count
+          }
+        }
+      `,
+    variables: {subject},
+  })
+}
+
+export function loadSuggestedArticles(variables: {slugs: Array<string>}) {
+  return makeDatoRequest<{
+    allArticles: Array<Omit<Article, "text">>
+  }>({
+    query: `
+        query GetSuggestedArticles($slugs: [String]!) {
+          allArticles(
+            filter: {slug: {in: $slugs}}
+            orderBy: date_DESC
+          ) {
+            ${preview}
+          }
+        }
+      `,
     variables,
   })
 }

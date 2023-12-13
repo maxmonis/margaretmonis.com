@@ -1,6 +1,6 @@
 import {SubjectLinks, TextLink} from "@/components/links"
 import {subjects} from "@/shared/constants"
-import {loadArticle, loadSubjectArticles} from "@/shared/datocms"
+import {loadArticle, loadSubjectSlugs} from "@/shared/datocms"
 import {getDateText, getSubjectText, isSubject} from "@/shared/functions"
 import {Metadata} from "next"
 import Image from "next/image"
@@ -100,8 +100,8 @@ export async function generateMetadata({
 export async function generateStaticParams() {
   const params: Array<ArticleProps["params"]> = []
   for (const subject of subjects) {
-    const {allArticles} = await loadSubjectArticles({subject})
-    for (const {slug} of allArticles) {
+    const slugs = await loadSubjectSlugs({subject})
+    for (const slug of slugs) {
       params.push({slug, subject})
     }
   }

@@ -1,5 +1,5 @@
 import {siteUrl, subjects} from "@/shared/constants"
-import {loadSubjectArticles} from "@/shared/datocms"
+import {loadSubjectSlugs} from "@/shared/datocms"
 import {MetadataRoute} from "next"
 
 export default async function Sitemap() {
@@ -19,8 +19,8 @@ export default async function Sitemap() {
       priority: 0.8,
       url: `${siteUrl}/${subject}`,
     })
-    const articles = await loadSubjectArticles({subject})
-    for (const {slug} of articles) {
+    const slugs = await loadSubjectSlugs({subject})
+    for (const slug of slugs) {
       sitemap.push({
         changeFrequency: "weekly",
         lastModified,
