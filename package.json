@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@auth0/nextjs-auth0": "^3.5.0",
+    "firebase": "^10.7.1",
     "firebase-admin": "^12.0.0",
     "next": "14.0.3",
     "nodemailer": "^6.9.7",

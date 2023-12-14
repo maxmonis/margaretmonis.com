@@ -1,18 +1,15 @@
 "use client"
-
+import {GoogleButton, LogoutButton} from "@/components/buttons"
+import {useAuth} from "@/context/AuthContext"
 import {useKeyup} from "@/shared/hooks"
-import {UserProfile} from "@auth0/nextjs-auth0/client"
 import React from "react"
 
 export function CommentForm({
   saveComment,
-  slug,
-  user,
 }: {
   saveComment: (formData: FormData) => Promise<void>
-  slug: string
-  user: UserProfile | null
 }) {
+  const {loading, user} = useAuth()
   const [open, setOpen] = React.useState(false)
   useKeyup("Escape", () => setOpen(false))
   return (
@@ -33,11 +30,14 @@ export function CommentForm({
             className="w-full rounded-lg border border-orange-700 bg-white p-6 opacity-100 max-sm:fixed max-sm:bottom-0 max-sm:rounded-b-none max-sm:pb-10 sm:max-w-lg"
             open
           >
-            {user ? (
+            {loading ? (
+              <p>Authenticating...</p>
+            ) : user ? (
               <form
-                action={e => {
+                action={formData => {
                   setOpen(false)
-                  saveComment(e)
+                  formData.set("userId", user.uid)
+                  saveComment(formData)
                 }}
                 className="flex w-full flex-col items-center gap-4"
               >
@@ -69,29 +69,15 @@ export function CommentForm({
                   </button>
                 </div>
                 <div className="flex flex-wrap justify-center gap-2">
-                  <p>Commenting as {user.name}</p>
-                  <a
-                    className="underline"
-                    href="/api/auth/logout"
-                    onClick={() => setOpen(false)}
-                  >
-                    Log Out
-                  </a>
+                  <p>Commenting as {user.displayName}</p>
+                  <LogoutButton />
                 </div>
               </form>
             ) : (
               <div className="flex flex-col items-center gap-6">
                 <p>Please log in to add a comment</p>
                 <div className="flex items-center gap-6">
-                  <a
-                    className="text-lg uppercase text-orange-700"
-                    href={`/api/auth/login?returnTo=${encodeURIComponent(
-                      `/posts/${slug}`,
-                    )}`}
-                    onClick={() => setOpen(false)}
-                  >
-                    Login
-                  </a>
+                  <GoogleButton />
                 </div>
               </div>
             )}

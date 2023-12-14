@@ -1,13 +1,13 @@
-import {UserProfile} from "@auth0/nextjs-auth0/client"
 import admin from "firebase-admin"
-import {Subject} from "./types"
+import {UserRecord} from "firebase-admin/auth"
+import {Subject} from "../shared/types"
 
 if (admin.apps.length === 0) {
   admin.initializeApp({
     credential: admin.credential.cert({
       clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
       privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
-      projectId: process.env.FIREBASE_PROJECT_ID,
+      projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
     }),
   })
 }
@@ -38,5 +38,5 @@ type Comment = {
   slug: string
   subject: Subject
   text: string
-  user: UserProfile
+  user: Pick<UserRecord, "displayName" | "email" | "photoURL" | "uid">
 }
