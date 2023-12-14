@@ -19,7 +19,7 @@ export default async function Sitemap() {
       priority: 0.8,
       url: `${siteUrl}/${subject}`,
     })
-    const slugs = await loadSubjectSlugs({subject})
+    const slugs = await loadSubjectSlugs(subject)
     for (const slug of slugs) {
       sitemap.push({
         changeFrequency: "weekly",

@@ -11,7 +11,7 @@ import {CommentsApp} from "./components/CommentsApp"
 import {SuggestedArticles} from "./components/SuggestedArticles"
 
 export default async function ArticlePage({params: {slug}}: ArticleProps) {
-  const {article} = await loadArticle({slug})
+  const {article} = await loadArticle(slug)
   if (!article) {
     notFound()
   }
@@ -74,7 +74,7 @@ export default async function ArticlePage({params: {slug}}: ArticleProps) {
 }
 
 export async function generateMetadata({params: {slug}}: ArticleProps) {
-  const {article} = await loadArticle({slug})
+  const {article} = await loadArticle(slug)
   if (article) {
     const metadata: Metadata = {
       description: `An Article by Margaret Monis from her ${getSubjectText(
@@ -92,7 +92,7 @@ export async function generateMetadata({params: {slug}}: ArticleProps) {
 export async function generateStaticParams() {
   const params: Array<ArticleProps["params"]> = []
   for (const subject of subjects) {
-    const slugs = await loadSubjectSlugs({subject})
+    const slugs = await loadSubjectSlugs(subject)
     for (const slug of slugs) {
       params.push({slug})
     }

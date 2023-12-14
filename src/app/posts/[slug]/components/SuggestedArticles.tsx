@@ -1,5 +1,5 @@
 import {ArticleLink} from "@/components/links"
-import {loadSubjectSlugs, loadSuggestedArticles} from "@/shared/datocms"
+import {loadArticleList, loadSubjectSlugs} from "@/shared/datocms"
 import {getSubjectText} from "@/shared/functions"
 import {Subject} from "@/shared/types"
 
@@ -10,14 +10,14 @@ export async function SuggestedArticles({
   slug: string
   subject: Subject
 }) {
-  const allSlugs = await loadSubjectSlugs({subject})
+  const allSlugs = await loadSubjectSlugs(subject)
   const index = allSlugs.findIndex(s => s === slug)
   const slugs: Array<string> = []
   slugs.push(allSlugs[index - 1] ?? allSlugs.at(-1))
   slugs.push(allSlugs[index + 1] ?? allSlugs[0])
   const remainingSlugs = allSlugs.filter(s => ![slug, ...slugs].includes(s))
   slugs.push(remainingSlugs[Math.floor(Math.random() * remainingSlugs.length)])
-  const {allArticles} = await loadSuggestedArticles({slugs})
+  const {allArticles} = await loadArticleList(slugs)
   return (
     <div className="mt-40">
       <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">

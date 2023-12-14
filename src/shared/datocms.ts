@@ -1,6 +1,6 @@
 import {Article, Subject} from "./types"
 
-export function loadArticle({slug}: {slug: string}) {
+export function loadArticle(slug: string) {
   return makeDatoRequest<{article: Omit<Article, "blurb"> | null}>({
     query: `
       query GetArticle($slug: String!) {
@@ -18,6 +18,24 @@ export function loadArticle({slug}: {slug: string}) {
       }
     `,
     variables: {slug},
+  })
+}
+
+export function loadArticleList(slugs: Array<string>) {
+  return makeDatoRequest<{
+    allArticles: Array<Omit<Article, "text">>
+  }>({
+    query: `
+        query GetSuggestedArticles($slugs: [String]!) {
+          allArticles(
+            filter: {slug: {in: $slugs}}
+            orderBy: date_DESC
+          ) {
+            ${preview}
+          }
+        }
+      `,
+    variables: {slugs},
   })
 }
 
@@ -63,7 +81,7 @@ export function loadSubjectArticles({
   })
 }
 
-export async function loadSubjectSlugs({subject}: {subject: Subject}) {
+export async function loadSubjectSlugs(subject: Subject) {
   let page = 1
   const {
     allArticles,
@@ -102,8 +120,10 @@ function loadSubjectSlugsPage({
           ) {
             slug
           }
-          _allArticlesMeta(filter: {subject: {eq: $subject}}) {
-            count
+          ${
+            page === 1
+              ? "_allArticlesMeta(filter: {subject: {eq: $subject}}) {count}"
+              : ""
           }
         }
       `,
@@ -111,31 +131,15 @@ function loadSubjectSlugsPage({
   })
 }
 
-export function loadSuggestedArticles(variables: {slugs: Array<string>}) {
-  return makeDatoRequest<{
-    allArticles: Array<Omit<Article, "text">>
-  }>({
-    query: `
-        query GetSuggestedArticles($slugs: [String]!) {
-          allArticles(
-            filter: {slug: {in: $slugs}}
-            orderBy: date_DESC
-          ) {
-            ${preview}
-          }
-        }
-      `,
-    variables,
-  })
-}
-
 async function makeDatoRequest<T>({
   includeDrafts = process.env.NODE_ENV === "development",
   query,
+  revalidate = 3600,
   variables = {},
 }: {
   includeDrafts?: boolean
   query: string
+  revalidate?: number
   variables?: object
 }): Promise<T> {
   const response = await fetch("https://graphql.datocms.com/", {
@@ -145,9 +149,7 @@ async function makeDatoRequest<T>({
       ...(includeDrafts && {"X-Include-Drafts": "true"}),
     },
     method: "POST",
-    next: {
-      revalidate: 3600,
-    },
+    ...(revalidate && {next: {revalidate}}),
   })
   const responseBody = await response.json()
   if (!response.ok) {
