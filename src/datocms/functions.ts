@@ -5,15 +5,7 @@ export function loadArticle(slug: string) {
     query: `
       query GetArticle($slug: String!) {
         article(filter: {slug: {eq: $slug}}) {
-          date
-          image {
-            alt
-            url
-          }
-          slug
-          subject
-          text
-          title
+          ${getArticleQuery()}
         }
       }
     `,
@@ -31,7 +23,7 @@ export function loadArticleList(slugs: Array<string>) {
             filter: {slug: {in: $slugs}}
             orderBy: date_DESC
           ) {
-            ${preview}
+            ${getArticleQuery(true)}
           }
         }
       `,
@@ -44,7 +36,7 @@ export function loadRecentArticles() {
     query: `
       query GetRecentArticles {
         allArticles(first: 3, orderBy: date_DESC) {
-          ${preview}
+          ${getArticleQuery(true)}
         }
       }
     `,
@@ -70,7 +62,7 @@ export function loadSubjectArticles({
           orderBy: date_DESC
           ${page > 1 ? `skip: ${(page - 1) * 12}` : ""}
         ) {
-          ${preview}
+          ${getArticleQuery(true)}
         }
         _allArticlesMeta(filter: {subject: {eq: $subject}}) {
           count
@@ -158,14 +150,16 @@ async function makeDatoRequest<T>({
   return responseBody.data
 }
 
-const preview = `
-  blurb
-  date
-  image {
-    alt
-    url(imgixParams: {fit: crop, h: 200, w: 200})
-  }
-  slug
-  subject
-  title
-`
+function getArticleQuery(preview = false) {
+  return `
+    date
+    image {
+      alt
+      url${preview ? "(imgixParams: {fit: crop, h: 200, w: 200})" : ""}
+    }
+    slug
+    subject
+    title
+    ${preview ? "blurb" : "text"}
+  `
+}

@@ -11,13 +11,11 @@ export function GoogleButton() {
     <button
       className={`${font.className} flex w-full items-center justify-center rounded border border-slate-700 bg-gray-50 px-4 py-2 text-black enabled:hover:bg-gray-100`}
       disabled={submitting}
-      onClick={async () => {
+      onClick={() => {
         setSubmitting(true)
-        try {
-          await googleLogin()
-        } finally {
+        googleLogin().finally(() => {
           setSubmitting(false)
-        }
+        })
       }}
       type="button"
     >
@@ -28,7 +26,7 @@ export function GoogleButton() {
         src={"/google.svg"}
         width={24}
       />
-      Continue with Google
+      Sign in with Google
     </button>
   )
 }
@@ -39,13 +37,11 @@ export function LogoutButton() {
     <button
       className="underline"
       disabled={submitting}
-      onClick={async () => {
+      onClick={() => {
         setSubmitting(true)
-        try {
-          await logOut()
-        } finally {
+        logOut().finally(() => {
           setSubmitting(false)
-        }
+        })
       }}
       type="button"
     >

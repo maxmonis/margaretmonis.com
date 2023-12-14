@@ -37,7 +37,7 @@ export default async function ArticlePage({params: {slug}}: ArticleProps) {
   )
 }
 
-export function ArticleSection({text}: {text: string}) {
+function ArticleSection({text}: {text: string}) {
   if (!text.trim()) {
     return null
   }
