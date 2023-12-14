@@ -11,6 +11,7 @@ export function CommentForm({
 }) {
   const {loading, user} = useAuth()
   const [open, setOpen] = React.useState(false)
+  const [submitting, setSubmitting] = React.useState(false)
   useKeyup("Escape", () => setOpen(false))
   return (
     <>
@@ -21,7 +22,13 @@ export function CommentForm({
         Add New Comment
       </button>
       {open && (
-        <div className="fixed left-0 top-0 flex h-screen w-screen items-center justify-center overflow-hidden">
+        <div
+          className={
+            submitting
+              ? "hidden"
+              : "fixed left-0 top-0 flex h-screen w-screen items-center justify-center overflow-hidden"
+          }
+        >
           <div
             className="h-full w-full cursor-default bg-black opacity-50"
             onClick={() => setOpen(false)}
@@ -35,9 +42,11 @@ export function CommentForm({
             ) : user ? (
               <form
                 action={formData => {
-                  setOpen(false)
                   formData.set("userId", user.uid)
-                  saveComment(formData)
+                  saveComment(formData).finally(() => {
+                    setOpen(false)
+                    setSubmitting(false)
+                  })
                 }}
                 className="flex w-full flex-col items-center gap-4"
               >
@@ -56,6 +65,7 @@ export function CommentForm({
                 <div className="flex items-center gap-6">
                   <button
                     className="text-lg uppercase text-orange-700"
+                    onClick={() => setSubmitting(true)}
                     type="submit"
                   >
                     Save Comment
