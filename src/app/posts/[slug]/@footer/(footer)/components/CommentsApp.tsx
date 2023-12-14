@@ -17,8 +17,10 @@ export async function CommentsApp({
   subject: Subject
   title: string
 }) {
-  const commentList = await loadComments({slug})
-  const user = await getUser()
+  const [commentList, user]: [
+    Awaited<ReturnType<typeof loadComments>>,
+    Awaited<ReturnType<typeof getUser>>,
+  ] = await Promise.all([loadComments({slug}), getUser()])
   async function saveComment(formData: FormData) {
     "use server"
     const text = formData.get("comment")?.toString().trim()
