@@ -1,6 +1,5 @@
 "use client"
 
-import {TextLink} from "@/components/links"
 import {useKeyup} from "@/shared/hooks"
 import {UserProfile} from "@auth0/nextjs-auth0/client"
 import React from "react"
@@ -71,26 +70,28 @@ export function CommentForm({
                 </div>
                 <div className="flex flex-wrap justify-center gap-2">
                   <p>Commenting as {user.name}</p>
-                  <TextLink
+                  <a
                     className="underline"
                     href="/api/auth/logout"
                     onClick={() => setOpen(false)}
-                    text="Log Out"
-                  />
+                  >
+                    Log Out
+                  </a>
                 </div>
               </form>
             ) : (
               <div className="flex flex-col items-center gap-6">
                 <p>Please log in to add a comment</p>
                 <div className="flex items-center gap-6">
-                  <TextLink
+                  <a
+                    className="text-lg uppercase text-orange-700"
                     href={`/api/auth/login?returnTo=${encodeURIComponent(
                       `/posts/${slug}`,
                     )}`}
                     onClick={() => setOpen(false)}
-                    text="Log In"
-                    variant="filled"
-                  />
+                  >
+                    Login
+                  </a>
                 </div>
               </div>
             )}
