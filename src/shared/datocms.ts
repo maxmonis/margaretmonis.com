@@ -82,12 +82,12 @@ export function loadSubjectArticles({
 }
 
 export async function loadSubjectSlugs(subject: Subject) {
-  let page = 1
   const {
     allArticles,
     _allArticlesMeta: {count},
-  } = await loadSubjectSlugsPage({page, subject})
+  } = await loadSubjectSlugsPage({page: 1, subject})
   let slugs = allArticles.map(({slug}) => slug)
+  let page = 1
   while (page * 100 < count) {
     page++
     const {allArticles: newArticles} = await loadSubjectSlugsPage({
@@ -99,17 +99,15 @@ export async function loadSubjectSlugs(subject: Subject) {
   return slugs
 }
 
-function loadSubjectSlugsPage({
-  page,
-  subject,
-}: {
-  page: number
-  subject: Subject
-}) {
-  return makeDatoRequest<{
-    allArticles: Array<Pick<Article, "slug">>
-    _allArticlesMeta: {count: number}
-  }>({
+function loadSubjectSlugsPage<
+  Page extends number,
+  Meta extends Page extends 1 ? {_allArticlesMeta: {count: number}} : {},
+>({page, subject}: {page: Page; subject: Subject}) {
+  return makeDatoRequest<
+    {
+      allArticles: Array<Pick<Article, "slug">>
+    } & Meta
+  >({
     query: `
         query GetSubjectArticles($subject: String!) {
           allArticles(
