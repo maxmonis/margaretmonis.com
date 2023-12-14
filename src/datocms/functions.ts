@@ -1,4 +1,4 @@
-import {Article, Subject} from "./types"
+import {Article, Subject} from "../shared/types"
 
 export function loadArticle(slug: string) {
   return makeDatoRequest<{article: Omit<Article, "blurb"> | null}>({
@@ -132,12 +132,10 @@ function loadSubjectSlugsPage<
 async function makeDatoRequest<T>({
   includeDrafts = process.env.NODE_ENV === "development",
   query,
-  revalidate = 3600,
   variables = {},
 }: {
   includeDrafts?: boolean
   query: string
-  revalidate?: number
   variables?: object
 }): Promise<T> {
   const response = await fetch("https://graphql.datocms.com/", {
@@ -147,7 +145,7 @@ async function makeDatoRequest<T>({
       ...(includeDrafts && {"X-Include-Drafts": "true"}),
     },
     method: "POST",
-    ...(revalidate && {next: {revalidate}}),
+    next: {revalidate: 60 * 60 * 24},
   })
   const responseBody = await response.json()
   if (!response.ok) {

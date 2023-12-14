@@ -1,4 +1,4 @@
-import {loadArticle} from "@/shared/datocms"
+import {loadArticle} from "@/datocms/functions"
 import {getDateText} from "@/shared/functions"
 import {ArticleProps} from "@/shared/types"
 import Image from "next/image"

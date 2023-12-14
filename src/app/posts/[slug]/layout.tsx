@@ -1,5 +1,5 @@
+import {loadArticle, loadSubjectSlugs} from "@/datocms/functions"
 import {subjects} from "@/shared/constants"
-import {loadArticle, loadSubjectSlugs} from "@/shared/datocms"
 import {getSubjectText} from "@/shared/functions"
 import {ArticleProps} from "@/shared/types"
 import {Metadata} from "next"
