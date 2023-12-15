@@ -4,9 +4,7 @@ export function loadArticle(slug: string) {
   return makeDatoRequest<{article: Omit<Article, "blurb"> | null}>({
     query: `
       query GetArticle($slug: String!) {
-        article(filter: {slug: {eq: $slug}}) {
-          ${getArticleQuery()}
-        }
+        article(filter: {slug: {eq: $slug}}) ${getFields()}
       }
     `,
     variables: {slug},
@@ -14,17 +12,13 @@ export function loadArticle(slug: string) {
 }
 
 export function loadArticleList(slugs: Array<string>) {
-  return makeDatoRequest<{
-    allArticles: Array<Omit<Article, "text">>
-  }>({
+  return makeDatoRequest<{allArticles: Array<Omit<Article, "text">>}>({
     query: `
         query GetSuggestedArticles($slugs: [String]!) {
           allArticles(
             filter: {slug: {in: $slugs}}
             orderBy: date_DESC
-          ) {
-            ${getArticleQuery(true)}
-          }
+          ) ${getFields(true)}
         }
       `,
     variables: {slugs},
@@ -35,9 +29,7 @@ export function loadRecentArticles() {
   return makeDatoRequest<{allArticles: Array<Omit<Article, "text">>}>({
     query: `
       query GetRecentArticles {
-        allArticles(first: 3, orderBy: date_DESC) {
-          ${getArticleQuery(true)}
-        }
+        allArticles(first: 3, orderBy: date_DESC) ${getFields(true)}
       }
     `,
   })
@@ -61,12 +53,8 @@ export function loadSubjectArticles({
           first: 12
           orderBy: date_DESC
           ${page > 1 ? `skip: ${(page - 1) * 12}` : ""}
-        ) {
-          ${getArticleQuery(true)}
-        }
-        _allArticlesMeta(filter: {subject: {eq: $subject}}) {
-          count
-        }
+        ) ${getFields(true)}
+        _allArticlesMeta(filter: {subject: {eq: $subject}}) {count}
       }
     `,
     variables: {subject},
@@ -107,9 +95,7 @@ function loadSubjectSlugsPage<
             first: 100
             orderBy: date_DESC
             ${page > 1 ? `skip: ${(page - 1) * 100}` : ""}
-          ) {
-            slug
-          }
+          ) {slug}
           ${
             page === 1
               ? "_allArticlesMeta(filter: {subject: {eq: $subject}}) {count}"
@@ -150,8 +136,8 @@ async function makeDatoRequest<T>({
   return responseBody.data
 }
 
-function getArticleQuery(preview = false) {
-  return `
+function getFields(preview = false) {
+  return `{
     date
     image {
       alt
@@ -161,5 +147,5 @@ function getArticleQuery(preview = false) {
     subject
     title
     ${preview ? "blurb" : "text"}
-  `
+  }`
 }
