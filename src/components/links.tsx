@@ -72,7 +72,7 @@ export function SubjectLinks({priority}: {priority?: boolean}) {
       {subjects.map(subject => (
         <CardLink
           alt={imageAlt[subject]}
-          href={`/${subject}`}
+          href={`/${subject}/1`}
           key={subject}
           src={`/${subject}.jpg`}
           title={getSubjectText(subject)}

@@ -1,22 +1,24 @@
 import {ArticleLink, TextLink} from "@/components/links"
-import {loadSubjectArticles} from "@/datocms/queries"
+import {loadSubjectArticleCount, loadSubjectArticles} from "@/datocms/queries"
 import {subjects} from "@/shared/constants"
 import {getSubjectText, isSubject} from "@/shared/functions"
 import {Metadata} from "next"
 import {notFound} from "next/navigation"
 
 export default async function SubjectPage({
-  params: {subject},
-  searchParams,
+  params: {subject, ...params},
 }: SubjectProps) {
-  if (!isSubject(subject)) {
+  const page = parseInt(params.page)
+  if (!page || !isSubject(subject)) {
     notFound()
   }
-  const page = Number(searchParams.page) || 1
   const {
     allArticles,
     _allArticlesMeta: {count},
   } = await loadSubjectArticles({page, subject})
+  if (allArticles.length === 0) {
+    notFound()
+  }
   return (
     <main className="flex h-full w-full flex-col items-center px-4 text-center sm:px-6">
       <h1 className="mb-20 text-2xl font-bold sm:text-3xl">
@@ -32,7 +34,7 @@ export default async function SubjectPage({
           {page > 1 && (
             <TextLink
               className="text-3xl"
-              href={`/${subject}${page === 2 ? "" : `?page=${page - 1}`}`}
+              href={`/${subject}/${page - 1}`}
               text="<"
             />
           )}
@@ -40,7 +42,7 @@ export default async function SubjectPage({
           {page * 12 < count && (
             <TextLink
               className="text-3xl"
-              href={`/${subject}?page=${page + 1}`}
+              href={`/${subject}/${page + 1}`}
               text=">"
             />
           )}
@@ -51,29 +53,36 @@ export default async function SubjectPage({
 }
 
 export async function generateMetadata({
-  params: {subject},
-  searchParams,
+  params: {subject, ...params},
 }: SubjectProps) {
-  if (isSubject(subject)) {
-    const page = Number(searchParams.page) || 1
+  const page = parseInt(params.page)
+  if (page && isSubject(subject)) {
     const {allArticles} = await loadSubjectArticles({page, subject})
-    const title = getSubjectText(subject)
-    const metadata: Metadata = {
-      description: `${title} - Articles by Margaret Monis`,
-      openGraph: {
-        images: [allArticles[0].image],
-      },
-      title,
+    if (allArticles.length) {
+      const title = getSubjectText(subject)
+      const metadata: Metadata = {
+        description: `${title} - Articles by Margaret Monis`,
+        openGraph: {
+          images: [allArticles[0].image],
+        },
+        title,
+      }
+      return metadata
     }
-    return metadata
   }
 }
 
-export function generateStaticParams(): Array<SubjectProps["params"]> {
-  return subjects.map(subject => ({subject}))
+export async function generateStaticParams() {
+  const params: Array<SubjectProps["params"]> = []
+  for (const subject of subjects) {
+    const count = await loadSubjectArticleCount(subject)
+    let page = 0
+    while (page * 12 < count) {
+      page++
+      params.push({page: page.toString(), subject})
+    }
+  }
+  return params
 }
 
-type SubjectProps = {
-  params: {subject: string}
-  searchParams: {page?: string}
-}
+type SubjectProps = {params: {page: string; subject: string}}

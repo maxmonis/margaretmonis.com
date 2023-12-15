@@ -1,4 +1,4 @@
-import {loadSubjectSlugs} from "@/datocms/queries"
+import {loadSubjectArticleCount, loadSubjectSlugs} from "@/datocms/queries"
 import {siteUrl, subjects} from "@/shared/constants"
 import {MetadataRoute} from "next"
 
@@ -13,12 +13,19 @@ export default async function Sitemap() {
     },
   ]
   for (const subject of subjects) {
-    sitemap.push({
-      changeFrequency: "monthly",
-      lastModified,
-      priority: 0.8,
-      url: `${siteUrl}/${subject}`,
-    })
+    const count = await loadSubjectArticleCount(subject)
+    let page = 0
+    while (page * 12 < count) {
+      page++
+      sitemap.push({
+        changeFrequency: "monthly",
+        lastModified,
+        priority: 0.8,
+        url: `${siteUrl}/${subject}/${page}`,
+      })
+    }
+  }
+  for (const subject of subjects) {
     const slugs = await loadSubjectSlugs(subject)
     for (const slug of slugs) {
       sitemap.push({
