@@ -40,3 +40,5 @@ export default async function ArticleFooterPage({
     </>
   )
 }
+
+export const dynamic = "force-dynamic"

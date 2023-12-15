@@ -1,56 +1,36 @@
-import {loadArticle} from "@/datocms/queries"
-import {getDateText} from "@/shared/functions"
+import {loadArticle, loadSubjectSlugs} from "@/datocms/queries"
+import {subjects} from "@/shared/constants"
+import {getSubjectText} from "@/shared/functions"
 import {ArticleProps} from "@/shared/types"
-import Image from "next/image"
-import {notFound} from "next/navigation"
+import {Metadata} from "next"
 
-export default async function ArticlePage({params: {slug}}: ArticleProps) {
-  const {article} = await loadArticle(slug)
-  if (!article) {
-    notFound()
-  }
-  return (
-    <div className="flex max-w-xl flex-col items-center">
-      <h1 className="mb-10 text-center text-2xl font-bold sm:text-3xl">
-        {article.title}
-      </h1>
-      <Image
-        alt={article.image.alt}
-        className="max-h-96 w-full max-w-sm object-contain"
-        height={384}
-        priority
-        src={article.image.url}
-        width={384}
-      />
-      <h2 className="my-10 text-center text-lg">
-        {getDateText({date: article.date, monthFormat: "long"})}
-      </h2>
-      <div className="flex flex-col gap-4">
-        {article.text.split(/\r|\n/).map((text, i) => (
-          <ArticleSection key={i} {...{text}} />
-        ))}
-      </div>
-    </div>
-  )
+export default function Page() {
+  return <></>
 }
 
-function ArticleSection({text}: {text: string}) {
-  if (!text.trim()) {
-    return null
+export async function generateMetadata({params: {slug}}: ArticleProps) {
+  const {article} = await loadArticle(slug)
+  if (article) {
+    const metadata: Metadata = {
+      description: `An Article by Margaret Monis from her ${getSubjectText(
+        article.subject,
+      )} series`,
+      openGraph: {
+        images: [article.image],
+      },
+      title: article.title,
+    }
+    return metadata
   }
-  const [, alt, src] = text.match(/\!\[(.*?)\]\((.*?)\)/) ?? []
-  return src ? (
-    <Image
-      className="mx-auto my-4 max-h-80 w-full max-w-xs object-contain"
-      height={320}
-      width={320}
-      {...{alt, src}}
-    />
-  ) : (
-    <p
-      dangerouslySetInnerHTML={{
-        __html: text.replace(/\*(.*?)\*/g, "<em>$1</em>"),
-      }}
-    />
-  )
+}
+
+export async function generateStaticParams() {
+  const params: Array<ArticleProps["params"]> = []
+  for (const subject of subjects) {
+    const slugs = await loadSubjectSlugs(subject)
+    for (const slug of slugs) {
+      params.push({slug})
+    }
+  }
+  return params
 }

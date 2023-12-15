@@ -3,6 +3,7 @@ import {addComment, loadComments} from "@/firebase/admin"
 import {siteUrl} from "@/shared/constants"
 import {Subject} from "@/shared/types"
 import {getAuth} from "firebase-admin/auth"
+import {revalidatePath} from "next/cache"
 import Image from "next/image"
 import {redirect} from "next/navigation"
 import {CommentForm} from "./CommentForm"
@@ -46,6 +47,7 @@ export async function CommentsApp({
               : "mmonis77@gmail.com",
         })
       } finally {
+        revalidatePath(`/posts/${slug}`)
         redirect(`/posts/${slug}`)
       }
     }
