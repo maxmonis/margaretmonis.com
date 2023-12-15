@@ -14,22 +14,20 @@ if (admin.apps.length === 0) {
 
 const comments = admin.firestore().collection("comments")
 
-export function addComment(comment: Omit<Comment, "date" | "id">) {
+export function addComment(comment: Omit<Comment, "date" | "id" | "time">) {
   const date = new Date()
   const year = date.getFullYear()
   const month = (date.getMonth() + 1).toString().padStart(2, "0")
   const day = date.getDate().toString().padStart(2, "0")
-  return comments.add({...comment, date: `${year}-${month}-${day}`})
+  const time = date.getTime()
+  return comments.add({...comment, date: `${year}-${month}-${day}`, time})
 }
 
 export async function loadComments({slug}: {slug: string}) {
   const {docs} = await comments.where("slug", "==", slug).get()
   return docs
     .map(doc => ({...doc.data(), id: doc.id}) as Comment)
-    .sort(
-      (a, b) =>
-        Number(b.date.replace(/-/g, "")) - Number(a.date.replace(/-/g, "")),
-    )
+    .sort((a, b) => b.time - a.time)
 }
 
 type Comment = {
@@ -38,5 +36,6 @@ type Comment = {
   slug: string
   subject: Subject
   text: string
+  time: number
   user: Pick<UserRecord, "displayName" | "email" | "photoURL" | "uid">
 }
