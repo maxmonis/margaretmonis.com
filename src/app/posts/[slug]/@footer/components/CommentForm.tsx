@@ -15,13 +15,23 @@ export function CommentForm({
   useKeyup("Escape", () => setOpen(false))
   return (
     <>
-      <button
-        className="text-lg uppercase text-orange-700"
-        disabled={submitting}
-        onClick={() => setOpen(true)}
-      >
-        Add New Comment
-      </button>
+      {submitting ? (
+        <div className="flex items-center gap-3">
+          <span
+            aria-busy="true"
+            className="h-5 w-5 animate-spin rounded-full border-4 border-blue-950 border-r-transparent"
+            role="alert"
+          />
+          <p className="text-small">saving comment...</p>
+        </div>
+      ) : (
+        <button
+          className="text-lg uppercase text-orange-700"
+          onClick={() => setOpen(true)}
+        >
+          Add New Comment
+        </button>
+      )}
       {open && (
         <div
           className={
