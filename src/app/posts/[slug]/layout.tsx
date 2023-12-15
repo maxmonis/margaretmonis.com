@@ -1,4 +1,4 @@
-import {loadArticle, loadSubjectSlugs} from "@/datocms/functions"
+import {loadArticle, loadSubjectSlugs} from "@/datocms/queries"
 import {subjects} from "@/shared/constants"
 import {getSubjectText} from "@/shared/functions"
 import {ArticleProps} from "@/shared/types"

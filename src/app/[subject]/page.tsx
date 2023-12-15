@@ -1,5 +1,5 @@
 import {ArticleLink, TextLink} from "@/components/links"
-import {loadSubjectArticles} from "@/datocms/functions"
+import {loadSubjectArticles} from "@/datocms/queries"
 import {subjects} from "@/shared/constants"
 import {getSubjectText, isSubject} from "@/shared/functions"
 import {Metadata} from "next"

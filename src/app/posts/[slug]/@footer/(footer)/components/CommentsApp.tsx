@@ -1,4 +1,4 @@
-import {addComment, loadComments} from "@/firebase/server"
+import {addComment, loadComments} from "@/firebase/admin"
 import {siteUrl} from "@/shared/constants"
 import {getDateText} from "@/shared/functions"
 import {Subject} from "@/shared/types"

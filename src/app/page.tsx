@@ -1,5 +1,5 @@
 import {ArticleLink, SubjectLinks} from "@/components/links"
-import {loadRecentArticles} from "@/datocms/functions"
+import {loadRecentArticles} from "@/datocms/queries"
 
 export default async function HomePage() {
   const {allArticles} = await loadRecentArticles()

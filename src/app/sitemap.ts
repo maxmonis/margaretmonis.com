@@ -1,4 +1,4 @@
-import {loadSubjectSlugs} from "@/datocms/functions"
+import {loadSubjectSlugs} from "@/datocms/queries"
 import {siteUrl, subjects} from "@/shared/constants"
 import {MetadataRoute} from "next"
 

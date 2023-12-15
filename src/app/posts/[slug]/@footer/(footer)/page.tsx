@@ -1,5 +1,5 @@
 import {SubjectLinks, TextLink} from "@/components/links"
-import {loadArticle} from "@/datocms/functions"
+import {loadArticle} from "@/datocms/queries"
 import {getSubjectText} from "@/shared/functions"
 import {ArticleProps} from "@/shared/types"
 import {notFound} from "next/navigation"

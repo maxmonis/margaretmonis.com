@@ -1,5 +1,5 @@
 "use client"
-import {auth} from "@/firebase/client"
+import {auth} from "@/firebase/auth"
 import {onAuthStateChanged, User} from "firebase/auth"
 import React from "react"
 
