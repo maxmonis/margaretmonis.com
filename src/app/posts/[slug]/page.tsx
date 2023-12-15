@@ -1,5 +1,4 @@
-import {loadArticle, loadSubjectSlugs} from "@/datocms/queries"
-import {subjects} from "@/shared/constants"
+import {loadAllSlugs, loadArticle} from "@/datocms/queries"
 import {getSubjectText} from "@/shared/functions"
 import {ArticleProps} from "@/shared/types"
 import {Metadata} from "next"
@@ -25,12 +24,6 @@ export async function generateMetadata({params: {slug}}: ArticleProps) {
 }
 
 export async function generateStaticParams() {
-  const params: Array<ArticleProps["params"]> = []
-  for (const subject of subjects) {
-    const slugs = await loadSubjectSlugs(subject)
-    for (const slug of slugs) {
-      params.push({slug})
-    }
-  }
-  return params
+  const slugs = await loadAllSlugs()
+  return slugs.map<ArticleProps["params"]>(slug => ({slug}))
 }

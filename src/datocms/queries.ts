@@ -25,6 +25,42 @@ export function loadArticleList(slugs: Array<string>) {
   })
 }
 
+export async function loadAllSlugs() {
+  const {
+    allArticles,
+    _allArticlesMeta: {count},
+  } = await loadSlugsPage(1)
+  let slugs = allArticles.map(({slug}) => slug)
+  let page = 1
+  while (page * 100 < count) {
+    page++
+    const {allArticles: newArticles} = await loadSlugsPage(page)
+    slugs = [...slugs, ...newArticles.map(({slug}) => slug)]
+  }
+  return slugs
+}
+
+function loadSlugsPage<
+  Page extends number,
+  Meta extends Page extends 1 ? {_allArticlesMeta: {count: number}} : {},
+>(page: Page) {
+  return makeDatoRequest<
+    {
+      allArticles: Array<Pick<Article, "slug">>
+    } & Meta
+  >({
+    query: `
+      query GetAllSlugs {
+        allArticles(
+          first: 100
+          ${page > 1 ? `skip: ${(page - 1) * 100}` : ""}
+        ) {slug}
+        ${page === 1 ? "_allArticlesMeta {count}" : ""}
+      }
+    `,
+  })
+}
+
 export function loadRecentArticles() {
   return makeDatoRequest<{allArticles: Array<Omit<Article, "text">>}>({
     query: `
