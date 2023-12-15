@@ -57,7 +57,7 @@ export async function CommentsApp({
       ) : (
         <ul className="w-full divide-y divide-orange-700 rounded-lg border border-orange-700 bg-white">
           {commentList.map(
-            ({date, id, text, user: {displayName = "Anonymous", photoURL}}) => (
+            ({id, text, time, user: {displayName = "Anonymous", photoURL}}) => (
               <li className="flex flex-col gap-2 p-4" key={id}>
                 <span>{text}</span>
                 <span className="flex items-center justify-end gap-2 text-right">
@@ -70,7 +70,7 @@ export async function CommentsApp({
                       width={24}
                     />
                   )}
-                  {displayName} - {getDateText(date, "short")}
+                  {displayName} - {getDateText(time, "short")}
                 </span>
               </li>
             ),

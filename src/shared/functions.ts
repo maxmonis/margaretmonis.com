@@ -1,8 +1,21 @@
 import {subjects} from "./constants"
 import {Subject} from "./types"
 
-export function getDateText(date: string, monthFormat: "long" | "short") {
-  return new Date(date.replace(/-/g, "/")).toLocaleDateString(undefined, {
+export function getDateText(
+  value: number | string,
+  monthFormat: "long" | "short",
+) {
+  let dateString = ""
+  if (typeof value === "number") {
+    const date = new Date(value)
+    const year = date.getFullYear()
+    const month = (date.getMonth() + 1).toString().padStart(2, "0")
+    const day = date.getDate().toString().padStart(2, "0")
+    dateString = `${year}/${month}/${day}`
+  } else {
+    dateString = value.replace(/-/g, "/")
+  }
+  return new Date(dateString).toLocaleDateString(undefined, {
     day: "numeric",
     month: monthFormat,
     year: "numeric",
