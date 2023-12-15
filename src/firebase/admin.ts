@@ -14,7 +14,7 @@ if (admin.apps.length === 0) {
 
 const comments = admin.firestore().collection("comments")
 
-export function addComment(comment: Omit<Comment, "date" | "id" | "time">) {
+export function addComment(comment: Omit<Comment, "id" | "time">) {
   return comments.add({...comment, time: new Date().getTime()})
 }
 

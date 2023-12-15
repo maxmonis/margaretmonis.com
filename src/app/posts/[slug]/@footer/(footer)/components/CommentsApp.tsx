@@ -1,6 +1,6 @@
+import {DateText} from "@/components/ui"
 import {addComment, loadComments} from "@/firebase/admin"
 import {siteUrl} from "@/shared/constants"
-import {getDateText} from "@/shared/functions"
 import {Subject} from "@/shared/types"
 import {getAuth} from "firebase-admin/auth"
 import Image from "next/image"
@@ -70,7 +70,7 @@ export async function CommentsApp({
                       width={24}
                     />
                   )}
-                  {displayName} - {getDateText(time, "short")}
+                  {displayName} - <DateText date={time} monthFormat="short" />
                 </span>
               </li>
             ),
