@@ -18,7 +18,7 @@ export function addComment(comment: Omit<Comment, "id" | "time">) {
   return comments.add({...comment, time: new Date().getTime()})
 }
 
-export async function loadComments({slug}: {slug: string}) {
+export async function loadComments(slug: string) {
   const {docs} = await comments.where("slug", "==", slug).get()
   return docs
     .map(doc => ({...doc.data(), id: doc.id}) as Comment)

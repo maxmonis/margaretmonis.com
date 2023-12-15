@@ -6,7 +6,7 @@ export default async function Sitemap() {
   const lastModified = new Date()
   const sitemap: MetadataRoute.Sitemap = [
     {
-      changeFrequency: "yearly",
+      changeFrequency: "weekly",
       lastModified,
       priority: 1,
       url: siteUrl,
@@ -18,7 +18,7 @@ export default async function Sitemap() {
     while (page * 12 < count) {
       page++
       sitemap.push({
-        changeFrequency: "monthly",
+        changeFrequency: "weekly",
         lastModified,
         priority: 0.8,
         url: `${siteUrl}/${subject}/${page}`,
@@ -28,7 +28,7 @@ export default async function Sitemap() {
   const slugs = await loadAllSlugs()
   for (const slug of slugs) {
     sitemap.push({
-      changeFrequency: "weekly",
+      changeFrequency: "monthly",
       lastModified,
       priority: 0.5,
       url: `${siteUrl}/posts/${slug}`,

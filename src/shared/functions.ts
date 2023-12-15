@@ -3,10 +3,10 @@ import {Subject} from "./types"
 
 export function getDateText({
   date,
-  monthFormat,
+  month,
 }: {
   date: number | string
-  monthFormat: "long" | "short"
+  month: "long" | "short"
 }) {
   let dateString = ""
   if (typeof date === "number") {
@@ -20,7 +20,7 @@ export function getDateText({
   }
   return new Date(dateString).toLocaleDateString(undefined, {
     day: "numeric",
-    month: monthFormat,
+    month,
     year: "numeric",
   })
 }

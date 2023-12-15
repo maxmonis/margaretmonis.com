@@ -14,13 +14,13 @@ export function loadArticle(slug: string) {
 export function loadArticleList(slugs: Array<string>) {
   return makeDatoRequest<{allArticles: Array<Omit<Article, "text">>}>({
     query: `
-        query GetSuggestedArticles($slugs: [String]!) {
-          allArticles(
-            filter: {slug: {in: $slugs}}
-            orderBy: date_DESC
-          ) ${getFields(true)}
-        }
-      `,
+      query GetArticleList($slugs: [String]!) {
+        allArticles(
+          filter: {slug: {in: $slugs}}
+          orderBy: date_DESC
+        ) ${getFields(true)}
+      }
+    `,
     variables: {slugs},
   })
 }
@@ -30,12 +30,14 @@ export async function loadAllSlugs() {
     allArticles,
     _allArticlesMeta: {count},
   } = await loadSlugsPage(1)
-  let slugs = allArticles.map(({slug}) => slug)
+  const slugs = allArticles.map(a => a.slug)
   let page = 1
   while (page * 100 < count) {
     page++
     const {allArticles: newArticles} = await loadSlugsPage(page)
-    slugs = [...slugs, ...newArticles.map(({slug}) => slug)]
+    for (const {slug} of newArticles) {
+      slugs.push(slug)
+    }
   }
   return slugs
 }
@@ -116,7 +118,7 @@ export async function loadSubjectSlugs(subject: Subject) {
     allArticles,
     _allArticlesMeta: {count},
   } = await loadSubjectSlugsPage({page: 1, subject})
-  let slugs = allArticles.map(({slug}) => slug)
+  const slugs = allArticles.map(a => a.slug)
   let page = 1
   while (page * 100 < count) {
     page++
@@ -124,7 +126,9 @@ export async function loadSubjectSlugs(subject: Subject) {
       page,
       subject,
     })
-    slugs = [...slugs, ...newArticles.map(({slug}) => slug)]
+    for (const {slug} of newArticles) {
+      slugs.push(slug)
+    }
   }
   return slugs
 }
@@ -139,20 +143,20 @@ function loadSubjectSlugsPage<
     } & Meta
   >({
     query: `
-        query GetSubjectArticles($subject: String!) {
-          allArticles(
-            filter: {subject: {eq: $subject}}
-            first: 100
-            orderBy: date_DESC
-            ${page > 1 ? `skip: ${(page - 1) * 100}` : ""}
-          ) {slug}
-          ${
-            page === 1
-              ? "_allArticlesMeta(filter: {subject: {eq: $subject}}) {count}"
-              : ""
-          }
+      query GetSubjectSlugs($subject: String!) {
+        allArticles(
+          filter: {subject: {eq: $subject}}
+          first: 100
+          orderBy: date_DESC
+          ${page > 1 ? `skip: ${(page - 1) * 100}` : ""}
+        ) {slug}
+        ${
+          page === 1
+            ? "_allArticlesMeta(filter: {subject: {eq: $subject}}) {count}"
+            : ""
         }
-      `,
+      }
+    `,
     variables: {subject},
   })
 }

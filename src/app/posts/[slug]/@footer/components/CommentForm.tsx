@@ -1,5 +1,5 @@
 "use client"
-import {GoogleButton, LogoutButton} from "@/components/buttons"
+import {GoogleButton, LogoutButton} from "@/components/auth"
 import {useAuth} from "@/context/AuthContext"
 import {useKeyup} from "@/shared/hooks"
 import React from "react"
@@ -17,6 +17,7 @@ export function CommentForm({
     <>
       <button
         className="text-lg uppercase text-orange-700"
+        disabled={submitting}
         onClick={() => setOpen(true)}
       >
         Add New Comment
@@ -30,7 +31,7 @@ export function CommentForm({
           }
         >
           <div
-            className="h-full w-full cursor-default bg-black opacity-50"
+            className="h-full w-full bg-black opacity-50"
             onClick={() => setOpen(false)}
           />
           <dialog

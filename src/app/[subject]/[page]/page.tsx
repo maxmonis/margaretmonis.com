@@ -30,7 +30,7 @@ export default async function SubjectPage({
         ))}
       </div>
       {count > 12 && (
-        <div className="mt-10 flex items-center gap-4 text-xl font-bold">
+        <div className="mt-12 flex items-center gap-4 text-xl font-bold">
           {page > 1 && (
             <TextLink
               className="text-3xl"

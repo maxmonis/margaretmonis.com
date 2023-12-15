@@ -1,3 +1,4 @@
+"use client"
 import {googleLogin, logOut} from "@/firebase/auth"
 import {Roboto} from "next/font/google"
 import Image from "next/image"

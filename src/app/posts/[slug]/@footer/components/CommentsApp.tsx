@@ -1,4 +1,4 @@
-import {DateText} from "@/components/ui"
+import {DateText} from "@/components/client"
 import {addComment, loadComments} from "@/firebase/admin"
 import {siteUrl} from "@/shared/constants"
 import {Subject} from "@/shared/types"
@@ -17,7 +17,7 @@ export async function CommentsApp({
   subject: Subject
   title: string
 }) {
-  const commentList = await loadComments({slug})
+  const commentList = await loadComments(slug)
   async function saveComment(formData: FormData) {
     "use server"
     const id = formData.get("userId")?.toString() ?? ""
@@ -60,9 +60,9 @@ export async function CommentsApp({
         <ul className="w-full divide-y divide-orange-700 rounded-lg border border-orange-700 bg-white">
           {commentList.map(
             ({id, text, time, user: {displayName = "Anonymous", photoURL}}) => (
-              <li className="flex flex-col gap-2 p-4" key={id}>
+              <li className="flex flex-col gap-3 p-4" key={id}>
                 <span>{text}</span>
-                <span className="flex items-center justify-end gap-2 text-right">
+                <span className="flex items-center justify-end gap-2 text-right text-sm">
                   {photoURL && (
                     <Image
                       alt={`Profile picture of ${displayName}`}
@@ -72,7 +72,7 @@ export async function CommentsApp({
                       width={24}
                     />
                   )}
-                  {displayName} - <DateText date={time} monthFormat="short" />
+                  {displayName} - <DateText date={time} month="short" />
                 </span>
               </li>
             ),
