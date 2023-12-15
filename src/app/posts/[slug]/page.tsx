@@ -9,27 +9,24 @@ export default async function ArticlePage({params: {slug}}: ArticleProps) {
   if (!article) {
     notFound()
   }
-  const {
-    date,
-    image: {alt, url: src},
-    text,
-    title,
-  } = article
   return (
     <div className="flex max-w-xl flex-col items-center">
       <h1 className="mb-10 text-center text-2xl font-bold sm:text-3xl">
-        {title}
+        {article.title}
       </h1>
       <Image
+        alt={article.image.alt}
         className="max-h-96 w-full max-w-sm object-contain"
         height={384}
         priority
+        src={article.image.url}
         width={384}
-        {...{alt, src}}
       />
-      <h2 className="my-10 text-center text-lg">{getDateText(date, "long")}</h2>
+      <h2 className="my-10 text-center text-lg">
+        {getDateText(article.date, "long")}
+      </h2>
       <div className="flex flex-col gap-4">
-        {text.split(/\r|\n/).map((text, i) => (
+        {article.text.split(/\r|\n/).map((text, i) => (
           <ArticleSection key={i} {...{text}} />
         ))}
       </div>

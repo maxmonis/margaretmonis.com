@@ -7,8 +7,6 @@ import Image from "next/image"
 import {redirect} from "next/navigation"
 import {CommentForm} from "./CommentForm"
 
-const nodemailer = require("nodemailer")
-
 export async function CommentsApp({
   slug,
   subject,
@@ -55,26 +53,28 @@ export async function CommentsApp({
   return (
     <>
       {commentList.length === 0 ? (
-        <p>No comments yet...</p>
+        <p>No comments yet</p>
       ) : (
         <ul className="w-full divide-y divide-orange-700 rounded-lg border border-orange-700 bg-white">
-          {commentList.map(({date, id, text, user}) => (
-            <li className="flex flex-col gap-2 p-4" key={id}>
-              <span>{text}</span>
-              <span className="flex items-center justify-end gap-2 text-right">
-                {user.photoURL && user.displayName && (
-                  <Image
-                    alt={user.displayName}
-                    className="h-6 w-6 rounded-full"
-                    height={24}
-                    src={user.photoURL}
-                    width={24}
-                  />
-                )}
-                {user.displayName} - {getDateText(date, "short")}
-              </span>
-            </li>
-          ))}
+          {commentList.map(
+            ({date, id, text, user: {displayName = "Anonymous", photoURL}}) => (
+              <li className="flex flex-col gap-2 p-4" key={id}>
+                <span>{text}</span>
+                <span className="flex items-center justify-end gap-2 text-right">
+                  {photoURL && (
+                    <Image
+                      alt={`Profile picture of ${displayName}`}
+                      className="h-6 w-6 rounded-full"
+                      height={24}
+                      src={photoURL}
+                      width={24}
+                    />
+                  )}
+                  {displayName} - {getDateText(date, "short")}
+                </span>
+              </li>
+            ),
+          )}
         </ul>
       )}
       <CommentForm {...{saveComment}} />
@@ -82,6 +82,7 @@ export async function CommentsApp({
   )
 }
 
+const nodemailer = require("nodemailer")
 const transporter = nodemailer.createTransport({
   auth: {
     user: process.env.NODEMAILER_EMAIL,

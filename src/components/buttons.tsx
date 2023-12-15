@@ -3,8 +3,6 @@ import {Roboto} from "next/font/google"
 import Image from "next/image"
 import React from "react"
 
-const font = Roboto({subsets: ["latin"], weight: ["500"]})
-
 export function GoogleButton() {
   const [submitting, setSubmitting] = React.useState(false)
   return (
@@ -49,3 +47,5 @@ export function LogoutButton() {
     </button>
   )
 }
+
+const font = Roboto({subsets: ["latin"], weight: ["500"]})
