@@ -13,7 +13,7 @@ export function ArticleFooter({
     <>
       <div className="flex w-full max-w-xl flex-col items-center gap-6">
         <h3 className="text-center text-xl font-bold sm:text-2xl">Comments</h3>
-        <CommentApp {...{slug, subject, title}} />
+        <CommentApp {...{slug, title}} />
       </div>
       <div>
         <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">

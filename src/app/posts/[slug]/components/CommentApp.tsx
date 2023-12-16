@@ -1,18 +1,9 @@
 import {addComment} from "@/firebase/admin"
 import {siteUrl} from "@/shared/constants"
-import {Subject} from "@/shared/types"
 import {getAuth} from "firebase-admin/auth"
 import {CommentList} from "./CommentList"
 
-export function CommentApp({
-  slug,
-  subject,
-  title,
-}: {
-  slug: string
-  subject: Subject
-  title: string
-}) {
+export function CommentApp({slug, title}: {slug: string; title: string}) {
   async function saveComment(formData: FormData) {
     "use server"
     const id = formData.get("userId")?.toString() ?? ""
@@ -20,12 +11,7 @@ export function CommentApp({
     const user = id && text ? await getAuth().getUser(id) : null
     if (user) {
       const {displayName, email, photoURL, uid} = user
-      await addComment({
-        slug,
-        subject,
-        text,
-        user: {displayName, email, photoURL, uid},
-      })
+      await addComment({slug, text, user: {displayName, email, photoURL, uid}})
       transporter.sendMail({
         from: process.env.NODEMAILER_EMAIL,
         html: `

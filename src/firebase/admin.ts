@@ -1,6 +1,5 @@
 import admin from "firebase-admin"
 import {UserRecord} from "firebase-admin/auth"
-import {Subject} from "../shared/types"
 
 if (admin.apps.length === 0) {
   admin.initializeApp({
@@ -19,16 +18,22 @@ export function addComment(comment: Omit<Comment, "id" | "time">) {
 }
 
 export async function loadComments(slug: string) {
-  const {docs} = await comments.where("slug", "==", slug).get()
-  return docs
-    .map(doc => ({...doc.data(), id: doc.id}) as Comment)
-    .sort((a, b) => b.time - a.time)
+  const {docs} = await comments
+    .where("slug", "==", slug)
+    .orderBy("time", "desc")
+    .get()
+  return docs.map(doc => {
+    const {
+      user: {displayName, photoURL},
+      ...comment
+    } = {...doc.data(), id: doc.id} as Comment
+    return {...comment, user: {displayName, photoURL}}
+  })
 }
 
 type Comment = {
   id: string
   slug: string
-  subject: Subject
   text: string
   time: number
   user: Pick<UserRecord, "displayName" | "email" | "photoURL" | "uid">
