@@ -1,32 +1,34 @@
-import {loadArticle} from "@/datocms/queries"
 import {getDateText} from "@/shared/functions"
-import {ArticleProps} from "@/shared/types"
+import {Article} from "@/shared/types"
 import Image from "next/image"
-import {notFound} from "next/navigation"
 
-export default async function ArticlePage({params: {slug}}: ArticleProps) {
-  const {article} = await loadArticle(slug)
-  if (!article) {
-    notFound()
-  }
+export function Article({
+  article: {
+    date,
+    image: {alt, url: src},
+    text,
+    title,
+  },
+}: {
+  article: Omit<Article, "blurb">
+}) {
   return (
     <div className="flex max-w-xl flex-col items-center">
       <h1 className="mb-10 text-center text-2xl font-bold sm:text-3xl">
-        {article.title}
+        {title}
       </h1>
       <Image
-        alt={article.image.alt}
         className="max-h-96 w-full max-w-sm object-contain"
         height={384}
         priority
-        src={article.image.url}
         width={384}
+        {...{alt, src}}
       />
       <h2 className="my-10 text-center text-lg">
-        {getDateText({date: article.date, month: "long"})}
+        {getDateText({date, month: "long"})}
       </h2>
       <div className="flex flex-col gap-4">
-        {article.text.split(/\r|\n/).map((text, i) => (
+        {text.split(/\r|\n/).map((text, i) => (
           <ArticleSection key={i} {...{text}} />
         ))}
       </div>
@@ -39,7 +41,7 @@ function ArticleSection({text}: {text: string}) {
     return null
   }
   const [, alt, src] = text.match(/\!\[(.*?)\]\((.*?)\)/) ?? []
-  if (src)
+  if (src) {
     return (
       <Image
         className="mx-auto my-4 max-h-80 w-full max-w-xs object-contain"
@@ -48,6 +50,7 @@ function ArticleSection({text}: {text: string}) {
         {...{alt, src}}
       />
     )
+  }
   return (
     <p
       dangerouslySetInnerHTML={{
@@ -56,5 +59,3 @@ function ArticleSection({text}: {text: string}) {
     />
   )
 }
-
-export const dynamic = "force-static"

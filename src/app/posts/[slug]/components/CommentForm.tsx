@@ -2,12 +2,15 @@
 import {GoogleButton, LogoutButton} from "@/components/auth"
 import {useAuth} from "@/context/AuthContext"
 import {useKeyup} from "@/shared/hooks"
+import {ServerAction} from "@/shared/types"
 import React from "react"
 
 export function CommentForm({
+  fetchComments,
   saveComment,
 }: {
-  saveComment: (formData: FormData) => Promise<void>
+  fetchComments: () => Promise<void>
+  saveComment: ServerAction
 }) {
   const {loading, user} = useAuth()
   const [open, setOpen] = React.useState(false)
@@ -22,7 +25,7 @@ export function CommentForm({
             className="h-5 w-5 animate-spin rounded-full border-4 border-blue-950 border-r-transparent"
             role="alert"
           />
-          <p className="text-small">saving comment...</p>
+          <p className="text-small">Saving comment...</p>
         </div>
       ) : (
         <button
@@ -54,10 +57,12 @@ export function CommentForm({
               <form
                 action={formData => {
                   formData.set("userId", user.uid)
-                  saveComment(formData).finally(() => {
-                    setOpen(false)
-                    setSubmitting(false)
-                  })
+                  saveComment(formData)
+                    .then(fetchComments)
+                    .finally(() => {
+                      setOpen(false)
+                      setSubmitting(false)
+                    })
                 }}
                 className="flex w-full flex-col items-center gap-4"
               >

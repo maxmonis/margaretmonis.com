@@ -1,24 +1,19 @@
 import {SubjectLinks, TextLink} from "@/components/links"
-import {loadArticle} from "@/datocms/queries"
 import {getSubjectText} from "@/shared/functions"
-import {ArticleProps} from "@/shared/types"
-import {notFound} from "next/navigation"
-import {CommentsApp} from "./components/CommentsApp"
-import {SuggestedArticles} from "./components/SuggestedArticles"
+import {Article} from "@/shared/types"
+import {CommentApp} from "./CommentApp"
+import {SuggestedArticles} from "./SuggestedArticles"
 
-export default async function ArticleFooterPage({
-  params: {slug},
-}: ArticleProps) {
-  const {article} = await loadArticle(slug)
-  if (!article) {
-    notFound()
-  }
-  const {subject, title} = article
+export function ArticleFooter({
+  article: {slug, subject, title},
+}: {
+  article: Omit<Article, "blurb">
+}) {
   return (
     <>
       <div className="flex w-full max-w-xl flex-col items-center gap-6">
         <h3 className="text-center text-xl font-bold sm:text-2xl">Comments</h3>
-        <CommentsApp {...{slug, subject, title}} />
+        <CommentApp {...{slug, subject, title}} />
       </div>
       <div>
         <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
@@ -40,5 +35,3 @@ export default async function ArticleFooterPage({
     </>
   )
 }
-
-export const dynamic = "force-dynamic"
