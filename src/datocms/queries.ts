@@ -177,7 +177,6 @@ async function makeDatoRequest<T>({
       ...(includeDrafts && {"X-Include-Drafts": "true"}),
     },
     method: "POST",
-    next: {revalidate: 60 * 60 * 24},
   })
   const responseBody = await response.json()
   if (!response.ok) {
