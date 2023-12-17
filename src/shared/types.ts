@@ -15,6 +15,4 @@ export type Article = {
 
 export type ArticleProps = {params: {slug: string}}
 
-export type ServerAction = (formData: FormData) => Promise<void>
-
 export type Subject = (typeof subjects)[number]
