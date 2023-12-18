@@ -14,7 +14,7 @@ export function Comments({slug, title}: {slug: string; title: string}) {
       throw Error("Invalid request")
     }
     const {displayName, email, photoURL, uid} = user
-    await addComment({slug, text, user: {displayName, email, photoURL, uid}})
+    await addComment(slug, {text, user: {displayName, email, photoURL, uid}})
     transporter.sendMail({
       from: process.env.NODEMAILER_EMAIL,
       html: `
