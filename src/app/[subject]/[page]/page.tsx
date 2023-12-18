@@ -85,4 +85,6 @@ export async function generateStaticParams() {
   return params
 }
 
+export const dynamicParams = false
+
 type SubjectProps = {params: {page: string; subject: string}}
