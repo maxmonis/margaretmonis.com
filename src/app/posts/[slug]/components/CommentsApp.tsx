@@ -3,7 +3,7 @@ import {GoogleButton, LogoutButton} from "@/components/auth"
 import {useAuth} from "@/context/AuthContext"
 import {loadComments} from "@/firebase/admin"
 import {getDateText} from "@/shared/functions"
-import {useKeyup} from "@/shared/hooks"
+import {useKeyup, useOnScreen} from "@/shared/hooks"
 import Image from "next/image"
 import React from "react"
 
@@ -19,18 +19,32 @@ export function CommentsApp({
     Awaited<ReturnType<typeof saveComment>>
   >([])
   const mounted = React.useRef(false)
-  React.useEffect(() => {
-    if (!mounted.current) {
+  const elementRef = React.useRef<HTMLDivElement>(null)
+  useOnScreen(elementRef, async () => {
+    if (loading && !mounted.current) {
       mounted.current = true
-      fetchComments()
+      try {
+        const res = await fetch(`/posts/${slug}/comments`)
+        const comments = await res.json()
+        setCommentList(comments)
+      } finally {
+        setLoading(false)
+      }
     }
-  }, [])
+  })
   const {authenticating, user} = useAuth()
   const [open, setOpen] = React.useState(false)
   const [submitting, setSubmitting] = React.useState(false)
+  const reset = () => {
+    setSubmitting(false)
+    setOpen(false)
+  }
   useKeyup("Escape", reset)
   return (
-    <>
+    <div
+      className="mx-auto flex w-full max-w-xl flex-col items-center gap-6"
+      ref={elementRef}
+    >
       {loading ? (
         <LoadingSpinner text="Loading comments" />
       ) : commentList.length === 0 ? (
@@ -136,22 +150,8 @@ export function CommentsApp({
           </dialog>
         </div>
       )}
-    </>
+    </div>
   )
-  async function fetchComments() {
-    setLoading(true)
-    try {
-      const res = await fetch(`/posts/${slug}/comments`)
-      const comments = await res.json()
-      setCommentList(comments)
-    } finally {
-      setLoading(false)
-    }
-  }
-  function reset() {
-    setSubmitting(false)
-    setOpen(false)
-  }
 }
 
 function LoadingSpinner({text}: {text: string}) {
@@ -162,7 +162,7 @@ function LoadingSpinner({text}: {text: string}) {
         className="h-5 w-5 animate-spin rounded-full border-4 border-blue-950 border-r-transparent"
         role="alert"
       />
-      <p className="text-small">{text}...</p>
+      <p className="text-small">{text}</p>
     </div>
   )
 }

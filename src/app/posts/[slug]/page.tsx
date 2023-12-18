@@ -36,8 +36,10 @@ export default async function ArticlePage({params: {slug}}: ArticleProps) {
           ))}
         </div>
       </div>
-      <div className="flex w-full max-w-xl flex-col items-center gap-6">
-        <h3 className="text-center text-xl font-bold sm:text-2xl">Comments</h3>
+      <div className="w-full">
+        <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
+          Comments
+        </h3>
         <Comments title={article.title} {...{slug}} />
       </div>
       <div>
