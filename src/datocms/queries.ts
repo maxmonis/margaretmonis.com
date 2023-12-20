@@ -11,6 +11,17 @@ export function loadArticle(slug: string) {
   })
 }
 
+export function loadArticleTitle(slug: string) {
+  return makeDatoRequest<{article: Pick<Article, "title"> | null}>({
+    query: `
+      query GetArticleTitle($slug: String!) {
+        article(filter: {slug: {eq: $slug}}) {title}
+      }
+    `,
+    variables: {slug},
+  })
+}
+
 export function loadArticleList(slugs: Array<string>) {
   return makeDatoRequest<{allArticles: Array<Omit<Article, "text">>}>({
     query: `

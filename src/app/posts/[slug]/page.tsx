@@ -40,7 +40,7 @@ export default async function ArticlePage({params: {slug}}: ArticleProps) {
         <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
           Comments
         </h3>
-        <Comments title={article.title} {...{slug}} />
+        <Comments {...{slug}} />
       </div>
       <div>
         <h3 className="mb-6 text-center text-xl font-bold sm:text-2xl">
