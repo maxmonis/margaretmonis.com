@@ -19,7 +19,6 @@ export function CommentsApp({
     Awaited<ReturnType<typeof saveComment>>
   >([])
   const mounted = React.useRef(false)
-  const elementRef = React.useRef<HTMLDivElement>(null)
   const fetchComments = async () => {
     try {
       const res = await fetch(`/posts/${slug}/comments`)
@@ -44,10 +43,7 @@ export function CommentsApp({
   }
   useKeyup("Escape", reset)
   return (
-    <div
-      className="mx-auto flex w-full max-w-xl flex-col items-center gap-6"
-      ref={elementRef}
-    >
+    <div className="mx-auto flex w-full max-w-xl flex-col items-center gap-6">
       {loading ? (
         <LoadingSpinner text="Loading comments" />
       ) : commentList.length === 0 ? (
