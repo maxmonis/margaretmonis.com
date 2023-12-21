@@ -3,7 +3,7 @@ import {GoogleButton, LogoutButton} from "@/components/auth"
 import {useAuth} from "@/context/AuthContext"
 import {loadComments} from "@/firebase/admin"
 import {getDateText} from "@/shared/functions"
-import {useKeyup, useOnScreen} from "@/shared/hooks"
+import {useKeyup} from "@/shared/hooks"
 import Image from "next/image"
 import React from "react"
 
@@ -20,18 +20,21 @@ export function CommentsApp({
   >([])
   const mounted = React.useRef(false)
   const elementRef = React.useRef<HTMLDivElement>(null)
-  useOnScreen(elementRef, async () => {
+  const fetchComments = async () => {
+    try {
+      const res = await fetch(`/posts/${slug}/comments`)
+      const comments = await res.json()
+      setCommentList(comments)
+    } finally {
+      setLoading(false)
+    }
+  }
+  React.useEffect(() => {
     if (loading && !mounted.current) {
       mounted.current = true
-      try {
-        const res = await fetch(`/posts/${slug}/comments`)
-        const comments = await res.json()
-        setCommentList(comments)
-      } finally {
-        setLoading(false)
-      }
+      fetchComments()
     }
-  })
+  }, [])
   const {authenticating, user} = useAuth()
   const [open, setOpen] = React.useState(false)
   const [submitting, setSubmitting] = React.useState(false)
