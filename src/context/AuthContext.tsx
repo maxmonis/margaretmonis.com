@@ -13,11 +13,7 @@ const AuthContext = React.createContext<{
 
 export const useAuth = () => React.useContext(AuthContext)
 
-export const AuthContextProvider = ({
-  children,
-}: {
-  children: React.ReactNode
-}) => {
+export function AuthContextProvider({children}: {children: React.ReactNode}) {
   const [user, setUser] = React.useState<User | null>(null)
   const [authenticating, setAuthenticating] = React.useState(true)
 
