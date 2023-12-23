@@ -1,11 +1,23 @@
-import loadAllSlugs from "@/datocms/queries/loadAllSlugs"
 import loadArticle from "@/datocms/queries/loadArticle"
 import getSubjectText from "@/functions/getSubjectText"
 import {ArticleProps} from "@/types"
 import {Metadata} from "next"
 
-export default function ArticleLayout({children}: React.PropsWithChildren) {
-  return children
+export default function ArticleLayout({
+  children,
+  comments,
+  footer,
+}: React.PropsWithChildren & {
+  comments: React.ReactNode
+  footer: React.ReactNode
+}) {
+  return (
+    <main className="flex flex-col items-center gap-40 px-4 sm:px-6">
+      {children}
+      {comments}
+      {footer}
+    </main>
+  )
 }
 
 export async function generateMetadata({params: {slug}}: ArticleProps) {
@@ -21,10 +33,3 @@ export async function generateMetadata({params: {slug}}: ArticleProps) {
     return metadata
   }
 }
-
-export async function generateStaticParams() {
-  const slugs = await loadAllSlugs()
-  return slugs.map<ArticleProps["params"]>(slug => ({slug}))
-}
-
-export const dynamicParams = false

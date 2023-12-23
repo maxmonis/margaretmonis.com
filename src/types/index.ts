@@ -1,5 +1,4 @@
 import {subjects} from "@/constants"
-import {loadComments} from "@/firebase/comments"
 
 export type Article = {
   blurb: string
@@ -17,8 +16,6 @@ export type Article = {
 export type ArticlePreview = Omit<Article, "text">
 
 export type ArticleProps = {params: {slug: string}}
-
-export type CommentArray = Awaited<ReturnType<typeof loadComments>>
 
 export type Subject = (typeof subjects)[number]
 

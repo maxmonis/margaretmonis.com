@@ -1,18 +1,10 @@
-import LoadingSpinner from "@/components/ui/LoadingSpinner"
+import {loadComments} from "@/firebase/comments"
 import getDateText from "@/functions/getDateText"
-import {CommentArray} from "@/types"
 import Image from "next/image"
 
-export default function CommentList({
-  commentList,
-  loading,
-}: {
-  commentList: CommentArray
-  loading: boolean
-}) {
-  return loading ? (
-    <LoadingSpinner text="Loading comments" />
-  ) : commentList.length === 0 ? (
+export default async function CommentList({slug}: {slug: string}) {
+  const commentList = await loadComments(slug)
+  return commentList.length === 0 ? (
     <p>No comments yet</p>
   ) : (
     <ul className="w-full divide-y divide-orange-700 rounded-lg border border-orange-700 bg-white">

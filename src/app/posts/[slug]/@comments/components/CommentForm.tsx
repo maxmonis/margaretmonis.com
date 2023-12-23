@@ -1,17 +1,15 @@
+"use client"
 import GoogleButton from "@/components/auth/GoogleButton"
 import LogoutButton from "@/components/auth/LogoutButton"
 import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import {useAuth} from "@/context/AuthContext"
 import useKeyup from "@/hooks/useKeyup"
-import {CommentArray} from "@/types"
 import React from "react"
 
 export default function CommentForm({
   saveComment,
-  setCommentList,
 }: {
-  saveComment: (formData: FormData) => Promise<CommentArray>
-  setCommentList: React.Dispatch<React.SetStateAction<CommentArray>>
+  saveComment: (formData: FormData) => Promise<void>
 }) {
   const {authenticating, user} = useAuth()
   const [submitting, setSubmitting] = React.useState(false)
@@ -54,7 +52,7 @@ export default function CommentForm({
                   const comment = formData.get("comment")?.toString().trim()
                   if (comment) {
                     formData.set("userId", user.uid)
-                    saveComment(formData).then(setCommentList).finally(reset)
+                    saveComment(formData).finally(reset)
                   } else {
                     reset()
                   }
