@@ -6,7 +6,7 @@ import {montserrat} from "@/styles/fonts"
 import "@/styles/globals.css"
 import {Metadata} from "next"
 
-export default function RootLayout(props: React.PropsWithChildren) {
+export default function RootLayout({children}: React.PropsWithChildren) {
   return (
     <html className="scroll-smooth" lang="en">
       <body
@@ -31,7 +31,7 @@ export default function RootLayout(props: React.PropsWithChildren) {
                 />
               </span>
             </header>
-            {props.children}
+            {children}
           </div>
           <footer className="flex w-screen justify-center p-4 text-center text-xs">
             <p>Copyright © 2020-{new Date().getFullYear()} | Margaret Monis</p>
@@ -62,9 +62,7 @@ export const metadata: Metadata = {
     ...subjects.map(getSubjectText),
   ],
   metadataBase: new URL(siteUrl),
-  openGraph: {
-    images: ["/travel.jpg"],
-  },
+  openGraph: {images: ["/travel.jpg"]},
   publisher: "Vercel",
   referrer: "origin-when-cross-origin",
   title: {

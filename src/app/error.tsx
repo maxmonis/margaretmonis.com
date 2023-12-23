@@ -13,7 +13,7 @@ export default function ErrorPage({
       <h1 className="text-xl font-bold">An unexpected error occurred</h1>
       <p>{error.message}</p>
       <button className="text-orange-700" onClick={reset}>
-        Reload Page
+        Try Again
       </button>
       <TextLink href="/" text="Return Home" replace variant="underlined" />
     </main>

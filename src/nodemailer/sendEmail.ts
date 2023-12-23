@@ -18,5 +18,5 @@ export default async function sendEmail(
       (error, info) => (error ? reject(error) : resolve(info)),
     )
   })
-  return `Successfully sent email: ${email}`
+  return true
 }

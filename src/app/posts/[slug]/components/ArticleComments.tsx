@@ -16,13 +16,9 @@ export default function ArticleComments({
     const comment = formData.get("comment")?.toString().trim() ?? ""
     const userId = formData.get("userId")?.toString().trim() ?? ""
     if (!comment || !userId) {
-      throw Error(`400: Invalid payload ${{comment, userId}}`)
+      throw Error(`400: Invalid payload ${JSON.stringify({comment, userId})}`)
     }
-    const user = await getAuth().getUser(userId)
-    if (!user) {
-      throw Error(`404: no user found for id "${userId}"`)
-    }
-    const {displayName, email, photoURL, uid} = user
+    const {displayName, email, photoURL, uid} = await getAuth().getUser(userId)
     await addComment(slug, {
       text: comment,
       user: {displayName, email, photoURL, uid},

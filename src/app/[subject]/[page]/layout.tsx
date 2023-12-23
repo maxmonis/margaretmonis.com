@@ -7,8 +7,8 @@ import {SubjectProps} from "@/types"
 import {Metadata} from "next"
 import React from "react"
 
-export default function SubjectLayout(props: React.PropsWithChildren) {
-  return props.children
+export default function SubjectLayout({children}: React.PropsWithChildren) {
+  return children
 }
 
 export async function generateMetadata({
@@ -21,9 +21,7 @@ export async function generateMetadata({
       const title = getSubjectText(subject)
       const metadata: Metadata = {
         description: `${title} - Articles by Margaret Monis`,
-        openGraph: {
-          images: [allArticles[0].image],
-        },
+        openGraph: {images: [allArticles[0].image]},
         title,
       }
       return metadata
