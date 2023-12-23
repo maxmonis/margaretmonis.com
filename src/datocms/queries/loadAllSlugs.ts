@@ -1,6 +1,9 @@
 import {Article} from "@/types"
 import makeDatoRequest from "../makeDatoRequest"
 
+/**
+ * Loads the slugs of all articles in the CMS
+ */
 export default async function loadAllSlugs() {
   const {
     allArticles,
@@ -18,6 +21,10 @@ export default async function loadAllSlugs() {
   return slugs
 }
 
+/**
+ * Loads a page of slugs, containing up to 100 entries since
+ * this is the maximum DatoCMS allows us to fetch at a time
+ */
 function loadSlugsPage<
   Page extends number,
   Meta extends Page extends 1 ? {_allArticlesMeta: {count: number}} : {},

@@ -1,5 +1,8 @@
 import {Article} from "@/types"
 
+/**
+ * Generates a localized date string for display in the UI
+ */
 export default function getDateText(
   date: Article["date"] | number,
   month: "long" | "short",
@@ -12,6 +15,7 @@ export default function getDateText(
     const day = time.getDate().toString().padStart(2, "0")
     dateString = `${year}/${month}/${day}`
   } else {
+    /* changing the hyphens to backslashes prevents a time zone issue */
     dateString = date.replace(/-/g, "/")
   }
   return new Date(dateString).toLocaleDateString(undefined, {

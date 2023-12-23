@@ -1,6 +1,9 @@
 import {Article} from "@/types"
 import makeDatoRequest from "../makeDatoRequest"
 
+/**
+ * Loads the article (if any) which matches a slug
+ */
 export default function loadArticle(slug: string) {
   return makeDatoRequest<{article: Omit<Article, "blurb"> | null}>({
     query: `

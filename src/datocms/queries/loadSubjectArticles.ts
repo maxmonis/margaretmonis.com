@@ -2,6 +2,9 @@ import {ArticlePreview, Subject} from "@/types"
 import {articlePreview} from "../constants"
 import makeDatoRequest from "../makeDatoRequest"
 
+/**
+ * Loads the specified page of articles from a given subject
+ */
 export default function loadSubjectArticles({
   page,
   subject,

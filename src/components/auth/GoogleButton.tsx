@@ -4,6 +4,9 @@ import {GoogleAuthProvider, signInWithPopup} from "firebase/auth"
 import Image from "next/image"
 import React from "react"
 
+/**
+ * Opens a popup allowing the user to sign in with Google
+ */
 export default function GoogleButton() {
   const [submitting, setSubmitting] = React.useState(false)
   return (

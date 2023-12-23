@@ -1,4 +1,8 @@
+/**
+ * Gets data from DatoCMS using a graphQL query
+ */
 export default async function makeDatoRequest<T>({
+  /* unpublished items will only be displayed in development by default */
   includeDrafts = process.env.NODE_ENV === "development",
   query,
   variables = {},

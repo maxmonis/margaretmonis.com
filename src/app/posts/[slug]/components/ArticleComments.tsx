@@ -18,11 +18,15 @@ export default function ArticleComments({
     if (!comment || !userId) {
       throw Error(`400: Invalid payload ${JSON.stringify({comment, userId})}`)
     }
+    /* getUser throws an error if there's no match for the user ID */
     const {displayName, email, photoURL, uid} = await getAuth().getUser(userId)
     await addComment(slug, {
       text: comment,
       user: {displayName, email, photoURL, uid},
     })
+    /* we need to await the call to send the email, but it
+    doesn't matter if it resolves or rejects since we've already
+    added the new comment and need to return the updated list */
     const [commentsRes] = await Promise.allSettled([
       loadComments(slug),
       sendEmail({
