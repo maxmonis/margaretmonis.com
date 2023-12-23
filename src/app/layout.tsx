@@ -1,16 +1,16 @@
-import {TextLink} from "@/components/links"
+import {TextLink} from "@/components/links/TextLink"
+import {siteUrl, subjects} from "@/constants"
 import {AuthContextProvider} from "@/context/AuthContext"
-import {siteUrl, subjects} from "@/shared/constants"
-import {getSubjectText} from "@/shared/functions"
-import type {Metadata} from "next"
-import {Montserrat} from "next/font/google"
-import "./globals.css"
+import {getSubjectText} from "@/functions/getSubjectText"
+import {montserrat} from "@/styles/fonts"
+import "@/styles/globals.css"
+import {Metadata} from "next"
 
-export default function RootLayout({children}: {children: React.ReactNode}) {
+export default function RootLayout(props: React.PropsWithChildren) {
   return (
     <html className="scroll-smooth" lang="en">
       <body
-        className={`${font.className} flex min-h-screen w-screen flex-col justify-between gap-40 overflow-x-hidden bg-blue-50 text-blue-950`}
+        className={`${montserrat.className} flex min-h-screen w-screen flex-col justify-between gap-40 overflow-x-hidden bg-blue-50 text-blue-950`}
       >
         <AuthContextProvider>
           <div id="top-of-page">
@@ -31,7 +31,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
                 />
               </span>
             </header>
-            {children}
+            {props.children}
           </div>
           <footer className="flex w-screen justify-center p-4 text-center text-xs">
             <p>Copyright © 2020-{new Date().getFullYear()} | Margaret Monis</p>
@@ -72,5 +72,3 @@ export const metadata: Metadata = {
     template: "%s | Margaret Monis",
   },
 }
-
-const font = Montserrat({subsets: ["latin"], weight: ["400", "700"]})

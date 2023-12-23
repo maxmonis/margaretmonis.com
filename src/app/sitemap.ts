@@ -1,5 +1,6 @@
-import {loadAllSlugs, loadSubjectArticleCount} from "@/datocms/queries"
-import {siteUrl, subjects} from "@/shared/constants"
+import {siteUrl, subjects} from "@/constants"
+import {loadAllSlugs} from "@/datocms/queries/loadAllSlugs"
+import {loadSubjectArticleCount} from "@/datocms/queries/loadSubjectArticleCount"
 import {MetadataRoute} from "next"
 
 export default async function Sitemap() {

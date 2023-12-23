@@ -1,12 +1,7 @@
 import {initializeApp} from "firebase/app"
-import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut,
-} from "firebase/auth"
+import {getAuth} from "firebase/auth"
 
-const app = initializeApp({
+export const app = initializeApp({
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
   appId: process.env.NEXT_PUBLIC_APP_ID,
   authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
@@ -16,11 +11,3 @@ const app = initializeApp({
 })
 
 export const auth = getAuth(app)
-
-export function googleLogin() {
-  return signInWithPopup(auth, new GoogleAuthProvider())
-}
-
-export function logOut() {
-  return signOut(auth)
-}

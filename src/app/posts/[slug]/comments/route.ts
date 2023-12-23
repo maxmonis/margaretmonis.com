@@ -1,5 +1,5 @@
-import {loadComments} from "@/firebase/admin"
-import {ArticleProps} from "@/shared/types"
+import {loadComments} from "@/firebase/comments"
+import {ArticleProps} from "@/types"
 import {NextRequest, NextResponse} from "next/server"
 
 export async function GET(_req: NextRequest, {params: {slug}}: ArticleProps) {

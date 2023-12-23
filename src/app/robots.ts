@@ -1,4 +1,4 @@
-import {siteUrl} from "@/shared/constants"
+import {siteUrl} from "@/constants"
 import {MetadataRoute} from "next"
 
 export default function Robots(): MetadataRoute.Robots {

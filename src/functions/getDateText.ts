@@ -1,13 +1,9 @@
-import {subjects} from "./constants"
-import {Subject} from "./types"
+import {Article} from "@/types"
 
-export function getDateText({
-  date,
-  month,
-}: {
-  date: number | string
-  month: "long" | "short"
-}) {
+export function getDateText(
+  date: Article["date"] | number,
+  month: "long" | "short",
+) {
   let dateString = ""
   if (typeof date === "number") {
     const time = new Date(date)
@@ -23,15 +19,4 @@ export function getDateText({
     month,
     year: "numeric",
   })
-}
-
-export function getSubjectText(subject: Subject) {
-  return subject
-    .split("-")
-    .map(word => word[0].toUpperCase() + word.slice(1))
-    .join(" ")
-}
-
-export function isSubject(subject: unknown): subject is Subject {
-  return subjects.includes(subject as Subject)
 }

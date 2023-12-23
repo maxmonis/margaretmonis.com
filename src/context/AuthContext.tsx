@@ -1,5 +1,5 @@
 "use client"
-import {auth} from "@/firebase/auth"
+import {auth} from "@/firebase"
 import {onAuthStateChanged, User} from "firebase/auth"
 import React from "react"
 
@@ -16,19 +16,15 @@ export const useAuth = () => React.useContext(AuthContext)
 export function AuthContextProvider({children}: {children: React.ReactNode}) {
   const [user, setUser] = React.useState<User | null>(null)
   const [authenticating, setAuthenticating] = React.useState(true)
-
   const unsubscribe = onAuthStateChanged(auth, user => {
     setUser(user)
     setAuthenticating(false)
   })
-
   React.useEffect(() => {
     return () => {
       unsubscribe()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
   return (
     <AuthContext.Provider value={{authenticating, user}}>
       {children}

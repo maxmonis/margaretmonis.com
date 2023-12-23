@@ -1,6 +1,7 @@
-import {ArticleLink} from "@/components/links"
-import {loadArticleList, loadSubjectSlugs} from "@/datocms/queries"
-import {Subject} from "@/shared/types"
+import {ArticleLink} from "@/components/links/ArticleLink"
+import {loadArticleList} from "@/datocms/queries/loadArticleList"
+import {loadSubjectSlugs} from "@/datocms/queries/loadSubjectSlugs"
+import {Subject} from "@/types"
 
 export async function SuggestedArticles({
   slug,

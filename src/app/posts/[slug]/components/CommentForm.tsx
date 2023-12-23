@@ -1,76 +1,28 @@
-"use client"
-import {GoogleButton, LogoutButton} from "@/components/auth"
+import {GoogleButton} from "@/components/auth/GoogleButton"
+import {LogoutButton} from "@/components/auth/LogoutButton"
+import {LoadingSpinner} from "@/components/ui/LoadingSpinner"
 import {useAuth} from "@/context/AuthContext"
-import {loadComments} from "@/firebase/admin"
-import {getDateText} from "@/shared/functions"
-import {useKeyup} from "@/shared/hooks"
-import Image from "next/image"
+import {useKeyup} from "@/hooks/useKeyup"
+import {CommentArray} from "@/types"
 import React from "react"
 
-export function CommentsApp({
+export function CommentForm({
   saveComment,
-  slug,
+  setCommentList,
 }: {
-  saveComment: (formData: FormData) => ReturnType<typeof loadComments>
-  slug: string
+  saveComment: (formData: FormData) => Promise<CommentArray>
+  setCommentList: React.Dispatch<React.SetStateAction<CommentArray>>
 }) {
-  const [loading, setLoading] = React.useState(true)
-  const [commentList, setCommentList] = React.useState<
-    Awaited<ReturnType<typeof saveComment>>
-  >([])
-  const mounted = React.useRef(false)
-  const fetchComments = async () => {
-    try {
-      const res = await fetch(`/posts/${slug}/comments`)
-      const comments = await res.json()
-      setCommentList(comments)
-    } finally {
-      setLoading(false)
-    }
-  }
-  React.useEffect(() => {
-    if (loading && !mounted.current) {
-      mounted.current = true
-      fetchComments()
-    }
-  }, [])
   const {authenticating, user} = useAuth()
-  const [open, setOpen] = React.useState(false)
   const [submitting, setSubmitting] = React.useState(false)
+  const [open, setOpen] = React.useState(false)
   const reset = () => {
     setSubmitting(false)
     setOpen(false)
   }
   useKeyup("Escape", reset)
   return (
-    <div className="mx-auto flex w-full max-w-xl flex-col items-center gap-6">
-      {loading ? (
-        <LoadingSpinner text="Loading comments" />
-      ) : commentList.length === 0 ? (
-        <p>No comments yet</p>
-      ) : (
-        <ul className="w-full divide-y divide-orange-700 rounded-lg border border-orange-700 bg-white">
-          {commentList.map(
-            ({id, text, time, user: {displayName = "Anonymous", photoURL}}) => (
-              <li className="flex flex-col gap-3 p-4" key={id}>
-                <span>{text}</span>
-                <span className="flex items-center justify-end gap-2 text-right text-sm">
-                  {photoURL && (
-                    <Image
-                      alt={`Profile picture of ${displayName}`}
-                      className="h-6 w-6 rounded-full"
-                      height={24}
-                      src={photoURL}
-                      width={24}
-                    />
-                  )}
-                  {displayName} - {getDateText({date: time, month: "short"})}
-                </span>
-              </li>
-            ),
-          )}
-        </ul>
-      )}
+    <>
       {submitting ? (
         <LoadingSpinner text="Saving comment" />
       ) : (
@@ -99,8 +51,8 @@ export function CommentsApp({
             ) : user ? (
               <form
                 action={formData => {
-                  const text = formData.get("comment")?.toString().trim() ?? ""
-                  if (text) {
+                  const comment = formData.get("comment")?.toString().trim()
+                  if (comment) {
                     formData.set("userId", user.uid)
                     saveComment(formData).then(setCommentList).finally(reset)
                   } else {
@@ -141,27 +93,12 @@ export function CommentsApp({
             ) : (
               <div className="flex flex-col items-center gap-6">
                 <p>Please log in to add a comment</p>
-                <div className="flex items-center gap-6">
-                  <GoogleButton />
-                </div>
+                <GoogleButton />
               </div>
             )}
           </dialog>
         </div>
       )}
-    </div>
-  )
-}
-
-function LoadingSpinner({text}: {text: string}) {
-  return (
-    <div className="flex items-center gap-3">
-      <span
-        aria-busy="true"
-        className="h-5 w-5 animate-spin rounded-full border-4 border-blue-950 border-r-transparent"
-        role="alert"
-      />
-      <p className="text-small">{text}</p>
-    </div>
+    </>
   )
 }

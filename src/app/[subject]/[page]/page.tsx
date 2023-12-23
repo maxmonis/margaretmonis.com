@@ -1,8 +1,9 @@
-import {ArticleLink, TextLink} from "@/components/links"
-import {loadSubjectArticleCount, loadSubjectArticles} from "@/datocms/queries"
-import {subjects} from "@/shared/constants"
-import {getSubjectText, isSubject} from "@/shared/functions"
-import {Metadata} from "next"
+import {ArticleLink} from "@/components/links/ArticleLink"
+import {TextLink} from "@/components/links/TextLink"
+import {loadSubjectArticles} from "@/datocms/queries/loadSubjectArticles"
+import {getSubjectText} from "@/functions/getSubjectText"
+import {isSubject} from "@/functions/isSubject"
+import {SubjectProps} from "@/types"
 import {notFound} from "next/navigation"
 
 export default async function SubjectPage({
@@ -51,40 +52,3 @@ export default async function SubjectPage({
     </main>
   )
 }
-
-export async function generateMetadata({
-  params: {subject, ...params},
-}: SubjectProps) {
-  const page = parseInt(params.page)
-  if (page && isSubject(subject)) {
-    const {allArticles} = await loadSubjectArticles({page, subject})
-    if (allArticles.length) {
-      const title = getSubjectText(subject)
-      const metadata: Metadata = {
-        description: `${title} - Articles by Margaret Monis`,
-        openGraph: {
-          images: [allArticles[0].image],
-        },
-        title,
-      }
-      return metadata
-    }
-  }
-}
-
-export async function generateStaticParams() {
-  const params: Array<SubjectProps["params"]> = []
-  for (const subject of subjects) {
-    const count = await loadSubjectArticleCount(subject)
-    let page = 0
-    while (page * 12 < count) {
-      page++
-      params.push({page: page.toString(), subject})
-    }
-  }
-  return params
-}
-
-export const dynamicParams = false
-
-type SubjectProps = {params: {page: string; subject: string}}
