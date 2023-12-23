@@ -1,12 +1,12 @@
-import {GoogleButton} from "@/components/auth/GoogleButton"
-import {LogoutButton} from "@/components/auth/LogoutButton"
-import {LoadingSpinner} from "@/components/ui/LoadingSpinner"
+import GoogleButton from "@/components/auth/GoogleButton"
+import LogoutButton from "@/components/auth/LogoutButton"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
 import {useAuth} from "@/context/AuthContext"
-import {useKeyup} from "@/hooks/useKeyup"
+import useKeyup from "@/hooks/useKeyup"
 import {CommentArray} from "@/types"
 import React from "react"
 
-export function CommentForm({
+export default function CommentForm({
   saveComment,
   setCommentList,
 }: {

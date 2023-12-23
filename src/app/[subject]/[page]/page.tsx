@@ -1,8 +1,8 @@
-import {ArticleLink} from "@/components/links/ArticleLink"
-import {TextLink} from "@/components/links/TextLink"
-import {loadSubjectArticles} from "@/datocms/queries/loadSubjectArticles"
-import {getSubjectText} from "@/functions/getSubjectText"
-import {isSubject} from "@/functions/isSubject"
+import ArticleLink from "@/components/links/ArticleLink"
+import TextLink from "@/components/links/TextLink"
+import loadSubjectArticles from "@/datocms/queries/loadSubjectArticles"
+import getSubjectText from "@/functions/getSubjectText"
+import isSubject from "@/functions/isSubject"
 import {SubjectProps} from "@/types"
 import {notFound} from "next/navigation"
 

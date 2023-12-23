@@ -1,6 +1,6 @@
 import Link, {LinkProps} from "next/link"
 
-export function TextLink({
+export default function TextLink({
   className,
   href,
   text,

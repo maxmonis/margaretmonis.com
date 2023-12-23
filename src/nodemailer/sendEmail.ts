@@ -1,6 +1,6 @@
-import {transporter} from "./transporter"
+import transporter from "./transporter"
 
-export async function sendEmail(
+export default async function sendEmail(
   email: Parameters<(typeof transporter)["sendMail"]>[0],
 ) {
   await new Promise((resolve, reject) => {

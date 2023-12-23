@@ -1,11 +1,11 @@
 "use client"
-import {useMounted} from "@/hooks/useMounted"
+import useMounted from "@/hooks/useMounted"
 import {CommentArray} from "@/types"
 import React from "react"
-import {CommentForm} from "./CommentForm"
-import {CommentList} from "./CommentList"
+import CommentForm from "./CommentForm"
+import CommentList from "./CommentList"
 
-export function CommentApp({
+export default function CommentApp({
   saveComment,
   slug,
 }: {

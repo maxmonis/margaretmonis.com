@@ -4,7 +4,7 @@ import {GoogleAuthProvider, signInWithPopup} from "firebase/auth"
 import Image from "next/image"
 import React from "react"
 
-export function GoogleButton() {
+export default function GoogleButton() {
   const [submitting, setSubmitting] = React.useState(false)
   return (
     <button

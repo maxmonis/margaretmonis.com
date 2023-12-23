@@ -1,4 +1,4 @@
-export async function makeDatoRequest<T>({
+export default async function makeDatoRequest<T>({
   includeDrafts = process.env.NODE_ENV === "development",
   query,
   variables = {},

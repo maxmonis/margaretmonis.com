@@ -1,6 +1,6 @@
-import {ArticleLink} from "@/components/links/ArticleLink"
-import {SubjectLinks} from "@/components/links/SubjectLinks"
-import {loadRecentArticles} from "@/datocms/queries/loadRecentArticles"
+import ArticleLink from "@/components/links/ArticleLink"
+import SubjectLinks from "@/components/links/SubjectLinks"
+import loadRecentArticles from "@/datocms/queries/loadRecentArticles"
 
 export default async function HomePage() {
   const {allArticles} = await loadRecentArticles()

@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-export function ArticleSection({text}: {text: string}) {
+export default function ArticleSection({text}: {text: string}) {
   if (!text.trim()) {
     return null
   }

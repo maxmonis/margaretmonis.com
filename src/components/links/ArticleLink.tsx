@@ -1,8 +1,8 @@
-import {getDateText} from "@/functions/getDateText"
+import getDateText from "@/functions/getDateText"
 import {ArticlePreview} from "@/types"
-import {CardLink} from "./CardLink"
+import CardLink from "./CardLink"
 
-export function ArticleLink({
+export default function ArticleLink({
   article: {
     blurb: text,
     date,

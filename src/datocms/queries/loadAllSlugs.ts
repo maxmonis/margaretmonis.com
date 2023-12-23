@@ -1,7 +1,7 @@
 import {Article} from "@/types"
-import {makeDatoRequest} from "../makeDatoRequest"
+import makeDatoRequest from "../makeDatoRequest"
 
-export async function loadAllSlugs() {
+export default async function loadAllSlugs() {
   const {
     allArticles,
     _allArticlesMeta: {count},

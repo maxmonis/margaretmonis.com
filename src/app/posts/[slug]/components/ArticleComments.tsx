@@ -1,10 +1,16 @@
 import {siteUrl} from "@/constants"
 import {addComment, loadComments} from "@/firebase/comments"
-import {sendEmail} from "@/nodemailer/sendEmail"
+import sendEmail from "@/nodemailer/sendEmail"
 import {getAuth} from "firebase-admin/auth"
-import {CommentApp} from "./CommentApp"
+import CommentApp from "./CommentApp"
 
-export function ArticleComments({slug, title}: {slug: string; title: string}) {
+export default function ArticleComments({
+  slug,
+  title,
+}: {
+  slug: string
+  title: string
+}) {
   async function saveComment(formData: FormData) {
     "use server"
     const comment = formData.get("comment")?.toString().trim() ?? ""

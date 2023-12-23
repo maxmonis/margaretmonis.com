@@ -1,7 +1,7 @@
 import {Article} from "@/types"
-import {makeDatoRequest} from "../makeDatoRequest"
+import makeDatoRequest from "../makeDatoRequest"
 
-export function loadArticle(slug: string) {
+export default function loadArticle(slug: string) {
   return makeDatoRequest<{article: Omit<Article, "blurb"> | null}>({
     query: `
       query GetArticle($slug: String!) {

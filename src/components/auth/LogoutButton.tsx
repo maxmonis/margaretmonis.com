@@ -2,7 +2,7 @@ import {auth} from "@/firebase"
 import {signOut} from "firebase/auth"
 import React from "react"
 
-export function LogoutButton() {
+export default function LogoutButton() {
   const [submitting, setSubmitting] = React.useState(false)
   return (
     <button

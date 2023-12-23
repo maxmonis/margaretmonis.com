@@ -1,8 +1,8 @@
 import {subjects} from "@/constants"
-import {getSubjectText} from "@/functions/getSubjectText"
-import {CardLink} from "./CardLink"
+import getSubjectText from "@/functions/getSubjectText"
+import CardLink from "./CardLink"
 
-export function SubjectLinks({priority}: {priority?: boolean}) {
+export default function SubjectLinks({priority}: {priority?: boolean}) {
   return (
     <div className="flex w-full flex-wrap justify-center gap-6">
       {subjects.map(subject => (

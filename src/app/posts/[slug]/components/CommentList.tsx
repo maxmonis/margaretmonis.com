@@ -1,9 +1,9 @@
-import {LoadingSpinner} from "@/components/ui/LoadingSpinner"
-import {getDateText} from "@/functions/getDateText"
+import LoadingSpinner from "@/components/ui/LoadingSpinner"
+import getDateText from "@/functions/getDateText"
 import {CommentArray} from "@/types"
 import Image from "next/image"
 
-export function CommentList({
+export default function CommentList({
   commentList,
   loading,
 }: {

@@ -1,8 +1,8 @@
 import {ArticlePreview} from "@/types"
 import {articlePreview} from "../constants"
-import {makeDatoRequest} from "../makeDatoRequest"
+import makeDatoRequest from "../makeDatoRequest"
 
-export function loadRecentArticles() {
+export default function loadRecentArticles() {
   return makeDatoRequest<{allArticles: Array<ArticlePreview>}>({
     query: `
       query GetRecentArticles {

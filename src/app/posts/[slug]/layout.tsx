@@ -1,6 +1,6 @@
-import {loadAllSlugs} from "@/datocms/queries/loadAllSlugs"
-import {loadArticle} from "@/datocms/queries/loadArticle"
-import {getSubjectText} from "@/functions/getSubjectText"
+import loadAllSlugs from "@/datocms/queries/loadAllSlugs"
+import loadArticle from "@/datocms/queries/loadArticle"
+import getSubjectText from "@/functions/getSubjectText"
 import {ArticleProps} from "@/types"
 import {Metadata} from "next"
 

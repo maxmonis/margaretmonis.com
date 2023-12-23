@@ -1,7 +1,7 @@
 import {Subject} from "@/types"
-import {makeDatoRequest} from "../makeDatoRequest"
+import makeDatoRequest from "../makeDatoRequest"
 
-export async function loadSubjectArticleCount(subject: Subject) {
+export default async function loadSubjectArticleCount(subject: Subject) {
   const {
     _allArticlesMeta: {count},
   } = await makeDatoRequest<{_allArticlesMeta: {count: number}}>({

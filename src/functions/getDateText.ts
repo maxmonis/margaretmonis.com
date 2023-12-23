@@ -1,6 +1,6 @@
 import {Article} from "@/types"
 
-export function getDateText(
+export default function getDateText(
   date: Article["date"] | number,
   month: "long" | "short",
 ) {

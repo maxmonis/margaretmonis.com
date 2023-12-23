@@ -1,4 +1,4 @@
-export function LoadingSpinner({text}: {text: string}) {
+export default function LoadingSpinner({text}: {text: string}) {
   return (
     <div className="flex items-center gap-3">
       <span

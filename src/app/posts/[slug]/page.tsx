@@ -1,14 +1,14 @@
-import {SubjectLinks} from "@/components/links/SubjectLinks"
-import {TextLink} from "@/components/links/TextLink"
-import {loadArticle} from "@/datocms/queries/loadArticle"
-import {getDateText} from "@/functions/getDateText"
-import {getSubjectText} from "@/functions/getSubjectText"
+import SubjectLinks from "@/components/links/SubjectLinks"
+import TextLink from "@/components/links/TextLink"
+import loadArticle from "@/datocms/queries/loadArticle"
+import getDateText from "@/functions/getDateText"
+import getSubjectText from "@/functions/getSubjectText"
 import {ArticleProps} from "@/types"
 import Image from "next/image"
 import {notFound} from "next/navigation"
-import {ArticleComments} from "./components/ArticleComments"
-import {ArticleSection} from "./components/ArticleSection"
-import {SuggestedArticles} from "./components/SuggestedArticles"
+import ArticleComments from "./components/ArticleComments"
+import ArticleSection from "./components/ArticleSection"
+import SuggestedArticles from "./components/SuggestedArticles"
 
 export default async function ArticlePage({params: {slug}}: ArticleProps) {
   const {article} = await loadArticle(slug)

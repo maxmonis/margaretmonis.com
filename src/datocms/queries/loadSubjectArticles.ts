@@ -1,8 +1,8 @@
 import {ArticlePreview, Subject} from "@/types"
 import {articlePreview} from "../constants"
-import {makeDatoRequest} from "../makeDatoRequest"
+import makeDatoRequest from "../makeDatoRequest"
 
-export function loadSubjectArticles({
+export default function loadSubjectArticles({
   page,
   subject,
 }: {

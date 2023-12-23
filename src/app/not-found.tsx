@@ -1,4 +1,4 @@
-import {TextLink} from "@/components/links/TextLink"
+import TextLink from "@/components/links/TextLink"
 
 export default function NotFoundPage() {
   return (
