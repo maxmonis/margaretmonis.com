@@ -18,7 +18,7 @@ export default function ArticleLink({
   return (
     <CardLink
       href={`/posts/${slug}`}
-      subtitle={getDateText(date, "short")}
+      subtitle={getDateText({date, month: "short"})}
       {...{alt, priority, src, text, title}}
     />
   )

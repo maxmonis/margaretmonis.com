@@ -24,7 +24,7 @@ export default async function ArticlePage({params: {slug}}: ArticleProps) {
         width={384}
       />
       <h2 className="my-10 text-center text-lg">
-        {getDateText(article.date, "long")}
+        {getDateText({date: article.date, month: "long"})}
       </h2>
       <div className="flex flex-col gap-4">
         {article.text.split(/\r|\n/).map((text, i) => {

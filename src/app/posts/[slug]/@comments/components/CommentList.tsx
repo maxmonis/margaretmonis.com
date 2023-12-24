@@ -1,5 +1,5 @@
+import DateText from "@/components/ui/DateText"
 import {loadComments} from "@/firebase/comments"
-import getDateText from "@/functions/getDateText"
 import Image from "next/image"
 
 export default async function CommentList({slug}: {slug: string}) {
@@ -22,7 +22,7 @@ export default async function CommentList({slug}: {slug: string}) {
                   width={24}
                 />
               )}
-              {displayName} - {getDateText(time, "short")}
+              {displayName} - <DateText date={time} month="short" />
             </span>
           </li>
         ),

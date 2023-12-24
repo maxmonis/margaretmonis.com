@@ -3,10 +3,13 @@ import {Article} from "@/types"
 /**
  * Generates a localized date string for display in the UI
  */
-export default function getDateText(
-  date: Article["date"] | number,
-  month: "long" | "short",
-) {
+export default function getDateText({
+  date,
+  month,
+}: {
+  date: Article["date"] | number
+  month: "long" | "short"
+}) {
   let dateString = ""
   if (typeof date === "number") {
     const time = new Date(date)
