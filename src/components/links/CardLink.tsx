@@ -14,7 +14,7 @@ export default function CardLink({
   href: string
   priority?: boolean
   src: string
-  subtitle?: string
+  subtitle?: React.ReactNode
   text?: string
   title: string
 }) {

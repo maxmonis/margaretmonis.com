@@ -1,4 +1,4 @@
-import getDateText from "@/functions/getDateText"
+import DateText from "@/components/ui/DateText"
 import {ArticlePreview} from "@/types"
 import CardLink from "./CardLink"
 
@@ -18,7 +18,7 @@ export default function ArticleLink({
   return (
     <CardLink
       href={`/posts/${slug}`}
-      subtitle={getDateText({date, month: "short"})}
+      subtitle={<DateText month="short" {...{date}} />}
       {...{alt, priority, src, text, title}}
     />
   )

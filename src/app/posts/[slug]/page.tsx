@@ -1,6 +1,6 @@
+import DateText from "@/components/ui/DateText"
 import loadAllSlugs from "@/datocms/queries/loadAllSlugs"
 import loadArticle from "@/datocms/queries/loadArticle"
-import getDateText from "@/functions/getDateText"
 import {ArticleProps} from "@/types"
 import Image from "next/image"
 import {notFound} from "next/navigation"
@@ -24,7 +24,7 @@ export default async function ArticlePage({params: {slug}}: ArticleProps) {
         width={384}
       />
       <h2 className="my-10 text-center text-lg">
-        {getDateText({date: article.date, month: "long"})}
+        <DateText date={article.date} month="long" />
       </h2>
       <div className="flex flex-col gap-4">
         {article.text.split(/\r|\n/).map((text, i) => {
