@@ -1,9 +1,9 @@
 import {subjects} from "@/constants"
 import loadSubjectArticleCount from "@/datocms/queries/loadSubjectArticleCount"
 import loadSubjectArticles from "@/datocms/queries/loadSubjectArticles"
-import getSubjectText from "@/functions/getSubjectText"
-import isSubject from "@/functions/isSubject"
 import {SubjectProps} from "@/types"
+import {getSubjectText} from "@/utils/parsers"
+import {isSubject} from "@/utils/validators"
 import {Metadata} from "next"
 import React from "react"
 

@@ -1,9 +1,9 @@
 import ArticleLink from "@/components/links/ArticleLink"
 import TextLink from "@/components/links/TextLink"
 import loadSubjectArticles from "@/datocms/queries/loadSubjectArticles"
-import getSubjectText from "@/functions/getSubjectText"
-import isSubject from "@/functions/isSubject"
 import {SubjectProps} from "@/types"
+import {getSubjectText} from "@/utils/parsers"
+import {isSubject} from "@/utils/validators"
 import {notFound} from "next/navigation"
 
 export default async function SubjectPage({

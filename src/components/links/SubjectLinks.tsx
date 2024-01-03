@@ -1,5 +1,5 @@
 import {subjects} from "@/constants"
-import getSubjectText from "@/functions/getSubjectText"
+import {getSubjectText} from "@/utils/parsers"
 import CardLink from "./CardLink"
 
 export default function SubjectLinks({priority}: {priority?: boolean}) {

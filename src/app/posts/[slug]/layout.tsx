@@ -1,6 +1,6 @@
 import loadArticle from "@/datocms/queries/loadArticle"
-import getSubjectText from "@/functions/getSubjectText"
 import {ArticleProps} from "@/types"
+import {getSubjectText} from "@/utils/parsers"
 import {Metadata} from "next"
 
 export default function ArticleLayout({

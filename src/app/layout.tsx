@@ -1,9 +1,9 @@
 import TextLink from "@/components/links/TextLink"
 import {siteUrl, subjects} from "@/constants"
 import {AuthContextProvider} from "@/context/AuthContext"
-import getSubjectText from "@/functions/getSubjectText"
 import {montserrat} from "@/styles/fonts"
 import "@/styles/globals.css"
+import {getSubjectText} from "@/utils/parsers"
 import {Metadata} from "next"
 
 export default function RootLayout({children}: React.PropsWithChildren) {

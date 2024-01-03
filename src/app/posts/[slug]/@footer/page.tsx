@@ -5,8 +5,8 @@ import loadAllSlugs from "@/datocms/queries/loadAllSlugs"
 import loadArticle from "@/datocms/queries/loadArticle"
 import loadArticleList from "@/datocms/queries/loadArticleList"
 import loadSubjectSlugs from "@/datocms/queries/loadSubjectSlugs"
-import getSubjectText from "@/functions/getSubjectText"
 import {ArticleProps} from "@/types"
+import {getSubjectText} from "@/utils/parsers"
 import {notFound} from "next/navigation"
 
 export default async function FooterPage({params: {slug}}: ArticleProps) {
