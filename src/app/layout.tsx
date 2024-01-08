@@ -44,7 +44,7 @@ export default function RootLayout({children}: React.PropsWithChildren) {
 
 export const metadata: Metadata = {
   applicationName: "Margaret Monis",
-  authors: [{name: "Max Monis", url: "https://maxmonis.com"}],
+  authors: {name: "Margaret Monis"},
   creator: "Max Monis",
   description: "Margaret Monis's blog",
   formatDetection: {
@@ -62,7 +62,6 @@ export const metadata: Metadata = {
     ...subjects.map(getSubjectText),
   ],
   metadataBase: new URL(siteUrl),
-  openGraph: {images: ["/travel.jpg"]},
   publisher: "Vercel",
   referrer: "origin-when-cross-origin",
   title: {

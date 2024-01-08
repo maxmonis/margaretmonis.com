@@ -24,9 +24,9 @@ export async function generateMetadata({params: {slug}}: ArticleProps) {
   const {article} = await loadArticle(slug)
   if (article) {
     const metadata: Metadata = {
-      description: `An Article by Margaret Monis from her ${getSubjectText(
-        article.subject,
-      )} series`,
+      description: `${
+        article.title
+      } by Margaret Monis from her ${getSubjectText(article.subject)} series`,
       openGraph: {images: [article.image]},
       title: article.title,
     }
