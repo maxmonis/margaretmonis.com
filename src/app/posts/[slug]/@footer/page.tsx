@@ -54,6 +54,4 @@ export async function generateStaticParams() {
   return slugs.map<ArticleProps["params"]>(slug => ({slug}))
 }
 
-export const dynamicParams = false
-
 export const dynamic = "force-static"
