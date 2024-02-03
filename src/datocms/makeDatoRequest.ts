@@ -18,7 +18,7 @@ export default async function makeDatoRequest<T>({
       ...(includeDrafts && {"X-Include-Drafts": "true"}),
     },
     method: "POST",
-    next: {revalidate: 3600},
+    next: {revalidate: 60},
   })
   const responseBody = await response.json()
   if (!response.ok) {
