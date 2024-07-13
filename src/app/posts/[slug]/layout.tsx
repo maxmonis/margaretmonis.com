@@ -12,7 +12,7 @@ export default function ArticleLayout({
   footer: React.ReactNode
 }>) {
   return (
-    <main className="flex flex-col items-center gap-40 px-4 sm:px-6">
+    <main className="flex flex-col items-center gap-24 px-4 sm:px-6">
       {children}
       {comments}
       {footer}

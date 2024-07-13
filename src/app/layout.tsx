@@ -8,14 +8,14 @@ import {Metadata} from "next"
 
 export default function RootLayout({children}: React.PropsWithChildren) {
   return (
-    <html className="scroll-smooth" lang="en">
+    <html className="scroll-smooth 2xl:[font-size:18px]" lang="en">
       <body
-        className={`${montserrat.className} flex min-h-screen w-screen flex-col justify-between gap-40 overflow-x-hidden bg-blue-50 text-blue-950`}
+        className={`${montserrat.className} flex min-h-screen w-screen flex-col justify-between gap-20 overflow-x-hidden bg-blue-50 text-blue-950`}
       >
         <AuthContextProvider>
           <div id="top-of-page">
-            <header className="mb-10 flex w-screen flex-col items-center justify-center p-6">
-              <div className="flex w-full max-w-screen-2xl items-center justify-between">
+            <header className="mb-4 flex w-screen flex-col items-center justify-center p-6">
+              <div className="flex w-full items-center justify-between">
                 <TextLink href="/" text="Home" variant="underlined" />
                 <TextLink
                   href="mailto:monismargaret@gmail.com"

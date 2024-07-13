@@ -11,7 +11,7 @@ export default async function ArticlePage({params: {slug}}: ArticleProps) {
     notFound()
   }
   return (
-    <div className="flex max-w-xl flex-col items-center">
+    <div className="flex flex-col items-center">
       <h1 className="mb-10 text-center text-2xl font-bold sm:text-3xl">
         {article.title}
       </h1>
@@ -42,6 +42,7 @@ export default async function ArticlePage({params: {slug}}: ArticleProps) {
             />
           ) : (
             <p
+              className="max-w-prose"
               dangerouslySetInnerHTML={{
                 __html: text.replace(/\*(.*?)\*/g, "<em>$1</em>"),
               }}

@@ -22,7 +22,7 @@ export default async function SubjectPage({
   }
   return (
     <main className="flex h-full w-full flex-col items-center px-4 text-center sm:px-6">
-      <h1 className="mb-20 text-2xl font-bold sm:text-3xl">
+      <h1 className="mb-12 text-2xl font-bold sm:text-3xl">
         {getSubjectText(subject)}
       </h1>
       <div className="flex max-w-5xl flex-wrap justify-center gap-6">
