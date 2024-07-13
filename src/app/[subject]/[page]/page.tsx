@@ -34,6 +34,7 @@ export default async function SubjectPage({
         <div className="mt-12 flex items-center gap-4 text-xl font-bold">
           {page > 1 && (
             <TextLink
+              aria-label="previous page"
               className="text-3xl"
               href={`/${subject}/${page - 1}`}
               text="<"
@@ -42,6 +43,7 @@ export default async function SubjectPage({
           Page {page} of {Math.ceil(count / 12)}
           {page * 12 < count && (
             <TextLink
+              aria-label="next page"
               className="text-3xl"
               href={`/${subject}/${page + 1}`}
               text=">"

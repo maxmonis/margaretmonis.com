@@ -41,7 +41,7 @@ export default async function FooterPage({params: {slug}}: ArticleProps) {
         <SubjectLinks />
       </div>
       <div className="flex flex-wrap justify-center gap-10">
-        <TextLink className="underline" href={"/"} text="Return Home" />
+        <TextLink className="underline" href="/" text="Return Home" />
         <TextLink
           className="underline"
           href={`/posts/${slug}#top-of-page`}

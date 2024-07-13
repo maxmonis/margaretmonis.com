@@ -7,10 +7,10 @@ export default function ArticleLayout({
   children,
   comments,
   footer,
-}: React.PropsWithChildren & {
+}: React.PropsWithChildren<{
   comments: React.ReactNode
   footer: React.ReactNode
-}) {
+}>) {
   return (
     <main className="flex flex-col items-center gap-40 px-4 sm:px-6">
       {children}

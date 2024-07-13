@@ -53,9 +53,7 @@ export default function CommentForm({
                   if (comment) {
                     formData.set("userId", user.uid)
                     saveComment(formData).finally(reset)
-                  } else {
-                    reset()
-                  }
+                  } else reset()
                 }}
                 className="flex w-full flex-col items-center gap-4"
               >
