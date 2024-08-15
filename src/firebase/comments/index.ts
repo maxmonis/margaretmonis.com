@@ -19,7 +19,7 @@ export function addComment(
 ) {
   return commentStore
     .collection(slug)
-    .add({...comment, time: new Date().getTime()})
+    .add({...comment, time: new Date().getTime()} satisfies Omit<Comment, "id">)
 }
 
 /**
