@@ -17,7 +17,6 @@ export default async function ArticlePage({params: {slug}}: ArticleProps) {
       </h1>
       <Image
         alt={article.image.alt}
-        className="max-h-96 w-full max-w-sm object-contain"
         height={384}
         priority
         src={article.image.url}

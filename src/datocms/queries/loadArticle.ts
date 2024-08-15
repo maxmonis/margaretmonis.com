@@ -12,7 +12,7 @@ export default function loadArticle(slug: string) {
           date
           image {
             alt
-            url
+            url(imgixParams: {fit: crop, h: 768, w: 768})
           }
           slug
           subject
