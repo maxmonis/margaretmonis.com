@@ -9,7 +9,8 @@ import {ArticleProps} from "@/types"
 import {getSubjectText} from "@/utils/parsers"
 import {notFound} from "next/navigation"
 
-export default async function FooterPage({params: {slug}}: ArticleProps) {
+export default async function FooterPage({params}: ArticleProps) {
+  const {slug} = await params
   const {article} = await loadArticle(slug)
   if (!article) {
     notFound()
@@ -54,7 +55,7 @@ export default async function FooterPage({params: {slug}}: ArticleProps) {
 
 export async function generateStaticParams() {
   const slugs = await loadAllSlugs()
-  return slugs.map<ArticleProps["params"]>(slug => ({slug}))
+  return slugs.map<Awaited<ArticleProps["params"]>>(slug => ({slug}))
 }
 
 export const dynamic = "force-static"

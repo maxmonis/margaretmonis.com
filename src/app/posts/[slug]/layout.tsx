@@ -20,7 +20,8 @@ export default function ArticleLayout({
   )
 }
 
-export async function generateMetadata({params: {slug}}: ArticleProps) {
+export async function generateMetadata({params}: ArticleProps) {
+  const {slug} = await params
   const {article} = await loadArticle(slug)
   if (article) {
     const metadata: Metadata = {

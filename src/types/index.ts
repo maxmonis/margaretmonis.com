@@ -15,8 +15,8 @@ export type Article = {
 
 export type ArticlePreview = Omit<Article, "text">
 
-export type ArticleProps = {params: {slug: string}}
+export type ArticleProps = {params: Promise<{slug: string}>}
 
 export type Subject = (typeof subjects)[number]
 
-export type SubjectProps = {params: {page: string; subject: string}}
+export type SubjectProps = {params: Promise<{page: string; subject: string}>}

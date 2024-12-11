@@ -5,7 +5,8 @@ import {ArticleProps} from "@/types"
 import Image from "next/image"
 import {notFound} from "next/navigation"
 
-export default async function ArticlePage({params: {slug}}: ArticleProps) {
+export default async function ArticlePage({params}: ArticleProps) {
+  const {slug} = await params
   const {article} = await loadArticle(slug)
   if (!article) {
     notFound()
@@ -56,7 +57,7 @@ export default async function ArticlePage({params: {slug}}: ArticleProps) {
 
 export async function generateStaticParams() {
   const slugs = await loadAllSlugs()
-  return slugs.map<ArticleProps["params"]>(slug => ({slug}))
+  return slugs.map<Awaited<ArticleProps["params"]>>(slug => ({slug}))
 }
 
 export const dynamic = "force-static"

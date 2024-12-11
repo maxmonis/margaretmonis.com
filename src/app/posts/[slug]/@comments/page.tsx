@@ -9,7 +9,8 @@ import {notFound, redirect} from "next/navigation"
 import CommentForm from "./components/CommentForm"
 import CommentList from "./components/CommentList"
 
-export default async function CommentsPage({params: {slug}}: ArticleProps) {
+export default async function CommentsPage({params}: ArticleProps) {
+  const {slug} = await params
   const {article} = await loadArticle(slug)
   if (!article) {
     notFound()

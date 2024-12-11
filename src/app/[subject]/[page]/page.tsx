@@ -6,9 +6,8 @@ import {getSubjectText} from "@/utils/parsers"
 import {isSubject} from "@/utils/validators"
 import {notFound} from "next/navigation"
 
-export default async function SubjectPage({
-  params: {subject, ...params},
-}: SubjectProps) {
+export default async function SubjectPage(props: SubjectProps) {
+  const {subject, ...params} = await props.params
   const page = parseInt(params.page)
   if (!page || !isSubject(subject)) {
     notFound()

@@ -11,9 +11,8 @@ export default function SubjectLayout({children}: React.PropsWithChildren) {
   return children
 }
 
-export async function generateMetadata({
-  params: {subject, ...params},
-}: SubjectProps) {
+export async function generateMetadata(props: SubjectProps) {
+  const {subject, ...params} = await props.params
   const page = parseInt(params.page)
   if (page && isSubject(subject)) {
     const {allArticles} = await loadSubjectArticles({page, subject})
@@ -30,7 +29,7 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const params: Array<SubjectProps["params"]> = []
+  const params: Array<Awaited<SubjectProps["params"]>> = []
   for (const subject of subjects) {
     const count = await loadSubjectArticleCount(subject)
     let page = 0

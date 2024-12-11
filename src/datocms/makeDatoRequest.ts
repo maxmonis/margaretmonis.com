@@ -13,6 +13,7 @@ export default async function makeDatoRequest<T>({
 }): Promise<T> {
   const response = await fetch("https://graphql.datocms.com/", {
     body: JSON.stringify({query, variables}),
+    cache: "force-cache",
     headers: {
       Authorization: `Bearer ${process.env.DATOCMS_API_TOKEN}`,
       ...(includeDrafts && {"X-Include-Drafts": "true"}),
