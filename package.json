@@ -35,5 +35,5 @@
     "prod": "next build && next start",
     "start": "next start"
   },
-  "version": "0.6.5"
+  "version": "1.0.0"
 }
