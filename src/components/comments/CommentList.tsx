@@ -1,8 +1,10 @@
 import DateText from "@/components/ui/DateText"
 import {loadComments} from "@/firebase/comments"
+import {unstable_noStore as noStore} from "next/cache"
 import Image from "next/image"
 
 export default async function CommentList({slug}: {slug: string}) {
+  noStore()
   const commentList = await loadComments(slug)
   return commentList.length === 0 ? (
     <p>No comments yet</p>

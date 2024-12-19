@@ -1,21 +1,18 @@
 import {siteUrl} from "@/constants"
-import loadArticle from "@/datocms/queries/loadArticle"
 import {addComment} from "@/firebase/comments"
 import sendEmail from "@/nodemailer/sendEmail"
-import {ArticleProps} from "@/types"
+import {Article} from "@/types"
 import {getAuth} from "firebase-admin/auth"
 import {revalidatePath} from "next/cache"
-import {notFound, redirect} from "next/navigation"
-import CommentForm from "./components/CommentForm"
-import CommentList from "./components/CommentList"
+import React from "react"
+import CommentForm from "./CommentForm"
+import CommentList from "./CommentList"
 
-export default async function CommentsPage({params}: ArticleProps) {
-  const {slug} = await params
-  const {article} = await loadArticle(slug)
-  if (!article) {
-    notFound()
-  }
-  const {title} = article
+export default async function CommentApp({
+  article: {slug, title},
+}: {
+  article: Omit<Article, "blurb">
+}) {
   async function saveComment(formData: FormData) {
     "use server"
     const comment = formData.get("comment")?.toString().trim() ?? ""
@@ -45,8 +42,6 @@ export default async function CommentsPage({params}: ArticleProps) {
       })
     } catch (error) {
       console.error(error)
-    } finally {
-      redirect(`/posts/${slug}`)
     }
   }
   return (
@@ -55,11 +50,11 @@ export default async function CommentsPage({params}: ArticleProps) {
         Comments
       </h3>
       <div className="mx-auto flex w-full max-w-xl flex-col items-center gap-6">
-        <CommentList {...{slug}} />
+        <React.Suspense>
+          <CommentList {...{slug}} />
+        </React.Suspense>
         <CommentForm {...{saveComment}} />
       </div>
     </div>
   )
 }
-
-export const dynamic = "force-dynamic"
